@@ -22,18 +22,18 @@ version=0.1.0
 # changelog=
 
 # tags are comma separated with spaces allowed
-tags=
+tags=digitizing
 
-homepage=
-tracker=
-repository=
+homepage=https://github.com/bstroebl/DigitizingTools/wiki
+tracker=http://hub.qgis.org/projects/digitizingtools
+repository=https://github.com/bstroebl/DigitizingTools
 icon=
 # experimental flag
-experimental=False
+experimental=True
 
 # deprecated flag (applies to the whole plugin, not just a single version
 deprecated=False
 
 # Author contact information
-author=Bernhard Ströbl / Kommunale Immobilien Jena
+author=Bernhard Ströbl, Kommunale Immobilien Jena
 email=bernhard.stroebl@jena.de
