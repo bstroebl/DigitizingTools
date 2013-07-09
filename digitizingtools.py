@@ -21,7 +21,7 @@
  *                                                                         *
  ***************************************************************************/
 """
-# Import the PyQt and QGIS libraries 
+# Import the PyQt and QGIS libraries
 from PyQt4 import QtCore,  QtGui
 from qgis.core import *
 from dtDialog import DigitizingToolsAbout
@@ -44,7 +44,7 @@ class DigitizingTools:
         self.plugin_dir = QtCore.QFileInfo(QgsApplication.qgisUserDbFilePath()).path() + "/python/plugins/DigitizingTools"
         # initialize locale
         localePath = ""
-        locale = QtCore.QSettings().value("locale/userLocale").toString()[0:2]
+        locale = QtCore.QSettings().value("locale/userLocale", "en",  type=str)[0:2]
 
         if QtCore.QFileInfo(self.plugin_dir).exists():
             localePath = self.plugin_dir + "/i18n/digitizingtools_" + locale + ".qm"
@@ -58,33 +58,33 @@ class DigitizingTools:
 
     def initGui(self):
         """Customize QGIS' GUI"""
-        #. Add toolbar 
+        #. Add toolbar
         self.toolBar = self.iface.addToolBar("DigitizingTools")
         self.toolBar.setObjectName("DigitizingTools")
-        
+
         #. Add a menu
         self.menu = QtGui.QMenu()
         self.menu.setTitle( QtGui.QApplication.translate( "DigitizingTools","&DigitizingTools" ) )
         self.digitizingtools_help = QtGui.QAction( QtGui.QApplication.translate("DigitizingTools", "Help" ), self.iface.mainWindow() )
         self.digitizingtools_about = QtGui.QAction( QtGui.QApplication.translate("DigitizingTools", "About" ), self.iface.mainWindow() )
         self.digitizingtools_settings = QtGui.QAction( QtGui.QApplication.translate("DigitizingTools", "Settings" ), self.iface.mainWindow() )
-  
+
         self.menu.addActions( [self.digitizingtools_help, self.digitizingtools_about,  self.digitizingtools_settings] )
 
         menu_bar = self.iface.mainWindow().menuBar()
         actions = menu_bar.actions()
         lastAction = actions[len(actions) - 1]
         menu_bar.insertMenu(lastAction, self.menu)
-        
+
         #. Add the tools
         self.multiPartSplitter = dtsplitmultipart.DtSplitMultiPartTool(self.iface,  self.toolBar)
         self.cutter = dtcutter.DtCutWithPolygon(self.iface,  self.toolBar)
         self.splitter = dtsplitter.DtSplitWithLine(self.iface,  self.toolBar)
 
-        self.digitizingtools_about.triggered.connect(self.doAbout)   
-        #QObject.connect( self.digitizingtools_help, SIGNAL("triggered()"), self.doHelp )    
-        #QObject.connect( self.digitizingtools_settings, SIGNAL("triggered()"), self.doSettings )  
-        
+        self.digitizingtools_about.triggered.connect(self.doAbout)
+        #QObject.connect( self.digitizingtools_help, SIGNAL("triggered()"), self.doHelp )
+        #QObject.connect( self.digitizingtools_settings, SIGNAL("triggered()"), self.doSettings )
+
 
     def doAbout(self):
         d = DigitizingToolsAbout(self.iface)
@@ -92,7 +92,7 @@ class DigitizingTools:
 
     def doHelp(self):
         webbrowser.open(currentPath + "/help/build/html/intro.html")
-        
+
     def doSettings(self):
         settings = CadToolsSettingsGui(self.iface.mainWindow())
         settings.show()

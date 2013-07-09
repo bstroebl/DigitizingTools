@@ -31,26 +31,26 @@ class DigitizingToolsAbout(QtGui.QDialog):
         self.ui.setupUi(self)
         # keep reference to QGIS interface
         self.iface = iface
-        
+
         aboutText = QtCore.QCoreApplication.translate("dtAbout", "Subsumes different tools useful during digitizing sessions")
-        aboutText.append(QtCore.QString("\n\n"))
-        aboutText.append(QtCore.QCoreApplication.translate("dtAbout", "List of Contributors:"))
-        aboutText.append(QtCore.QString("\n"))
-        aboutText.append(QtCore.QString("Alexandre Neto"))
-        aboutText.append(QtCore.QString("\n"))
-        aboutText.append(QtCore.QString(u"Bernhard Ströbl"))
-        aboutText.append(QtCore.QString("\n\n"))
-        aboutText.append(QtCore.QString(u"DigitizingTools is copyright (C) 2013 Bernhard Ströbl bernhard.stroebl@jena.de\n\n"))
-        aboutText.append(QtCore.QString(u"Licensed under the terms of the GNU GPL V 2:\n"))
-        aboutText.append(QtCore.QString(u"This program is free software; you can redistribute it and/or modify it under the"))
-        aboutText.append(QtCore.QString(" terms of the GNU General Public License as published by the Free Software Foundation;"))
-        aboutText.append(QtCore.QString(" either version 2 of the License, or (at your option) any later version."))
+        aboutText += "\n\n"
+        aboutText += QtCore.QCoreApplication.translate("dtAbout", "List of Contributors:")
+        aboutText +="\n"
+        aboutText += "Alexandre Neto"
+        aboutText += "\n"
+        aboutText += u"Bernhard Ströbl"
+        aboutText += "\n\n"
+        aboutText += u"DigitizingTools is copyright (C) 2013 Bernhard Ströbl bernhard.stroebl@jena.de\n\n"
+        aboutText += u"Licensed under the terms of the GNU GPL V 2:\n"
+        aboutText += u"This program is free software; you can redistribute it and/or modify it under the"
+        aboutText += " terms of the GNU General Public License as published by the Free Software Foundation;"
+        aboutText += " either version 2 of the License, or (at your option) any later version."
         #QtGui.QMessageBox.information(None, "", aboutText)
         self.ui.textArea.setPlainText(aboutText)
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+

@@ -60,19 +60,8 @@ compile:
 # the Python plugin directory is located at:
 # $HOME/.qgis/python/plugins
 deploy: compile doc transcompile
-	mkdir -p $(HOME)/.qgis/python/plugins/$(PLUGINNAME)
-	mkdir -p $(HOME)/.qgis/python/plugins/$(PLUGINNAME)/tools
 	mkdir -p $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
 	mkdir -p $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)/tools
-	#mkdir -p $(HOME)/.qgis/python/plugins/$(PLUGINNAME)/icons
-	cp -vf $(PY_FILES) $(HOME)/.qgis/python/plugins/$(PLUGINNAME)
-	cp -vf $(TOOLS) $(HOME)/.qgis/python/plugins/$(PLUGINNAME)/tools
-	cp -vf $(UI_FILES) $(HOME)/.qgis/python/plugins/$(PLUGINNAME)
-	cp -vf $(RESOURCE_FILES) $(HOME)/.qgis/python/plugins/$(PLUGINNAME)/tools
-	cp -vf $(EXTRAS) $(HOME)/.qgis/python/plugins/$(PLUGINNAME)
-	cp -vfr i18n $(HOME)/.qgis/python/plugins/$(PLUGINNAME)
-#	cp -vfr icons $(HOME)/.qgis/python/plugins/$(PLUGINNAME)
-	cp -vfr $(HELP) $(HOME)/.qgis/python/plugins/$(PLUGINNAME)/help
 	cp -vf $(PY_FILES) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
 	cp -vf $(TOOLS) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)/tools
 	cp -vf $(UI_FILES) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
@@ -85,14 +74,11 @@ deploy: compile doc transcompile
 # The dclean target removes compiled python files from plugin directory
 # also delets any .svn entry
 dclean:
-	find $(HOME)/.qgis/python/plugins/$(PLUGINNAME) -iname "*.pyc" -delete
-	find $(HOME)/.qgis/python/plugins/$(PLUGINNAME) -iname ".svn" -prune -exec rm -Rf {} \;
 	find $(HOME)/.qgis2/python/plugins/$(PLUGINNAME) -iname "*.pyc" -delete
 	find $(HOME)/.qgis2/python/plugins/$(PLUGINNAME) -iname ".svn" -prune -exec rm -Rf {} \;
 
 # The derase deletes deployed plugin
 derase:
-	rm -Rf $(HOME)/.qgis/python/plugins/$(PLUGINNAME)
 	rm -Rf $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
 
 # The zip target deploys the plugin and creates a zip file with the deployed

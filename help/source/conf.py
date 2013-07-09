@@ -18,7 +18,7 @@ import sys, os
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
 #add QGIS
-sys.path.insert(0, '/opt/qgis-1.9.0/share/qgis/python')
+sys.path.insert(0, '/opt/qgis/share/qgis/python')
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__) + '../../../tools'))
 print "Path: " + str(sys.path)
 #sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/tools'))

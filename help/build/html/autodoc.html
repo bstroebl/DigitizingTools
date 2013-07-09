@@ -59,14 +59,15 @@
 <dl class="function">
 <dt id="dtutils.dtChooseVectorLayer">
 <tt class="descclassname">dtutils.</tt><tt class="descname">dtChooseVectorLayer</tt><big>(</big><em>iface</em>, <em>geomType=None</em>, <em>skipActive=True</em>, <em>msg=None</em><big>)</big><a class="reference internal" href="_modules/dtutils.html#dtChooseVectorLayer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dtutils.dtChooseVectorLayer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Offers a QInputDialog where the user can choose a Layer of type <em>geomType</em>. 
+<dd><p>Offers a QInputDialog where the user can choose a Layer of type <em>geomType</em>.
 If <em>skipActive</em> is True the active Layer can not be chosen. <em>msg</em> is displayed as the dialog&#8217;s message.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="dtutils.dtCopyFeature">
-<tt class="descclassname">dtutils.</tt><tt class="descname">dtCopyFeature</tt><big>(</big><em>layer</em>, <em>srcFid</em><big>)</big><a class="reference internal" href="_modules/dtutils.html#dtCopyFeature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dtutils.dtCopyFeature" title="Permalink to this definition">¶</a></dt>
-<dd><p>Copy the QgsFeature with FeatureId <em>srcFid</em> in <em>layer</em> and return it. The feature is not added to the layer!</p>
+<tt class="descclassname">dtutils.</tt><tt class="descname">dtCopyFeature</tt><big>(</big><em>layer</em>, <em>srcFeature=None</em>, <em>srcFid=None</em><big>)</big><a class="reference internal" href="_modules/dtutils.html#dtCopyFeature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dtutils.dtCopyFeature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy the QgsFeature with FeatureId <em>srcFid</em> in <em>layer</em> and return it. Alternatively the
+source Feature can be given as paramter. The feature is not added to the layer!</p>
 </dd></dl>
 
 <dl class="function">
@@ -84,7 +85,7 @@ If <em>skipActive</em> is True the active Layer can not be chosen. <em>msg</em> 
 <dl class="function">
 <dt id="dtutils.dtGetErrorMessage">
 <tt class="descclassname">dtutils.</tt><tt class="descname">dtGetErrorMessage</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/dtutils.html#dtGetErrorMessage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dtutils.dtGetErrorMessage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a QString (default error message which can be appended)</p>
+<dd><p>Returns the default error message which can be appended</p>
 </dd></dl>
 
 <dl class="function">
@@ -105,6 +106,12 @@ If <em>skipActive</em> is True the active Layer can not be chosen. <em>msg</em> 
 <dd><p>Returns a dict of layers [name: id] in the project for the given
 <em>geomType</em>; geomTypes are 0: point, 1: line, 2: polygon
 If <em>skipActive</em> is True the active Layer is not included.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="dtutils.dtMakeFeaturesFromGeometries">
+<tt class="descclassname">dtutils.</tt><tt class="descname">dtMakeFeaturesFromGeometries</tt><big>(</big><em>layer</em>, <em>srcFeat</em>, <em>geometries</em><big>)</big><a class="headerlink" href="#dtutils.dtMakeFeaturesFromGeometries" title="Permalink to this definition">¶</a></dt>
+<dd><p>create new features from geometries and copy attributes from srcFeat</p>
 </dd></dl>
 
 </div>

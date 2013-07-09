@@ -10,7 +10,7 @@
 
 [general]
 name=Digitizing Tools
-qgisMinimumVersion=1.8
+qgisMinimumVersion=2.0
 description=Subsumes different tools useful during digitizing sessions
 version=0.1.0
 

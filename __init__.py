@@ -20,25 +20,6 @@
  ***************************************************************************/
  This script initializes the plugin, making it known to QGIS.
 """
-from PyQt4 import QtCore
-
-def name():
-    return "Digitizing Tools"
-
-def description():
-    return QtCore.QCoreApplication.translate("dtAbout", "Subsumes different tools useful during digitizing sessions")
-
-def version():
-    return "Version 0.1"
-
-def icon():
-    return "icons/icon.png"
-
-def qgisMinimumVersion():
-    return "1.8"
-
-def author():
-    return "see list of contributors"
 
 def classFactory(iface):
     # load RectOvalDigit class from file RectOvalDigit
