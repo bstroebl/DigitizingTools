@@ -34,6 +34,7 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/tools'))
 import dtsplitmultipart
 import dtcutter
 import dtsplitter
+import dtprolongline
 
 class DigitizingTools:
     """Main class for the plugin"""
@@ -80,6 +81,7 @@ class DigitizingTools:
         self.multiPartSplitter = dtsplitmultipart.DtSplitMultiPartTool(self.iface,  self.toolBar)
         self.cutter = dtcutter.DtCutWithPolygon(self.iface,  self.toolBar)
         self.splitter = dtsplitter.DtSplitWithLine(self.iface,  self.toolBar)
+        self.prolongLine = dtprolongline.DtProlongLine(self.iface,  self.toolBar)
 
         self.digitizingtools_about.triggered.connect(self.doAbout)
         #QObject.connect( self.digitizingtools_help, SIGNAL("triggered()"), self.doHelp )

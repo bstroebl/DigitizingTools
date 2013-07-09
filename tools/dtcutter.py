@@ -112,7 +112,7 @@ class DtCutWithPolygon():
             if layer.type() == 0:
                 # not for point layers
 
-                if layer.geometryType != 0:
+                if layer.geometryType() != 0:
                     # enable if editable
                     self.act_cutter.setEnabled(layer.isEditable())
                     layer.editingStarted.connect(self.enable)

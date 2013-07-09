@@ -45,11 +45,12 @@ class DtSplitWithLine():
             QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please provide a line layer to split with."))
         else:
             passiveLayer = self.iface.activeLayer()
+            msgLst = dtutils.dtGetNoSelMessage()
+            noSelMsg1 = msgLst[0]
+            noSelMsg2 = msgLst[1]
 
             if splitterLayer.selectedFeatureCount() == 0:
-                msgLst = dtutils.dtGetNoSelMessage()
-                noSelMsg1 = msgLst[0]
-                noSelMsg2 = msgLst[1]
+
                 reply = QtGui.QMessageBox.question(None,  title,
                                                    noSelMsg1 + " " + splitterLayer.name() + "\n" + noSelMsg2,
                                                    QtGui.QMessageBox.Yes | QtGui.QMessageBox.Cancel )
@@ -131,7 +132,7 @@ class DtSplitWithLine():
             ## Only for vector layers.
             if layer.type() == 0:
                 # not for point layers
-                if layer.geometryType != 0:
+                if layer.geometryType() != 0:
                     # enable if editable
                     self.act_splitter.setEnabled(layer.isEditable())
                     layer.editingStarted.connect(self.enable)

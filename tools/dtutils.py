@@ -137,6 +137,31 @@ def dtGetNoSelMessage():
     noSelMsg2 = QtCore.QCoreApplication.translate("digitizingtools", "Use all features for process?")
     return [noSelMsg1,  noSelMsg2]
 
+def dtGetManySelMessage(layer):
+    '''Returns an array of QStrings (default messages)'''
+    manySelMsg = QtCore.QCoreApplication.translate("digitizingtools", "There are ")
+    manySelMsg += str(layer.selectedFeatureCount())
+    manySelMsg += QtCore.QCoreApplication.translate("digitizingtools", " features selected in layer " )
+    manySelMsg += layer.name()
+    return manySelMsg
+
+def showSnapSettingsWarning():
+    #get the setting for displaySnapWarning
+    settings = QtCore.QSettings()
+    settingsLabel = "/UI/displaySnapWarning"
+    displaySnapWarning = settings.value(settingsLabel,  False,  type = bool)
+
+    #only show the warning if the setting is true
+    if displaySnapWarning:
+        m = QgsMessageViewer()
+        m.setWindowTitle(QtCore.QCoreApplication.translate("digitizingtools", "Snap Tolerance"))
+        m.setCheckBoxText(QtCore.QCoreApplication.translate("digitizingtools", "Don't show this message again"))
+        m.setCheckBoxVisible(True)
+        m.setCheckBoxQSettingsLabel(settingsLabel)
+        m.setMessageAsHtml( "<p>" + QtCore.QCoreApplication.translate("digitizingtools", "Could not snap vertex") + "</p><p>" +
+        QtCore.QCoreApplication.translate("digitizingtools", "Have you set the tolerance in Settings > Snapping Options?"))
+        m.showMessage()
+
 def dtGetErrorMessage():
     '''Returns the default error message which can be appended'''
     return QtCore.QCoreApplication.translate("digitizingtools", "Error occured during")

@@ -23,7 +23,7 @@ PLUGIN_UPLOAD = $(CURDIR)/plugin_upload.py
 # Makefile for a PyQGIS plugin
 
 # translation
-SOURCES = digitizingtools.py __init__.py tools/dtsplitmultipart.py, dtDialog.py, tools/dtutils.py
+SOURCES = digitizingtools.py __init__.py dtDialog.py tools/dtutils.py
 TRANSLATIONS = i18n/digitizingtools_de.ts
 
 # global
@@ -31,7 +31,7 @@ TRANSLATIONS = i18n/digitizingtools_de.ts
 PLUGINNAME = DigitizingTools
 
 PY_FILES = digitizingtools.py __init__.py dtDialog.py
-TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtsplitter.py
+TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtsplitter.py tools/dtprolongline.py tools/dtprolonglinetool.py
 
 EXTRAS = metadata.txt
 
