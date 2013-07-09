@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="splitter.png">icons/splitter.png</file>
+    <file alias="cutter.png">icons/difference.png</file>
+    <file alias="multi_to_single.png">icons/multi_to_single.png</file>
+  </qresource>
+</RCC>

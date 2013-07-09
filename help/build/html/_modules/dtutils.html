@@ -1,0 +1,256 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dtutils &mdash; DigitizingTools 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="DigitizingTools 0.1 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">DigitizingTools 0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for dtutils</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">/***************************************************************************</span>
+<span class="sd"> DigitizingTools</span>
+<span class="sd"> A QGIS plugin</span>
+<span class="sd"> Subsumes different tools neded during digitizing sessions</span>
+<span class="sd"> some code from fTools plugin contained</span>
+<span class="sd">                             -------------------</span>
+<span class="sd">        begin                : 2013-02-25</span>
+<span class="sd">        copyright          : (C) 2013 by Bernhard Ströbl</span>
+<span class="sd">        email                : bernhard.stroebl@jena.de</span>
+<span class="sd"> ***************************************************************************/</span>
+
+<span class="sd">/***************************************************************************</span>
+<span class="sd"> *                                                                         *</span>
+<span class="sd"> *   This program is free software; you can redistribute it and/or modify  *</span>
+<span class="sd"> *   it under the terms of the GNU General Public License as published by  *</span>
+<span class="sd"> *   the Free Software Foundation; either version 2 of the License, or     *</span>
+<span class="sd"> *   (at your option) any later version.                                   *</span>
+<span class="sd"> *                                                                         *</span>
+<span class="sd"> ***************************************************************************/</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">PyQt4</span> <span class="kn">import</span> <span class="n">QtCore</span><span class="p">,</span>  <span class="n">QtGui</span>
+<span class="kn">from</span> <span class="nn">qgis.core</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="dtGetFeatureForId"><a class="viewcode-back" href="../autodoc.html#dtutils.dtGetFeatureForId">[docs]</a><span class="k">def</span> <span class="nf">dtGetFeatureForId</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span>  <span class="n">fid</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;function that returns a QgsFeature&#39;&#39;&#39;</span>
+    <span class="n">feat</span> <span class="o">=</span> <span class="n">QgsFeature</span><span class="p">()</span>
+    
+    <span class="k">if</span> <span class="n">QGis</span><span class="o">.</span><span class="n">QGIS_VERSION_INT</span> <span class="o">&gt;=</span> <span class="mi">10900</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">layer</span><span class="o">.</span><span class="n">getFeatures</span><span class="p">(</span><span class="n">QgsFeatureRequest</span><span class="p">()</span><span class="o">.</span><span class="n">setFilterFid</span><span class="p">(</span><span class="n">fid</span><span class="p">))</span><span class="o">.</span><span class="n">nextFeature</span><span class="p">(</span><span class="n">feat</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">feat</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">layer</span><span class="o">.</span><span class="n">featureAtId</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">feat</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">feat</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="dtCreateFeature"><a class="viewcode-back" href="../autodoc.html#dtutils.dtCreateFeature">[docs]</a><span class="k">def</span> <span class="nf">dtCreateFeature</span><span class="p">(</span><span class="n">layer</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;create an empty feature for the layer&#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">QgsVectorLayer</span><span class="p">):</span>
+        <span class="n">newFeature</span> <span class="o">=</span> <span class="n">QgsFeature</span><span class="p">()</span> 
+        <span class="n">provider</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">dataProvider</span><span class="p">()</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">pendingFields</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">QGis</span><span class="o">.</span><span class="n">QGIS_VERSION_INT</span> <span class="o">&gt;=</span> <span class="mi">10900</span><span class="p">:</span>
+            <span class="n">newFeature</span><span class="o">.</span><span class="n">initAttributes</span><span class="p">(</span><span class="n">fields</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>			
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">fields</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+                <span class="n">newFeature</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">provider</span><span class="o">.</span><span class="n">defaultValue</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+                <span class="n">newFeature</span><span class="o">.</span><span class="n">addAttribute</span><span class="p">(</span><span class="n">i</span><span class="p">,</span>  <span class="n">provider</span><span class="o">.</span><span class="n">defaultValue</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">newFeature</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="dtCopyFeature"><a class="viewcode-back" href="../autodoc.html#dtutils.dtCopyFeature">[docs]</a><span class="k">def</span> <span class="nf">dtCopyFeature</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span>  <span class="n">srcFid</span><span class="p">):</span>
+    <span class="n">srcFeature</span> <span class="o">=</span> <span class="n">dtGetFeatureForId</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span>  <span class="n">srcFid</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">srcFeature</span><span class="p">:</span>
+        <span class="n">newFeature</span> <span class="o">=</span> <span class="n">dtCreateFeature</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+        
+        <span class="c">#copy the attribute values#</span>
+        <span class="k">if</span> <span class="n">QGis</span><span class="o">.</span><span class="n">QGIS_VERSION_INT</span> <span class="o">&gt;=</span> <span class="mi">10900</span><span class="p">:</span>
+            <span class="n">pkFields</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">dataProvider</span><span class="p">()</span><span class="o">.</span><span class="n">pkAttributeIndexes</span><span class="p">()</span>
+            <span class="n">fields</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">pendingFields</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">fields</span><span class="o">.</span><span class="n">count</span><span class="p">()):</span>
+                <span class="c"># do not copy the PK value if there is a PK field</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pkFields</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">newFeature</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">srcFeature</span><span class="o">.</span><span class="n">attribute</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">newFeature</span><span class="o">.</span><span class="n">setAttributeMap</span><span class="p">(</span><span class="n">srcFeature</span><span class="o">.</span><span class="n">attributeMap</span><span class="p">())</span>
+
+            <span class="k">return</span> <span class="n">newFeature</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    </div>
+<div class="viewcode-block" id="dtGetVectorLayersByType"><a class="viewcode-back" href="../autodoc.html#dtutils.dtGetVectorLayersByType">[docs]</a><span class="k">def</span> <span class="nf">dtGetVectorLayersByType</span><span class="p">(</span><span class="n">iface</span><span class="p">,</span>  <span class="n">geomType</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>  <span class="n">skipActive</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;returns a dict of layers[name: id] in the project for the given</span>
+<span class="sd">    geomType; geomTypes are 0: point, 1: line, 2: polygon&#39;&#39;&#39;</span>
+    <span class="n">layerList</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">aLayer</span> <span class="ow">in</span> <span class="n">iface</span><span class="o">.</span><span class="n">legendInterface</span><span class="p">()</span><span class="o">.</span><span class="n">layers</span><span class="p">():</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">==</span> <span class="n">aLayer</span><span class="o">.</span><span class="n">type</span><span class="p">():</span>   <span class="c"># vectorLayer</span>
+            <span class="k">if</span>  <span class="n">skipActive</span> <span class="ow">and</span> <span class="p">(</span><span class="n">iface</span><span class="o">.</span><span class="n">mapCanvas</span><span class="p">()</span><span class="o">.</span><span class="n">currentLayer</span><span class="p">()</span><span class="o">.</span><span class="n">id</span><span class="p">()</span> <span class="o">==</span> <span class="n">aLayer</span><span class="o">.</span><span class="n">id</span><span class="p">()):</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">geomType</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geomType</span><span class="p">,</span>  <span class="nb">int</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">aLayer</span><span class="o">.</span><span class="n">geometryType</span><span class="p">()</span> <span class="o">==</span> <span class="n">geomType</span><span class="p">:</span>
+                            <span class="n">layerList</span><span class="p">[</span><span class="n">aLayer</span><span class="o">.</span><span class="n">name</span><span class="p">()]</span> <span class="o">=</span>  <span class="n">aLayer</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">layerList</span><span class="p">[</span><span class="n">aLayer</span><span class="o">.</span><span class="n">name</span><span class="p">()]</span> <span class="o">=</span>  <span class="n">aLayer</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">layerList</span>
+    </div>
+<div class="viewcode-block" id="dtChooseVectorLayer"><a class="viewcode-back" href="../autodoc.html#dtutils.dtChooseVectorLayer">[docs]</a><span class="k">def</span> <span class="nf">dtChooseVectorLayer</span><span class="p">(</span><span class="n">iface</span><span class="p">,</span> <span class="n">geomType</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>   <span class="n">skipActive</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>  <span class="n">msg</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="n">layerList</span> <span class="o">=</span> <span class="n">dtGetVectorLayersByType</span><span class="p">(</span><span class="n">iface</span><span class="p">,</span>  <span class="n">geomType</span><span class="p">,</span>  <span class="n">skipActive</span><span class="p">)</span>
+    <span class="n">chooseFrom</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QStringList</span><span class="p">()</span>
+    <span class="n">retValue</span> <span class="o">=</span> <span class="bp">None</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">layerList</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">aName</span> <span class="ow">in</span> <span class="n">layerList</span><span class="p">:</span>
+            <span class="n">chooseFrom</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aName</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">msg</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+            
+        <span class="n">selectedLayer</span><span class="p">,</span>  <span class="n">ok</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QInputDialog</span><span class="o">.</span><span class="n">getItem</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span>  <span class="n">QtGui</span><span class="o">.</span><span class="n">QApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s">&quot;dtutils&quot;</span><span class="p">,</span>  <span class="s">&quot;Choose Layer&quot;</span><span class="p">),</span> 
+                                                        <span class="n">msg</span><span class="p">,</span>  <span class="n">chooseFrom</span><span class="p">,</span>  <span class="n">editable</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">ok</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">aLayer</span> <span class="ow">in</span> <span class="n">iface</span><span class="o">.</span><span class="n">legendInterface</span><span class="p">()</span><span class="o">.</span><span class="n">layers</span><span class="p">():</span>
+                <span class="k">if</span> <span class="mi">0</span> <span class="o">==</span> <span class="n">aLayer</span><span class="o">.</span><span class="n">type</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">aLayer</span><span class="o">.</span><span class="n">id</span><span class="p">()</span> <span class="o">==</span> <span class="n">layerList</span><span class="p">[</span><span class="n">selectedLayer</span><span class="p">]:</span>
+                        <span class="n">retValue</span> <span class="o">=</span> <span class="n">aLayer</span>
+                        <span class="k">break</span>
+            
+    <span class="k">return</span> <span class="n">retValue</span>
+    </div>
+<div class="viewcode-block" id="dtGetNoSelMessage"><a class="viewcode-back" href="../autodoc.html#dtutils.dtGetNoSelMessage">[docs]</a><span class="k">def</span> <span class="nf">dtGetNoSelMessage</span><span class="p">():</span>
+    <span class="n">noSelMsg1</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s">&quot;digitizingtools&quot;</span><span class="p">,</span> <span class="s">&quot;No Selection in layer&quot;</span><span class="p">)</span>
+    <span class="n">noSelMsg2</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s">&quot;digitizingtools&quot;</span><span class="p">,</span> <span class="s">&quot;Use all features for process?&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">noSelMsg1</span><span class="p">,</span>  <span class="n">noSelMsg2</span><span class="p">]</span>
+    </div>
+<div class="viewcode-block" id="dtGetErrorMessage"><a class="viewcode-back" href="../autodoc.html#dtutils.dtGetErrorMessage">[docs]</a><span class="k">def</span> <span class="nf">dtGetErrorMessage</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s">&quot;digitizingtools&quot;</span><span class="p">,</span> <span class="s">&quot;Error occured during&quot;</span><span class="p">)</span>
+    
+<span class="c"># code taken from fTools plugin</span></div>
+<div class="viewcode-block" id="dtExtractPoints"><a class="viewcode-back" href="../autodoc.html#dtutils.dtExtractPoints">[docs]</a><span class="k">def</span> <span class="nf">dtExtractPoints</span><span class="p">(</span> <span class="n">geom</span> <span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Generate list of QgsPoints from input geometry ( can be point, line, or polygon )&#39;&#39;&#39;</span>
+    <span class="n">multi_geom</span> <span class="o">=</span> <span class="n">QgsGeometry</span><span class="p">()</span>
+    <span class="n">temp_geom</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">geom</span><span class="o">.</span><span class="n">type</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c"># it&#39;s a point</span>
+        <span class="k">if</span> <span class="n">geom</span><span class="o">.</span><span class="n">isMultipart</span><span class="p">():</span>
+            <span class="n">temp_geom</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">asMultiPoint</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">temp_geom</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">geom</span><span class="o">.</span><span class="n">asPoint</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">geom</span><span class="o">.</span><span class="n">type</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="c"># it&#39;s a line</span>
+        <span class="k">if</span> <span class="n">geom</span><span class="o">.</span><span class="n">isMultipart</span><span class="p">():</span>
+            <span class="n">multi_geom</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">asMultiPolyline</span><span class="p">()</span> <span class="c">#multi_geog is a multiline</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">multi_geom</span><span class="p">:</span> <span class="c">#i is a line</span>
+                <span class="n">temp_geom</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span> <span class="n">i</span> <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">temp_geom</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">asPolyline</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">geom</span><span class="o">.</span><span class="n">type</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span> <span class="c"># it&#39;s a polygon</span>
+        <span class="k">if</span> <span class="n">geom</span><span class="o">.</span><span class="n">isMultipart</span><span class="p">():</span>
+            <span class="n">multi_geom</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">asMultiPolygon</span><span class="p">()</span> <span class="c">#multi_geom is a multipolygon</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">multi_geom</span><span class="p">:</span> <span class="c">#i is a polygon</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span> <span class="c">#j is a line</span>
+                    <span class="n">temp_geom</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span> <span class="n">j</span> <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">multi_geom</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">asPolygon</span><span class="p">()</span> <span class="c">#multi_geom is a polygon</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">multi_geom</span><span class="p">:</span> <span class="c">#i is a line</span>
+                <span class="n">temp_geom</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span> <span class="n">i</span> <span class="p">)</span>
+    <span class="k">return</span> <span class="n">temp_geom</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">DigitizingTools 0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Bernhard Ströbl / Kommunale Immobilien Jena.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
