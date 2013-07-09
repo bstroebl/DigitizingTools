@@ -3,4 +3,6 @@ DigitizingTools.e4p
 .ropeproject/
 help/build/
 ui*.py
+*.pyc
+./tools/icons_rc.py
 
