@@ -85,13 +85,14 @@ class DtCutWithPolygon():
                         if cutterGeom.intersects(selGeom): # we have a candidate
                             newGeom = selGeom.difference(cutterGeom)
 
-                            if passiveCRSSrsid != projectCRSSrsid:
-                                newGeom.transform(QgsCoordinateTransform( projectCRSSrsid,  passiveCRSSrsid))
+                            if newGeom != None:
+                                if passiveCRSSrsid != projectCRSSrsid:
+                                    newGeom.transform(QgsCoordinateTransform( projectCRSSrsid,  passiveCRSSrsid))
 
-                            selFeat.setGeometry(newGeom)
-                            passiveLayer.updateFeature(selFeat)
-                            #if passiveLayer.changeGeometry(selFeat.id(),  newGeom):
-                            featuresBeingCut += 1
+                                selFeat.setGeometry(newGeom)
+                                passiveLayer.updateFeature(selFeat)
+                                #if passiveLayer.changeGeometry(selFeat.id(),  newGeom):
+                                featuresBeingCut += 1
 
                 if featuresBeingCut > 0:
                     passiveLayer.endEditCommand()
