@@ -70,7 +70,7 @@ class DigitizingTools:
         self.digitizingtools_about = QtGui.QAction( QtGui.QApplication.translate("DigitizingTools", "About" ), self.iface.mainWindow() )
         self.digitizingtools_settings = QtGui.QAction( QtGui.QApplication.translate("DigitizingTools", "Settings" ), self.iface.mainWindow() )
 
-        self.menu.addActions( [self.digitizingtools_help, self.digitizingtools_about,  self.digitizingtools_settings] )
+        self.menu.addActions( [self.digitizingtools_about] )
 
         menu_bar = self.iface.mainWindow().menuBar()
         actions = menu_bar.actions()
