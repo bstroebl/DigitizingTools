@@ -4,5 +4,5 @@ DigitizingTools.e4p
 help/build/
 ui*.py
 *.pyc
-./tools/icons_rc.py
+tools/icons_rc.py
 

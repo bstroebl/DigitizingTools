@@ -20,7 +20,6 @@ from PyQt4 import QtCore,  QtGui
 from qgis.core import *
 from qgis.gui import *
 import icons_rc
-import dtutils
 from dtprolonglinetool import DtProlongLineTool
 
 class DtProlongLine():

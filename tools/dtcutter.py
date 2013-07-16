@@ -115,6 +115,14 @@ class DtCutWithPolygon():
                 if layer.geometryType() != 0:
                     # enable if editable
                     self.act_cutter.setEnabled(layer.isEditable())
+                    try:
+                        layer.editingStarted.disconnect(self.enable) # disconnect, will be reconnected
+                    except:
+                        pass
+                    try:
+                        layer.editingStopped.disconnect(self.enable) # when it becomes active layer again
+                    except:
+                        pass
                     layer.editingStarted.connect(self.enable)
                     layer.editingStopped.connect(self.enable)
 
