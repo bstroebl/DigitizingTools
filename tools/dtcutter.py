@@ -38,6 +38,9 @@ class DtCutWithPolygon():
     def run(self):
         '''Function that does all the real work'''
         title = QtCore.QCoreApplication.translate("digitizingtools", "Cutter")
+        showEmptyWarning = True
+        choice = None
+        fidsToDelete = []
         cutterLayer = dtutils.dtChooseVectorLayer(self.iface,  2,  msg = QtCore.QCoreApplication.translate("digitizingtools", "cutter layer"))
 
         if cutterLayer == None:
@@ -79,6 +82,7 @@ class DtCutWithPolygon():
 
                     for selFeat in passiveLayer.selectedFeatures():
                         selGeom = selFeat.geometry()
+
                         if passiveCRSSrsid != projectCRSSrsid:
                             selGeom.transform(QgsCoordinateTransform(passiveCRSSrsid,  projectCRSSrsid))
 
@@ -86,19 +90,49 @@ class DtCutWithPolygon():
                             newGeom = selGeom.difference(cutterGeom)
 
                             if newGeom != None:
-                                if passiveCRSSrsid != projectCRSSrsid:
-                                    newGeom.transform(QgsCoordinateTransform( projectCRSSrsid,  passiveCRSSrsid))
+                                if newGeom.isGeosEmpty():
+                                    #selGeom is completely contained in cutterGeom
+                                    if showEmptyWarning:
+                                        choice = QtGui.QMessageBox.question(None,  title,
+                                            QtCore.QCoreApplication.translate("digitizingtools",
+                                            "A feature would be completely removed by cutting. Delete this feature\'s dataset altogether?"),
+                                            QtGui.QMessageBox.Yes | QtGui.QMessageBox.YesToAll | QtGui.QMessageBox.No | QtGui.QMessageBox.NoToAll | QtGui.QMessageBox.Cancel)
 
-                                selFeat.setGeometry(newGeom)
-                                passiveLayer.updateFeature(selFeat)
-                                #if passiveLayer.changeGeometry(selFeat.id(),  newGeom):
-                                featuresBeingCut += 1
+                                        if choice == QtGui.QMessageBox.Cancel:
+                                            passiveLayer.destroyEditCommand()
+                                            return None
+                                        else:
+                                            showEmptyWarning = (choice == QtGui.QMessageBox.Yes or choice == QtGui.QMessageBox.No)
+
+                                    if choice == QtGui.QMessageBox.Yes or choice == QtGui.QMessageBox.YesToAll:
+                                        fidsToDelete.append(selFeat.id())
+
+                                else:
+                                    if passiveCRSSrsid != projectCRSSrsid:
+                                        newGeom.transform(QgsCoordinateTransform( projectCRSSrsid,  passiveCRSSrsid))
+
+                                    selFeat.setGeometry(newGeom)
+                                    passiveLayer.updateFeature(selFeat)
+                                    #if passiveLayer.changeGeometry(selFeat.id(),  newGeom):
+                                    featuresBeingCut += 1
 
                 if featuresBeingCut > 0:
                     passiveLayer.endEditCommand()
-                    passiveLayer.removeSelection()
                 else:
                     passiveLayer.destroyEditCommand()
+
+                passiveLayer.removeSelection()
+
+                if len(fidsToDelete) > 0:
+                    passiveLayer.beginEditCommand(QtCore.QCoreApplication.translate("digitizingtools", "Delete Features"))
+                    for fid in fidsToDelete:
+                        if not passiveLayer.deleteFeature(fid):
+                            passiveLayer.destroyEditCommand()
+                            return None
+
+                    passiveLayer.endEditCommand()
+
+                self.iface.mapCanvas().refresh()
 
     def enable(self):
         '''Enables/disables the corresponding button.'''
