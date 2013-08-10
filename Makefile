@@ -31,7 +31,7 @@ TRANSLATIONS = i18n/digitizingtools_de.ts
 PLUGINNAME = DigitizingTools
 
 PY_FILES = digitizingtools.py __init__.py dtDialog.py
-TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtsplitter.py tools/dtprolongline.py tools/dtprolonglinetool.py
+TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtsplitter.py tools/dtprolongline.py tools/dtprolonglinetool.py tools/dtmovenodebyarea.py
 
 EXTRAS = metadata.txt
 
