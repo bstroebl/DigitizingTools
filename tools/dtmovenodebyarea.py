@@ -20,6 +20,7 @@ from PyQt4 import QtCore,  QtGui
 from qgis.core import *
 import icons_rc
 from dtselectvertextool import DtSelectVertexTool
+from ui_dtselectvertextool import Ui_DtMoveNodeByArea
 
 class DtMoveNodeByArea():
     '''Automatically move polygon node (along a given side of polygon) in order to achieve a desired polygon area'''
