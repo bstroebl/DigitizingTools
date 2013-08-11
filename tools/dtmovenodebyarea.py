@@ -19,6 +19,7 @@ the Free Software Foundation; either version 2 of the License, or
 from PyQt4 import QtCore,  QtGui
 from qgis.core import *
 import icons_rc
+from dtselectvertextool import DtSelectVertexTool
 
 class DtMoveNodeByArea():
     '''Automatically move polygon node (along a given side of polygon) in order to achieve a desired polygon area'''
@@ -45,6 +46,9 @@ class DtMoveNodeByArea():
 	    QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select only one polygon to edit."))
         else:
             QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Works!"))
+            #Enable vertex selection tool
+            #Show GUI
+            #Save changes to geometry
 
     def enable(self):
         '''Enables/disables the corresponding button.'''
