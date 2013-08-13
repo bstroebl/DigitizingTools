@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-dtcutter
-`````````````
+dtmovenodebyarea
+````````````````
 """
 """
 Part of DigitizingTools, a QGIS plugin that
@@ -21,6 +21,7 @@ from qgis.core import *
 import icons_rc
 from dtselectvertextool import DtSelectVertexTool
 from ui_dtselectvertextool import Ui_DtMoveNodeByArea
+from dtmovenodebyarea_dialog import DtMoveNodeByArea_Dialog
 
 class DtMoveNodeByArea():
     '''Automatically move polygon node (along a given side of polygon) in order to achieve a desired polygon area'''
