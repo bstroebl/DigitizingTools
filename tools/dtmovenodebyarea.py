@@ -38,7 +38,8 @@ class DtMoveNodeByArea():
         self.p1 = None
         self.p2 = None
         self.m1 = None
-        self.m2 = None 
+        self.m2 = None
+        self.selected_feature = None
 
         #create action
         self.node_mover = QtGui.QAction(QtGui.QIcon(":/MovePolygonNodeByArea.png"),
@@ -69,6 +70,7 @@ class DtMoveNodeByArea():
         self.m2 = None
         self.p1 = None
         self.p2 = None
+        self.selected_feature = None
         self.canvas.unsetMapTool(self.tool) 
 
     def run(self):
@@ -80,6 +82,8 @@ class DtMoveNodeByArea():
         elif layer.selectedFeatureCount() > 1:
 	    QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select only one polygon to edit."))
         else:
+            #One selected feature
+            self.selected_feature = layer.selectedFeatures()[0]
             self.enableVertexTool()
             self.showDialog()
 
@@ -116,7 +120,12 @@ class DtMoveNodeByArea():
 
     
     def moveNode(self):
-        title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node by area")
-        QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Works!"))
+        if self.p1 == None or self.p2 == None:
+            QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Not enough vertices selected."))
+        else:
+            title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node by area")
+            wkt_tmp = self.selected_feature.geometry().exportToWkt()
+            tmp_str = wkt_tmp + " p1:" + str(self.p1.x()) + ", " + str(self.p1.y()) + " p2:" + str(self.p2.x()) + ", " + str(self.p2.y())
+            QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", tmp_str))
         
         
