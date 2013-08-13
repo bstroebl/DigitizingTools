@@ -86,6 +86,7 @@ class DtMoveNodeByArea():
             self.selected_feature = layer.selectedFeatures()[0]
             self.enableVertexTool()
             self.showDialog()
+            self.gui.writeArea(self.selected_feature.geometry().area())
 
             
     def storeVertexPointsAndMarkers(self,  result):
