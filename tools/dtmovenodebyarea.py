@@ -17,10 +17,13 @@ the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 """
 from PyQt4 import QtCore,  QtGui
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 from qgis.core import *
+
 import icons_rc
 from dtselectvertextool import DtSelectVertexTool
-from ui_dtselectvertextool import Ui_DtMoveNodeByArea
+from ui_dtmovenodebyarea import Ui_DtMoveNodeByArea
 from dtmovenodebyarea_dialog import DtMoveNodeByArea_Dialog
 
 class DtMoveNodeByArea():
@@ -28,18 +31,48 @@ class DtMoveNodeByArea():
     def __init__(self, iface,  toolBar):
         # Save reference to the QGIS interface
         self.iface = iface
+        self.canvas = self.iface.mapCanvas()
+        self.gui = None
+        
+        # Points and Markers
+        self.p1 = None
+        self.p2 = None
+        self.m1 = None
+        self.m2 = None 
 
         #create action
         self.node_mover = QtGui.QAction(QtGui.QIcon(":/MovePolygonNodeByArea.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Automatically move polygon node along a side to achieve desired area"),  self.iface.mainWindow())
+        
         self.node_mover.triggered.connect(self.run)
         self.iface.currentLayerChanged.connect(self.enable)
         toolBar.addAction(self.node_mover)
         self.enable()
+        
+        self.tool = DtSelectVertexTool(self.canvas)
+
+    def showDialog(self):
+        flags = Qt.WindowTitleHint | Qt.WindowSystemMenuHint | Qt.WindowMaximizeButtonHint  # QgisGui.ModalDialogFlags
+        self.gui = DtMoveNodeByArea_Dialog(self.iface.mainWindow(),  flags)
+        self.gui.initGui()
+        self.gui.show()
+        QObject.connect(self.gui, SIGNAL("unsetTool()"), self.unsetTool)
+        QObject.connect(self.gui, SIGNAL("moveNode()"), self.moveNode)
+    
+    def enableVertexTool(self):
+        self.canvas.setMapTool(self.tool)
+        #Connect to the DtSelectVertexTool
+        QObject.connect(self.tool, SIGNAL("vertexFound(PyQt_PyObject)"), self.storeVertexPointsAndMarkers)
+        
+    def unsetTool(self):
+        self.m1 = None
+        self.m2 = None
+        self.p1 = None
+        self.p2 = None
+        self.canvas.unsetMapTool(self.tool) 
 
     def run(self):
         '''Function that does all the real work'''
-        title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node by area")
         layer = self.iface.activeLayer()
         
         if layer.selectedFeatureCount() == 0:
@@ -47,10 +80,15 @@ class DtMoveNodeByArea():
         elif layer.selectedFeatureCount() > 1:
 	    QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select only one polygon to edit."))
         else:
-            QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Works!"))
-            #Enable vertex selection tool
-            #Show GUI
-            #Save changes to geometry
+            self.enableVertexTool()
+            self.showDialog()
+
+            
+    def storeVertexPointsAndMarkers(self,  result):
+        self.p1 = result[0]
+        self.p2 = result[1]
+        self.m1 = result[2]
+        self.m2 = result[3]
 
     def enable(self):
         '''Enables/disables the corresponding button.'''
@@ -76,3 +114,9 @@ class DtMoveNodeByArea():
                     layer.editingStarted.connect(self.enable)
                     layer.editingStopped.connect(self.enable)
 
+    
+    def moveNode(self):
+        title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node by area")
+        QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Works!"))
+        
+        

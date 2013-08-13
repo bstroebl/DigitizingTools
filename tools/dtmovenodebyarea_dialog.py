@@ -19,10 +19,10 @@ class DtMoveNodeByArea_Dialog(QDialog, QObject, Ui_DtMoveNodeByArea):
         
     @pyqtSignature("on_buttonClose_clicked()")    
     def on_buttonClose_clicked(self):
-        #self.emit(SIGNAL("unsetTool()"))         
+        self.emit(SIGNAL("unsetTool()"))         
         self.close()
         
     @pyqtSignature("on_moveButton_clicked()")
     def on_moveButton_clicked(self):
-        #self.emit(SIGNAL("unsetTool()"))
+        self.emit(SIGNAL("moveNode()"))
         pass
