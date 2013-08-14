@@ -76,6 +76,7 @@ class DtMoveNodeByArea():
     def run(self):
         '''Function that does all the real work'''
         layer = self.iface.activeLayer()
+        title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node by area")
         
         if layer.selectedFeatureCount() == 0:
             QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select one polygon to edit."))
@@ -139,4 +140,13 @@ class DtMoveNodeByArea():
                 QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Vertices not on the selected polygon."))
 
 def createNewGeometry(geom, p1, p2, new_area):
+    x1 = p1.x()
+    y1 = p1.y()
+    x2 = p2.x()
+    y2 = p2.y()
+    old_area = geom.area()
+    area_diff = new_area-old_area
+    
+    x3 = 0.0
+    y3 = 0.0
     return
