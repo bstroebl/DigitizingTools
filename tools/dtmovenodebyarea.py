@@ -7,7 +7,7 @@ dtmovenodebyarea
 Part of DigitizingTools, a QGIS plugin that
 subsumes different tools neded during digitizing sessions
 
-* begin                : 2013-02-25
+* begin                : 2013-08-14
 * copyright            : (C) 2013 by Angelos Tzotsos
 * email                : tzotsos@gmail.com
 
@@ -16,6 +16,7 @@ it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 """
+
 from PyQt4 import QtCore,  QtGui
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
