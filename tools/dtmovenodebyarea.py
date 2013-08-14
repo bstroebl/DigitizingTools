@@ -124,9 +124,19 @@ class DtMoveNodeByArea():
         if self.p1 == None or self.p2 == None:
             QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Not enough vertices selected."))
         else:
-            title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node by area")
-            wkt_tmp = self.selected_feature.geometry().exportToWkt()
-            tmp_str = wkt_tmp + " p1:" + str(self.p1.x()) + ", " + str(self.p1.y()) + " p2:" + str(self.p2.x()) + ", " + str(self.p2.y())
-            QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", tmp_str))
-        
-        
+            interp1 = self.selected_feature.geometry().intersects(QgsGeometry.fromPoint(self.p1))
+            interp2 = self.selected_feature.geometry().intersects(QgsGeometry.fromPoint(self.p2))
+            touch_p1_p2 = self.selected_feature.geometry().touches(QgsGeometry.fromPolyline([self.p1, self.p2]))
+            if (interp1 and interp2):
+                if (not touch_p1_p2):
+                    QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Selected vertices should be consecutive on the selected polygon."))
+                else:
+                    title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node by area")
+                    wkt_tmp = self.selected_feature.geometry().exportToWkt()
+                    tmp_str = wkt_tmp + " p1:" + str(self.p1.x()) + ", " + str(self.p1.y()) + " p2:" + str(self.p2.x()) + ", " + str(self.p2.y())
+                    QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", tmp_str))
+            else:
+                QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Vertices not on the selected polygon."))
+
+def createNewGeometry(geom, p1, p2, new_area):
+    return
