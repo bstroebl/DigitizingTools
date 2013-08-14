@@ -150,7 +150,42 @@ class DtMoveNodeByArea():
             else:
                 QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Vertices not on the selected polygon."))
 
+# p1 is the stable node (red) and p2 is the node to move (blue)
 def createNewGeometry(geom, p1, p2, new_area):
+    #Read input polygon geometry as a list of QgsPoints
+    pointList = geom.asPolygon()[0][0:-1]
+    
+    #indices
+    ind = 0
+    ind_max = len(pointList)-1
+    p1_indx = -1
+    p2_indx = -1
+    p3_indx = -1
+    
+    #find p1 and p2 in the list
+    for tmp_point in pointList:
+        if (tmp_point == p1):
+            p1_indx = ind
+        elif (tmp_point == p2):
+            p2_indx = ind
+        ind += 1
+    
+    #locate p3 index based on positioning of p1 and p2
+    if(p2_indx > p1_indx):
+        if(p2_indx < ind_max):
+            p3_indx = p2_indx + 1
+        elif(p2_indx == ind_max and p1_indx == 0):
+            p3_indx = p2_indx - 1
+        elif(p2_indx == ind_max and p1_indx != 0):
+            p3_indx = 0
+    elif(p1_indx > p2_indx):
+        if(p2_indx > 0):
+            p3_indx = p2_indx - 1
+        elif(p2_indx == 0 and p1_indx == ind_max):
+            p3_indx = p2_indx + 1
+        elif(p2_indx == 0 and p1_indx != ind_max):
+            p3_indx = ind_max
+    
     x1 = p1.x()
     y1 = p1.y()
     x2 = p2.x()
