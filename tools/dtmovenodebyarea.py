@@ -143,9 +143,11 @@ class DtMoveNodeByArea():
                 if (not touch_p1_p2):
                     QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Selected vertices should be consecutive on the selected polygon."))
                 else:
+                    new_geom = createNewGeometry(self.selected_feature.geometry(), self.p1, self.p2, new_a)
+                    wkt_tmp1 = self.selected_feature.geometry().exportToWkt()
+                    wkt_tmp2 = new_geom.exportToWkt()
+                    tmp_str = wkt_tmp1 + " Initial Area:" + str(self.selected_feature.geometry().area()) + " " + wkt_tmp2 + " Final Area:" + str(new_geom.area())
                     title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node by area")
-                    wkt_tmp = self.selected_feature.geometry().exportToWkt()
-                    tmp_str = wkt_tmp + " p1:" + str(self.p1.x()) + ", " + str(self.p1.y()) + " p2:" + str(self.p2.x()) + ", " + str(self.p2.y())
                     QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", tmp_str))
             else:
                 QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Vertices not on the selected polygon."))
@@ -190,12 +192,28 @@ def createNewGeometry(geom, p1, p2, new_area):
     y1 = p1.y()
     x2 = p2.x()
     y2 = p2.y()
+    x3 = pointList[p3_indx].x()
+    y3 = pointList[p3_indx].y()
     old_area = geom.area()
     area_diff = new_area-old_area
     
-    x3 = 0.0
-    y3 = 0.0
-    return
+    (x2a,y2a, x2b,y2b)=move_vertex(x1,y1,x2,y2,x3,y3,area_diff)
+    
+    p2a = QgsPoint(x2a,y2a)
+    p2b = QgsPoint(x2b,y2b)
+    
+    pointList[p2_indx] = p2a
+    geom1 = QgsGeometry.fromPolygon( [ pointList ] )
+    
+    pointList[p2_indx] = p2b
+    geom2 = QgsGeometry.fromPolygon( [ pointList ] )
+    
+    if(geom1.area() == new_area):
+        return geom1
+    elif(geom2.area() == new_area):
+        return geom2
+    else:
+        return geom
 
 def move_vertex(x1,y1,x2,y2,x3,y3,area):
     """
@@ -232,9 +250,6 @@ def move_vertex(x1,y1,x2,y2,x3,y3,area):
     y4b = ( -2.0*area + ( x1*y2 -x2*y1+ x2*y1-x2*y2 -y2*y1/k +y2*y2/k ) ) / ( x1-x2-y1/k+y2/k )
     #(IIa) ===>
     x4b = x2 + (y4b-y2)/k
-    
-    #Pair a is OK? YES - Checked 13:21 14/08/2013 !
-    #Pair b is OK? YES - Checked 13:23 14/08/2013 !
 
     return (x4a,y4a, x4b,y4b)
 
