@@ -14,6 +14,10 @@ Currently the following tools are contained:
     another layer
 #.  Splitter: split selected features in active editable layer with
     selected line from another layer
+#.  MoveNodeByArea: modifies a selected polygon, by selecting a stable 
+    node (red) and a node to move (blue). The plugin moves the 
+    second node automatically to achieve the polygon area as requested 
+    by the user  
 
 Planned/discussed tools can be found here http://osgeo-org.1560.x6.nabble.com/more-advanced-editing-tools-td5019552.html
 
