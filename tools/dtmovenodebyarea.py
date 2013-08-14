@@ -22,6 +22,7 @@ from PyQt4.QtGui import *
 from qgis.core import *
 
 import icons_rc
+import math
 from dtselectvertextool import DtSelectVertexTool
 from ui_dtmovenodebyarea import Ui_DtMoveNodeByArea
 from dtmovenodebyarea_dialog import DtMoveNodeByArea_Dialog
@@ -160,3 +161,45 @@ def createNewGeometry(geom, p1, p2, new_area):
     x3 = 0.0
     y3 = 0.0
     return
+
+def move_vertex(x1,y1,x2,y2,x3,y3,area):
+    """
+    This function moves point 2 of 1-2 vertex on 2-3 direction resulting
+    a new 1-4 vertex. Area is the desired area of the triangle 1-2-4.
+    Result is returned as [ xa ya xb yb ] due to absolute value.
+    Use resulted area of new polygon is the final criterion.
+    
+    * copyright            : (C) 2013 by Christos Iossifidis
+    * email                : chiossif@yahoo.com
+    """
+    k=(y3-y2)/(x3-x2) #(I)
+
+    #k=(y4-y2)/(x4-x2) ===>
+    #x4 = x2 + (y4-y2)/k (IIa)
+    #y4 = y2 + k*(x4-x2) (IIb)
+
+    #2*area=ABS(x1*(y2-y4)+x2*(y4-y1)+x4*(y1-y2)) (III)
+    
+    #(III) ==(IIa)==>
+    #2*area=ABS( x1*(y2-y4)+x2*(y4-y1)+(x2+(y4-y2)/k)*(y1-y2) ) ===>
+    #2*area=ABS( x1*(y2-y4)+x2*(y4-y1)+ x2*(y1-y2) + (y4-y2)*(y1-y2)/k ) ===>
+    #2*area=ABS( x1*y2 -x1*y4 +x2*y4 -x2*y1+ x2*y1-x2*y2 +y4*y1/k -y4*y2/k -y2*y1/k +y2*y2/k ) ===>
+    #2*area=ABS( x1*y2 -x2*y1+ x2*y1-x2*y2 -y2*y1/k +y2*y2/k ) ===>
+    #x1*y4 -x2*y4 -y4*y1/k +y4*y2/k = +-2*area + ( x1*y2 -x2*y1+ x2*y1-x2*y2 -y2*y1/k +y2*y2/k ) ===>
+    #y4 = (+-2*area + ( x1*y2 -x2*y1+ x2*y1-x2*y2 -y2*y1/k +y2*y2/k ) ) / ( x1-x2-y1/k+y2/k ) (IV)
+    
+    #(IV)===>
+    y4a = ( 2.0*area + ( x1*y2 -x2*y1+ x2*y1-x2*y2 -y2*y1/k +y2*y2/k ) ) / ( x1-x2-y1/k+y2/k )
+    #(IIa) ===>
+    x4a = x2 + (y4a-y2)/k
+    
+    #(IV)===>
+    y4b = ( -2.0*area + ( x1*y2 -x2*y1+ x2*y1-x2*y2 -y2*y1/k +y2*y2/k ) ) / ( x1-x2-y1/k+y2/k )
+    #(IIa) ===>
+    x4b = x2 + (y4b-y2)/k
+    
+    #Pair a is OK? YES - Checked 13:21 14/08/2013 !
+    #Pair b is OK? YES - Checked 13:23 14/08/2013 !
+
+    return (x4a,y4a, x4b,y4b)
+
