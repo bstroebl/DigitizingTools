@@ -16,6 +16,7 @@ class DtMoveNodeByArea_Dialog(QDialog, QObject, Ui_DtMoveNodeByArea):
       
     def writeArea(self, area):
         self.area_label.setText(str(area))
+        self.targetArea.setText(str(area))
         
     @pyqtSignature("on_buttonClose_clicked()")    
     def on_buttonClose_clicked(self):

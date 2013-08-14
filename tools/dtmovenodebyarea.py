@@ -43,7 +43,7 @@ class DtMoveNodeByArea():
 
         #create action
         self.node_mover = QtGui.QAction(QtGui.QIcon(":/MovePolygonNodeByArea.png"),
-            QtCore.QCoreApplication.translate("digitizingtools", "Automatically move polygon node along a side to achieve desired area"),  self.iface.mainWindow())
+            QtCore.QCoreApplication.translate("digitizingtools", "Automatically modify polygon to target area moving one node"),  self.iface.mainWindow())
         
         self.node_mover.triggered.connect(self.run)
         self.iface.currentLayerChanged.connect(self.enable)
@@ -122,6 +122,16 @@ class DtMoveNodeByArea():
 
     
     def moveNode(self):
+        new_a = -1.0
+        try:
+            new_a = float(self.gui.targetArea.text())
+        except:
+            pass
+        
+        if (new_a == -1.0):
+            QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Target Area not valid."))
+            return
+        
         if self.p1 == None or self.p2 == None:
             QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Not enough vertices selected."))
         else:
