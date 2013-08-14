@@ -208,12 +208,13 @@ def createNewGeometry(geom, p1, p2, new_area):
     pointList[p2_indx] = p2b
     geom2 = QgsGeometry.fromPolygon( [ pointList ] )
     
-    if(geom1.area() == new_area):
+    diff_geom1 = abs(geom1.area() - new_area)
+    diff_geom2 = abs(geom2.area() - new_area)
+    
+    if(diff_geom1 < diff_geom2):
         return geom1
-    elif(geom2.area() == new_area):
-        return geom2
     else:
-        return geom
+        return geom2
 
 def move_vertex(x1,y1,x2,y2,x3,y3,area):
     """
