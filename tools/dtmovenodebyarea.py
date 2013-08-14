@@ -144,6 +144,10 @@ class DtMoveNodeByArea():
                     QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Selected vertices should be consecutive on the selected polygon."))
                 else:
                     new_geom = createNewGeometry(self.selected_feature.geometry(), self.p1, self.p2, new_a)
+                    fid = self.selected_feature.id()
+                    layer = self.iface.activeLayer()
+                    layer.dataProvider().changeGeometryValues({ fid : new_geom })
+                    self.canvas.refresh()
                     wkt_tmp1 = self.selected_feature.geometry().exportToWkt()
                     wkt_tmp2 = new_geom.exportToWkt()
                     tmp_str = wkt_tmp1 + " Initial Area:" + str(self.selected_feature.geometry().area()) + " " + wkt_tmp2 + " Final Area:" + str(new_geom.area())
