@@ -177,7 +177,9 @@ def createNewGeometry(geom, p1, p2, new_distance):
     return new_geom
 
 def getParallelLinePoints(p1,  p2, dist):
-    
+    """
+    This function is adopted/adapted from 'CadTools Plugin', Copyright (C) Stefan Ziegler
+    """    
     if dist == 0:
         g = (p1, p2)
         return g
