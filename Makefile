@@ -31,11 +31,11 @@ TRANSLATIONS = i18n/digitizingtools_de.ts
 PLUGINNAME = DigitizingTools
 
 PY_FILES = digitizingtools.py __init__.py dtDialog.py
-TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtsplitter.py tools/dtprolongline.py tools/dtprolonglinetool.py tools/dtmovenodebyarea.py tools/dtmovesidebydistance.py
+TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtsplitter.py tools/dtprolongline.py tools/dtprolonglinetool.py tools/dtmovenodebyarea.py tools/dtmovesidebydistance.py tools/dtmovesidebyarea.py 
 
 EXTRAS = metadata.txt
 
-UI_FILES = ui_about.py tools/ui_dtmovenodebyarea.py tools/ui_dtmovesidebydistance.py
+UI_FILES = ui_about.py tools/ui_dtmovenodebyarea.py tools/ui_dtmovesidebydistance.py tools/ui_dtmovesidebyarea.py
 
 RESOURCE_FILES = tools/icons_rc.py
 

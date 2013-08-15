@@ -46,7 +46,7 @@ class DtMoveSideByDistance():
 
         #create action
         self.side_mover = QtGui.QAction(QtGui.QIcon(":/ParallelMovePolygonSideByDistance.png"),
-            QtCore.QCoreApplication.translate("digitizingtools", "Move polygon side to target distance"),  self.iface.mainWindow())
+            QtCore.QCoreApplication.translate("digitizingtools", "Parallel move of polygon side to given distance"),  self.iface.mainWindow())
         
         self.side_mover.triggered.connect(self.run)
         self.iface.currentLayerChanged.connect(self.enable)
