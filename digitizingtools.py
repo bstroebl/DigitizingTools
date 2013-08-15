@@ -37,6 +37,7 @@ import dtsplitter
 import dtprolongline
 import dtmovenodebyarea
 import dtmovesidebydistance
+import dtmovesidebyarea
 
 class DigitizingTools:
     """Main class for the plugin"""
@@ -80,12 +81,13 @@ class DigitizingTools:
         menu_bar.insertMenu(lastAction, self.menu)
 
         #. Add the tools
-        self.multiPartSplitter = dtsplitmultipart.DtSplitMultiPartTool(self.iface,  self.toolBar)
-        self.cutter = dtcutter.DtCutWithPolygon(self.iface,  self.toolBar)
-        self.splitter = dtsplitter.DtSplitWithLine(self.iface,  self.toolBar)
-        self.prolongLine = dtprolongline.DtProlongLine(self.iface,  self.toolBar)
-        self.moveNodeByArea = dtmovenodebyarea.DtMoveNodeByArea(self.iface,  self.toolBar)
-        self.moveSideByDistance = dtmovesidebydistance.DtMoveSideByDistance(self.iface,  self.toolBar)
+        self.multiPartSplitter = dtsplitmultipart.DtSplitMultiPartTool(self.iface, self.toolBar)
+        self.cutter = dtcutter.DtCutWithPolygon(self.iface, self.toolBar)
+        self.splitter = dtsplitter.DtSplitWithLine(self.iface, self.toolBar)
+        self.prolongLine = dtprolongline.DtProlongLine(self.iface, self.toolBar)
+        self.moveNodeByArea = dtmovenodebyarea.DtMoveNodeByArea(self.iface, self.toolBar)
+        self.moveSideByDistance = dtmovesidebydistance.DtMoveSideByDistance(self.iface, self.toolBar)
+        self.moveSideByArea = dtmovesidebyarea.DtMoveSideByArea(self.iface, self.toolBar)
 
         self.digitizingtools_about.triggered.connect(self.doAbout)
         #QObject.connect( self.digitizingtools_help, SIGNAL("triggered()"), self.doHelp )

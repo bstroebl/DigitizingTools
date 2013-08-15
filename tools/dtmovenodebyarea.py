@@ -45,7 +45,7 @@ class DtMoveNodeByArea():
 
         #create action
         self.node_mover = QtGui.QAction(QtGui.QIcon(":/MovePolygonNodeByArea.png"),
-            QtCore.QCoreApplication.translate("digitizingtools", "Automatically modify polygon to target area moving one node"),  self.iface.mainWindow())
+            QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node (along a side) to achieve target area"),  self.iface.mainWindow())
         
         self.node_mover.triggered.connect(self.run)
         self.iface.currentLayerChanged.connect(self.enable)
