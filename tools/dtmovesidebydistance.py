@@ -21,9 +21,9 @@ from PyQt4 import QtCore,  QtGui
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from qgis.core import *
+from qgis.gui import *
 
 import icons_rc
-import math
 from dtselectsegmenttool import DtSelectSegmentTool
 from ui_dtmovesidebydistance import Ui_DtMoveSideByDistance
 from dtmovesidebydistance_dialog import DtMoveSideByDistance_Dialog
@@ -45,7 +45,7 @@ class DtMoveSideByDistance():
         self.selected_feature = None
 
         #create action
-        self.side_mover = QtGui.QAction(QtGui.QIcon(":/MovePolygonNodeByArea.png"),
+        self.side_mover = QtGui.QAction(QtGui.QIcon(":/ParallelMovePolygonSideByDistance.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Move polygon side to target distance"),  self.iface.mainWindow())
         
         self.side_mover.triggered.connect(self.run)
@@ -131,7 +131,7 @@ class DtMoveSideByDistance():
         except:
             pass
         
-        if (new_a == 0.0):
+        if (dist == 0.0):
             QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Target Distance not valid."))
             return
         
