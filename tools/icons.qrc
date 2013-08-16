@@ -4,5 +4,8 @@
     <file alias="cutter.png">icons/difference.png</file>
     <file alias="multi_to_single.png">icons/multi_to_single.png</file>
     <file alias="prolongline.png">icons/prolongline.png</file>
+    <file alias="MovePolygonNodeByArea.png">icons/MovePolygonNodeByArea.png</file>
+    <file alias="ParallelMovePolygonSideByArea.png">icons/ParallelMovePolygonSideByArea.png</file>
+    <file alias="ParallelMovePolygonSideByDistance.png">icons/ParallelMovePolygonSideByDistance.png</file>
   </qresource>
 </RCC>

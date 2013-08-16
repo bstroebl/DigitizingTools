@@ -39,6 +39,8 @@ class DigitizingToolsAbout(QtGui.QDialog):
         aboutText += "Alexandre Neto"
         aboutText += "\n"
         aboutText += u"Bernhard Ströbl"
+        aboutText += "\n"
+        aboutText += u"Angelos Tzotsos"
         aboutText += "\n\n"
         aboutText += u"DigitizingTools is copyright (C) 2013 Bernhard Ströbl bernhard.stroebl@jena.de\n\n"
         aboutText += u"Licensed under the terms of the GNU GPL V 2:\n"
