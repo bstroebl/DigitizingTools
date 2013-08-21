@@ -45,7 +45,7 @@ class DtMoveNodeByArea():
 
         #create action
         self.node_mover = QtGui.QAction(QtGui.QIcon(":/MovePolygonNodeByArea.png"),
-            QtCore.QCoreApplication.translate("digitizingtools", "Automatically modify polygon to target area moving one node"),  self.iface.mainWindow())
+            QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node (along a side) to achieve target area"),  self.iface.mainWindow())
         
         self.node_mover.triggered.connect(self.run)
         self.iface.currentLayerChanged.connect(self.enable)
@@ -147,8 +147,10 @@ class DtMoveNodeByArea():
                     new_geom = createNewGeometry(self.selected_feature.geometry(), self.p1, self.p2, new_a)
                     fid = self.selected_feature.id()
                     layer = self.iface.activeLayer()
+                    layer.beginEditCommand(QtCore.QCoreApplication.translate("digitizingtools", "Move Node By Area"))
                     layer.changeGeometry(fid,new_geom)
                     self.canvas.refresh()
+                    layer.endEditCommand()
                     #wkt_tmp1 = self.selected_feature.geometry().exportToWkt()
                     #wkt_tmp2 = new_geom.exportToWkt()
                     #tmp_str = wkt_tmp1 + " Initial Area:" + str(self.selected_feature.geometry().area()) + " " + wkt_tmp2 + " Final Area:" + str(new_geom.area())

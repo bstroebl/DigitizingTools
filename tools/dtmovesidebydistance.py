@@ -46,7 +46,7 @@ class DtMoveSideByDistance():
 
         #create action
         self.side_mover = QtGui.QAction(QtGui.QIcon(":/ParallelMovePolygonSideByDistance.png"),
-            QtCore.QCoreApplication.translate("digitizingtools", "Move polygon side to target distance"),  self.iface.mainWindow())
+            QtCore.QCoreApplication.translate("digitizingtools", "Parallel move of polygon side to given distance"),  self.iface.mainWindow())
         
         self.side_mover.triggered.connect(self.run)
         self.iface.currentLayerChanged.connect(self.enable)
@@ -145,8 +145,10 @@ class DtMoveSideByDistance():
                 new_geom = createNewGeometry(self.selected_feature.geometry(), self.p1, self.p2, dist)
                 fid = self.selected_feature.id()
                 layer = self.iface.activeLayer()
+                layer.beginEditCommand(QtCore.QCoreApplication.translate("digitizingtools", "Move Side By Distance"))
                 layer.changeGeometry(fid,new_geom)
                 self.canvas.refresh()
+                layer.endEditCommand()
 
 
 def createNewGeometry(geom, p1, p2, new_distance):
