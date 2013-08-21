@@ -151,8 +151,10 @@ class DtMoveSideByArea():
                 #Store new geometry on the memory buffer
                 fid = self.selected_feature.id()
                 layer = self.iface.activeLayer()
+                layer.beginEditCommand(QtCore.QCoreApplication.translate("digitizingtools", "Move Side By Area"))
                 layer.changeGeometry(fid,new_geom)
                 self.canvas.refresh()
+                layer.endEditCommand()
 
 def moveFixed(geom, p1, p2, new_area):
     
