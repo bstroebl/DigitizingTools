@@ -35,7 +35,7 @@ TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtspl
 
 EXTRAS = metadata.txt
 
-UI_FILES = ui_about.py tools/ui_dtmovenodebyarea.py tools/ui_dtmovesidebydistance.py
+UI_FILES = ui_about.py tools/ui_dtmovenodebyarea.py tools/ui_dtmovesidebydistance.py tools/ui_dtmovesidebyarea.py
 
 RESOURCE_FILES = tools/icons_rc.py
 
