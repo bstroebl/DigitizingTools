@@ -194,3 +194,23 @@ def dtExtractPoints( geom ):
             for i in multi_geom: #i is a line
                 temp_geom.extend( i )
     return temp_geom
+
+# code adopted from ringer plugin
+def dtExtractRings(geom):
+    '''Generate a list of QgsPolygons representing all rings within *geom* (= polygon)'''
+    rings = []
+
+    if geom.type() == 2: # it's a polygon
+        if geom.isMultipart():
+            multi_geom = geom.asMultiPolygon() #multi_geom is a multipolygon
+            for poly in multi_geom:
+                if len(poly) > 1:
+                    for aRing in poly[1:]:
+                        rings.append(QgsGeometry.fromPolygon([aRing]))
+        else:
+            poly = geom.asPolygon()
+            if len(poly) > 1:
+                for aRing in poly[1:]:
+                    rings.append(QgsGeometry.fromPolygon([aRing]))
+
+    return rings

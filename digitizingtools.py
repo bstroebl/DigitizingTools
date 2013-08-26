@@ -33,6 +33,7 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/tools'))
 #import the tools
 import dtsplitmultipart
 import dtcutter
+import dtfillring
 import dtsplitter
 import dtprolongline
 import dtmovenodebyarea
@@ -83,6 +84,7 @@ class DigitizingTools:
         #. Add the tools
         self.multiPartSplitter = dtsplitmultipart.DtSplitMultiPartTool(self.iface, self.toolBar)
         self.cutter = dtcutter.DtCutWithPolygon(self.iface, self.toolBar)
+        self.ringFiller = dtfillring.DtFillRing(self.iface, self.toolBar)
         self.splitter = dtsplitter.DtSplitWithLine(self.iface, self.toolBar)
         self.prolongLine = dtprolongline.DtProlongLine(self.iface, self.toolBar)
         self.moveNodeByArea = dtmovenodebyarea.DtMoveNodeByArea(self.iface, self.toolBar)

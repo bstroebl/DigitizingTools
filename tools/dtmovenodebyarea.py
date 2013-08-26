@@ -35,7 +35,7 @@ class DtMoveNodeByArea():
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
         self.gui = None
-        
+
         # Points and Markers
         self.p1 = None
         self.p2 = None
@@ -46,13 +46,13 @@ class DtMoveNodeByArea():
         #create action
         self.node_mover = QtGui.QAction(QtGui.QIcon(":/MovePolygonNodeByArea.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node (along a side) to achieve target area"),  self.iface.mainWindow())
-        
+
         self.node_mover.triggered.connect(self.run)
         self.iface.currentLayerChanged.connect(self.enable)
         toolBar.addAction(self.node_mover)
         self.enable()
-        
-        self.tool = DtSelectVertexTool(self.canvas)
+
+        self.tool = DtSelectVertexTool(self.canvas,  2)
 
     def showDialog(self):
         flags = Qt.WindowTitleHint | Qt.WindowSystemMenuHint | Qt.WindowMaximizeButtonHint  # QgisGui.ModalDialogFlags
@@ -61,25 +61,25 @@ class DtMoveNodeByArea():
         self.gui.show()
         QObject.connect(self.gui, SIGNAL("unsetTool()"), self.unsetTool)
         QObject.connect(self.gui, SIGNAL("moveNode()"), self.moveNode)
-    
+
     def enableVertexTool(self):
         self.canvas.setMapTool(self.tool)
         #Connect to the DtSelectVertexTool
         QObject.connect(self.tool, SIGNAL("vertexFound(PyQt_PyObject)"), self.storeVertexPointsAndMarkers)
-        
+
     def unsetTool(self):
         self.m1 = None
         self.m2 = None
         self.p1 = None
         self.p2 = None
         self.selected_feature = None
-        self.canvas.unsetMapTool(self.tool) 
+        self.canvas.unsetMapTool(self.tool)
 
     def run(self):
         '''Function that does all the real work'''
         layer = self.iface.activeLayer()
         title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node by area")
-        
+
         if layer.selectedFeatureCount() == 0:
             QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select one polygon to edit."))
         elif layer.selectedFeatureCount() > 1:
@@ -91,12 +91,12 @@ class DtMoveNodeByArea():
             self.showDialog()
             self.gui.writeArea(self.selected_feature.geometry().area())
 
-            
+
     def storeVertexPointsAndMarkers(self,  result):
-        self.p1 = result[0]
-        self.p2 = result[1]
-        self.m1 = result[2]
-        self.m2 = result[3]
+        self.p1 = result[0][0]
+        self.p2 = result[0][1]
+        self.m1 = result[1][0]
+        self.m2 = result[1][1]
 
     def enable(self):
         '''Enables/disables the corresponding button.'''
@@ -122,18 +122,18 @@ class DtMoveNodeByArea():
                     layer.editingStarted.connect(self.enable)
                     layer.editingStopped.connect(self.enable)
 
-    
+
     def moveNode(self):
         new_a = -1.0
         try:
             new_a = float(self.gui.targetArea.text())
         except:
             pass
-        
+
         if (new_a == -1.0):
             QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Target Area not valid."))
             return
-        
+
         if self.p1 == None or self.p2 == None:
             QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Not enough vertices selected."))
         else:
@@ -163,14 +163,14 @@ class DtMoveNodeByArea():
 def createNewGeometry(geom, p1, p2, new_area):
     #Read input polygon geometry as a list of QgsPoints
     pointList = geom.asPolygon()[0][0:-1]
-    
+
     #indices
     ind = 0
     ind_max = len(pointList)-1
     p1_indx = -1
     p2_indx = -1
     p3_indx = -1
-    
+
     #find p1 and p2 in the list
     for tmp_point in pointList:
         if (tmp_point == p1):
@@ -178,7 +178,7 @@ def createNewGeometry(geom, p1, p2, new_area):
         elif (tmp_point == p2):
             p2_indx = ind
         ind += 1
-    
+
     #locate p3 index based on positioning of p1 and p2
     if(p2_indx > p1_indx):
         if(p2_indx < ind_max):
@@ -194,7 +194,7 @@ def createNewGeometry(geom, p1, p2, new_area):
             p3_indx = p2_indx + 1
         elif(p2_indx == 0 and p1_indx != ind_max):
             p3_indx = ind_max
-    
+
     x1 = p1.x()
     y1 = p1.y()
     x2 = p2.x()
@@ -203,21 +203,21 @@ def createNewGeometry(geom, p1, p2, new_area):
     y3 = pointList[p3_indx].y()
     old_area = geom.area()
     area_diff = new_area-old_area
-    
+
     (x2a,y2a, x2b,y2b)=move_vertex(x1,y1,x2,y2,x3,y3,area_diff)
-    
+
     p2a = QgsPoint(x2a,y2a)
     p2b = QgsPoint(x2b,y2b)
-    
+
     pointList[p2_indx] = p2a
     geom1 = QgsGeometry.fromPolygon( [ pointList ] )
-    
+
     pointList[p2_indx] = p2b
     geom2 = QgsGeometry.fromPolygon( [ pointList ] )
-    
+
     diff_geom1 = abs(geom1.area() - new_area)
     diff_geom2 = abs(geom2.area() - new_area)
-    
+
     if(diff_geom1 < diff_geom2):
         return geom1
     else:
@@ -229,7 +229,7 @@ def move_vertex(x1,y1,x2,y2,x3,y3,area):
     a new 1-4 vertex. Area is the desired area of the triangle 1-2-4.
     Result is returned as [ xa ya xb yb ] due to absolute value.
     Use resulted area of new polygon is the final criterion.
-    
+
     * copyright            : (C) 2013 by Christos Iossifidis
     * email                : chiossif@yahoo.com
     """
@@ -240,7 +240,7 @@ def move_vertex(x1,y1,x2,y2,x3,y3,area):
     #y4 = y2 + k*(x4-x2) (IIb)
 
     #2*area=ABS(x1*(y2-y4)+x2*(y4-y1)+x4*(y1-y2)) (III)
-    
+
     #(III) ==(IIa)==>
     #2*area=ABS( x1*(y2-y4)+x2*(y4-y1)+(x2+(y4-y2)/k)*(y1-y2) ) ===>
     #2*area=ABS( x1*(y2-y4)+x2*(y4-y1)+ x2*(y1-y2) + (y4-y2)*(y1-y2)/k ) ===>
@@ -248,12 +248,12 @@ def move_vertex(x1,y1,x2,y2,x3,y3,area):
     #2*area=ABS( x1*y2 -x2*y1+ x2*y1-x2*y2 -y2*y1/k +y2*y2/k ) ===>
     #x1*y4 -x2*y4 -y4*y1/k +y4*y2/k = +-2*area + ( x1*y2 -x2*y1+ x2*y1-x2*y2 -y2*y1/k +y2*y2/k ) ===>
     #y4 = (+-2*area + ( x1*y2 -x2*y1+ x2*y1-x2*y2 -y2*y1/k +y2*y2/k ) ) / ( x1-x2-y1/k+y2/k ) (IV)
-    
+
     #(IV)===>
     y4a = ( 2.0*area + ( x1*y2 -x2*y1+ x2*y1-x2*y2 -y2*y1/k +y2*y2/k ) ) / ( x1-x2-y1/k+y2/k )
     #(IIa) ===>
     x4a = x2 + (y4a-y2)/k
-    
+
     #(IV)===>
     y4b = ( -2.0*area + ( x1*y2 -x2*y1+ x2*y1-x2*y2 -y2*y1/k +y2*y2/k ) ) / ( x1-x2-y1/k+y2/k )
     #(IIa) ===>
