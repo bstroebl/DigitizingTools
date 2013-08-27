@@ -28,6 +28,8 @@ class DtFillGap():
         # Save reference to the QGIS interface
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
+        self.tool = DtSelectVertexTool(self.canvas)
+        self.doIgnoreTool = False
         #create action
         self.act_fillGap = QtGui.QAction(QtGui.QIcon(":/fillGap.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Fill gap"),  self.iface.mainWindow())
@@ -37,24 +39,30 @@ class DtFillGap():
         self.iface.currentLayerChanged.connect(self.enable)
         toolBar.addAction(self.act_fillGap)
         self.enable()
-        self.tool = DtSelectVertexTool(self.canvas)
 
     def deactivate(self,  thisTool):
-        self.tool.clear()
-
         if thisTool != self.tool:
+            self.tool.clear()
             self.act_fillGap.setChecked(False)
             try:
                 self.tool.vertexFound.disconnect(self.vertexSnapped)
             except:
                 pass
 
+
     def run(self):
         '''Function that does all the real work'''
-        QtGui.QMessageBox.information(None, "run", "run")
         self.title = QtCore.QCoreApplication.translate("digitizingtools", "Fill gap")
         self.canvas.setMapTool(self.tool)
         layer = self.iface.activeLayer()
+        self.doIgnoreTool = True
+        try:
+            self.tool.vertexFound.disconnect(self.vertexSnapped)
+            # disconnect if it was already connectedd, so slot gets called only once!
+        except:
+            pass
+        self.tool.vertexFound.connect(self.vertexSnapped)
+        self.act_fillGap.setChecked(True)
 
         if layer.selectedFeatureCount() == 0:
             QtGui.QMessageBox.information(None,  self.title,  dtutils.dtGetNoSelMessage()[0] + " " + layer.name() + ".\n" + \
@@ -67,13 +75,15 @@ class DtFillGap():
             if reply == QtGui.QMessageBox.Yes:
                 self.fillGaps()
                 return None
-            elif reply == QtGui.QMessageBox.Noe:
-                #Connect to the DtSelectVertexTool
-                self.tool.vertexFound.connect(self.vertexSnapped)
+            elif reply == QtGui.QMessageBox.No:
+                self.doIgnoreTool = False
+
 
     def vertexSnapped(self,  snapResult):
-        snappedVertex = snapResult[0][0]
-        self.fillGaps(snappedVertex)
+        if not self.doIgnoreTool:
+            snappedVertex = snapResult[0][0]
+            self.fillGaps(snappedVertex)
+
         self.tool.clear()
 
     def fillGaps(self, snappedVertex = None):
@@ -127,7 +137,7 @@ class DtFillGap():
 
                 if thisRing != None:
                     newFeat = dtutils.dtCreateFeature(layer)
-                    layer.beginEditCommand(QtCore.QCoreApplication.translate("digitizingtools", "Fill gap"))
+                    layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Fill gap"))
 
                     if self.iface.openFeatureForm(layer,  newFeat,  True):
                         newFeat.setGeometry(thisRing)
@@ -141,7 +151,7 @@ class DtFillGap():
                         "The selected gap is not closed.") )
             else:
                 newFeat = dtutils.dtCreateFeature(layer)
-                layer.beginEditCommand(QtCore.QCoreApplication.translate("digitizingtools", "Fill gaps"))
+                layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Fill gaps"))
 
                 if self.iface.openFeatureForm(layer,  newFeat):
                     for aRing in rings:

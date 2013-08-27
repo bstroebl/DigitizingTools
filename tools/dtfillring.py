@@ -38,6 +38,7 @@ class DtFillRing():
         toolBar.addAction(self.act_fillRing)
         self.enable()
         self.tool = DtSelectVertexTool(self.canvas)
+        self.doIgnoreTool = False
 
     def deactivate(self,  thisTool):
         self.tool.clear()
@@ -54,60 +55,67 @@ class DtFillRing():
         title = QtCore.QCoreApplication.translate("digitizingtools", "Fill ring")
         layer = self.iface.activeLayer()
 
+        self.canvas.setMapTool(self.tool)
+        #Connect to the DtSelectVertexTool
+        self.doIgnoreTool = False
+        try:
+            self.tool.vertexFound.disconnect(self.vertexSnapped)
+            # disconnect if it was already connectedd, so slot gets called only once!
+        except:
+            pass
+        self.tool.vertexFound.connect(self.vertexSnapped)
+        self.act_fillRing.setChecked(True)
+
         if layer.selectedFeatureCount() > 0:
             reply = QtGui.QMessageBox.question(None, title,  QtCore.QCoreApplication.translate("digitizingtools",
                 "Fill all rings in all selected polygons?"),  QtGui.QMessageBox.Yes | QtGui.QMessageBox.No | QtGui.QMessageBox.Cancel)
 
             if reply == QtGui.QMessageBox.Yes:
                 self.fillRings(layer.selectedFeaturesIds())
-                return None
+                self.doIgnoreTool = True
             elif reply == QtGui.QMessageBox.No:
                 layer.removeSelection()
                 self.canvas.refresh()
             else:
-                return None
-
-        self.canvas.setMapTool(self.tool)
-        #Connect to the DtSelectVertexTool
-        self.tool.vertexFound.connect(self.vertexSnapped)
+                self.doIgnoreTool = True
 
     def vertexSnapped(self,  snapResult):
-        snappedVertex = snapResult[0][0]
-        snappedFid = snapResult[2][0]
-        layer = self.iface.activeLayer()
-        thisRing = None
-        feat = dtutils.dtGetFeatureForId(layer,  snappedFid)
+        if not self.doIgnoreTool:
+            snappedVertex = snapResult[0][0]
+            snappedFid = snapResult[2][0]
+            layer = self.iface.activeLayer()
+            thisRing = None
+            feat = dtutils.dtGetFeatureForId(layer,  snappedFid)
 
-        if feat != None:
-            geom = feat.geometry()
-            rings = dtutils.dtExtractRings(geom)
+            if feat != None:
+                geom = feat.geometry()
+                rings = dtutils.dtExtractRings(geom)
 
-            for aRing in rings:
-                for aPoint in dtutils.dtExtractPoints(aRing):
-                    if aPoint.x() == snappedVertex.x() and aPoint.y() == snappedVertex.y():
-                        thisRing = aRing
-                        break
+                for aRing in rings:
+                    for aPoint in dtutils.dtExtractPoints(aRing):
+                        if aPoint.x() == snappedVertex.x() and aPoint.y() == snappedVertex.y():
+                            thisRing = aRing
+                            break
 
-            if thisRing != None:
-                newFeat = dtutils.dtCreateFeature(layer)
-                layer.beginEditCommand(QtCore.QCoreApplication.translate("digitizingtools", "Fill ring"))
+                if thisRing != None:
+                    newFeat = dtutils.dtCreateFeature(layer)
+                    layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Fill ring"))
 
-                if self.iface.openFeatureForm(layer,  newFeat,  True):
-                    # let user edit attributes
-                    newFeat.setGeometry(thisRing)
-                    layer.addFeature(newFeat)
-                    layer.endEditCommand()
-                    self.canvas.refresh()
-                else:
-                    layer.destroyEditCommand()
+                    if self.iface.openFeatureForm(layer,  newFeat,  True):
+                        # let user edit attributes
+                        newFeat.setGeometry(thisRing)
+                        layer.addFeature(newFeat)
+                        layer.endEditCommand()
+                        self.canvas.refresh()
+                    else:
+                        layer.destroyEditCommand()
 
         self.tool.clear()
-        return None
 
     def fillRings(self,  forFids):
         layer = self.iface.activeLayer()
         newFeat = dtutils.dtCreateFeature(layer)
-        layer.beginEditCommand(QtCore.QCoreApplication.translate("digitizingtools", "Fill rings"))
+        layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Fill rings"))
 
         if self.iface.openFeatureForm(layer,  newFeat):
             for fid in forFids:
