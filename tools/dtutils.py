@@ -145,6 +145,11 @@ def dtGetManySelMessage(layer):
     manySelMsg += layer.name()
     return manySelMsg
 
+def dtGetInvalidGeomWarning(layer):
+    invalidGeomMsg = QtCore.QCoreApplication.translate("digitizingtools", "There are invalid geometries in layer ")
+    invalidGeomMsg += layer.name()
+    return invalidGeomMsg
+
 def showSnapSettingsWarning():
     #get the setting for displaySnapWarning
     settings = QtCore.QSettings()

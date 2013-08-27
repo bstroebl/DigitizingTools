@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 15.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   id="svg5692"
+   sodipodi:docname="fillGap.svg"
+   inkscape:version="0.48.3.1 r9886"
+   inkscape:export-filename="/data/dev/python/qgis_plugins/DigitizingTools/tools/icons/fillRing.png"
+   inkscape:export-xdpi="91.838875"
+   inkscape:export-ydpi="91.838875"
+   x="0px"
+   y="0px"
+   width="30"
+   height="30"
+   viewBox="0 0 30 30"
+   enable-background="new 0 0 24 24"
+   xml:space="preserve"><metadata
+   id="metadata29499"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs29497"><linearGradient
+     id="linearGradient30991"><stop
+       style="stop-color:#8cbe8c;stop-opacity:1;"
+       offset="0"
+       id="stop30993" /><stop
+       id="stop30999"
+       offset="1"
+       style="stop-color:#bfdabf;stop-opacity:0.49803922;" /></linearGradient><linearGradient
+     inkscape:collect="always"
+     xlink:href="#linearGradient2983"
+     id="linearGradient2989"
+     x1="4.5"
+     y1="3.5"
+     x2="6.5"
+     y2="10.5"
+     gradientUnits="userSpaceOnUse" /><linearGradient
+     id="linearGradient2983"><stop
+       id="stop30905"
+       offset="0"
+       style="stop-color:#eeeeee;stop-opacity:1;" /><stop
+       style="stop-color:#cfcfcf;stop-opacity:1;"
+       offset="1"
+       id="stop2987" /></linearGradient><linearGradient
+     y2="5"
+     x2="4"
+     y1="8.5"
+     x1="10.5"
+     gradientUnits="userSpaceOnUse"
+     id="linearGradient9261"
+     xlink:href="#linearGradient30849"
+     inkscape:collect="always"
+     gradientTransform="matrix(1.999995,0,0,1.999995,0.44203719,-15.919801)" /><linearGradient
+     id="linearGradient30849"><stop
+       style="stop-color:#8cbe8c;stop-opacity:1;"
+       offset="0"
+       id="stop30851" /><stop
+       style="stop-color:#a1daa1;stop-opacity:1;"
+       offset="1"
+       id="stop30853" /></linearGradient><linearGradient
+     y2="5"
+     x2="4"
+     y1="8.5"
+     x1="10.5"
+     gradientUnits="userSpaceOnUse"
+     id="linearGradient9261-6"
+     xlink:href="#linearGradient30849-5"
+     inkscape:collect="always"
+     gradientTransform="matrix(1.999995,0,0,1.999995,0.44203719,-15.919801)" /><linearGradient
+     id="linearGradient30849-5"><stop
+       style="stop-color:#eeeeee;stop-opacity:1;"
+       offset="0"
+       id="stop30851-6" /><stop
+       style="stop-color:#cfcfcc;stop-opacity:1;"
+       offset="1"
+       id="stop30853-5" /></linearGradient><linearGradient
+     y2="5"
+     x2="4"
+     y1="8.5"
+     x1="10.5"
+     gradientTransform="matrix(1.0343407,0,0,1.0343407,0.85402317,0.46125142)"
+     gradientUnits="userSpaceOnUse"
+     id="linearGradient37797-1"
+     xlink:href="#linearGradient30849-5-1"
+     inkscape:collect="always" /><linearGradient
+     id="linearGradient30849-5-1"><stop
+       style="stop-color:#8cbe8c;stop-opacity:1;"
+       offset="0"
+       id="stop30851-6-2" /><stop
+       style="stop-color:#bfdabf;stop-opacity:1;"
+       offset="1"
+       id="stop30853-5-0" /></linearGradient><linearGradient
+     inkscape:collect="always"
+     xlink:href="#linearGradient30849-5-1"
+     id="linearGradient38127"
+     gradientUnits="userSpaceOnUse"
+     gradientTransform="matrix(1.2072936,0,0,1.2072936,10.327363,-0.74615106)"
+     x1="5.387434"
+     y1="7.0743804"
+     x2="4.9686885"
+     y2="5.800221" /><linearGradient
+     inkscape:collect="always"
+     xlink:href="#linearGradient30849-5"
+     id="linearGradient38130"
+     gradientUnits="userSpaceOnUse"
+     gradientTransform="matrix(1.0343407,0,0,1.0343407,3.5327309,3.2220408)"
+     x1="20.036903"
+     y1="7.2710176"
+     x2="15.847389"
+     y2="3.8693364" /><linearGradient
+     inkscape:collect="always"
+     xlink:href="#linearGradient30849-5-4"
+     id="linearGradient38130-7"
+     gradientUnits="userSpaceOnUse"
+     gradientTransform="matrix(1.0343407,0,0,1.0343407,3.5327309,3.2220408)"
+     x1="10.5"
+     y1="8.5"
+     x2="4"
+     y2="5" /><linearGradient
+     id="linearGradient30849-5-4"><stop
+       style="stop-color:#eeeeee;stop-opacity:1;"
+       offset="0"
+       id="stop30851-6-6" /><stop
+       style="stop-color:#cfcfcc;stop-opacity:1;"
+       offset="1"
+       id="stop30853-5-3" /></linearGradient><linearGradient
+     y2="5"
+     x2="4"
+     y1="7.7134514"
+     x1="7.7470794"
+     gradientTransform="matrix(1.0343407,0,0,1.0343407,4.6350184,2.2200811)"
+     gradientUnits="userSpaceOnUse"
+     id="linearGradient38147"
+     xlink:href="#linearGradient30849-5-4"
+     inkscape:collect="always" /><linearGradient
+     y2="5"
+     x2="4"
+     y1="8.5"
+     x1="10.5"
+     gradientTransform="matrix(1.0343407,0,0,1.0343407,0.85402317,0.46125142)"
+     gradientUnits="userSpaceOnUse"
+     id="linearGradient37797"
+     xlink:href="#linearGradient30849-5-45"
+     inkscape:collect="always" /><linearGradient
+     id="linearGradient30849-5-45"><stop
+       style="stop-color:#eeeeee;stop-opacity:1;"
+       offset="0"
+       id="stop30851-6-8" /><stop
+       style="stop-color:#cfcfcc;stop-opacity:1;"
+       offset="1"
+       id="stop30853-5-6" /></linearGradient><linearGradient
+     y2="5"
+     x2="4"
+     y1="8.5"
+     x1="10.5"
+     gradientTransform="matrix(1.0343407,0,0,1.0343407,4.584171,2.5251656)"
+     gradientUnits="userSpaceOnUse"
+     id="linearGradient38294"
+     xlink:href="#linearGradient30849-5-45"
+     inkscape:collect="always" /></defs><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1920"
+   inkscape:window-height="1030"
+   id="namedview29495"
+   showgrid="false"
+   inkscape:zoom="19.666667"
+   inkscape:cx="-2.1052245"
+   inkscape:cy="20.572424"
+   inkscape:window-x="0"
+   inkscape:window-y="27"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="svg5692" />
+<path
+   inkscape:export-ydpi="90"
+   inkscape:export-xdpi="90"
+   inkscape:export-filename="e:\Program Files\QGIS-Dev\themes\gis\path3420.png"
+   style="fill:url(#linearGradient38130);fill-opacity:1;fill-rule:evenodd;stroke:#555753;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;enable-background:new"
+   d="m 24.530797,4.7166994 c 2.07598,0.7227163 2.730393,3.0849796 2.178409,5.6547536 -0.880061,4.796147 -2.529883,3.230684 -6.61662,1.600538 -1.913374,-0.76322 -4.083272,-0.174935 -5.815597,-0.09289 -4.3805417,0.132987 6.119625,-1.724224 4.42036,-4.4913605 -2.048268,-3.3354632 3.714376,-2.1087289 5.833448,-2.6710451 z"
+   id="path3112"
+   sodipodi:nodetypes="ccscsc"
+   inkscape:connector-curvature="0" /><g
+   id="layer8"
+   inkscape:groupmode="layer"
+   inkscape:label="main"
+   transform="translate(0,6)">
+	<linearGradient
+   id="path6995-2_1_"
+   gradientUnits="userSpaceOnUse"
+   x1="3.0864"
+   y1="14.0254"
+   x2="20.911501"
+   y2="10.8823">
+		<stop
+   offset="0"
+   style="stop-color:#C8E6FA"
+   id="stop29453" />
+		<stop
+   offset="0.2857"
+   style="stop-color:#B7DDF6"
+   id="stop29455" />
+		<stop
+   offset="0.8515"
+   style="stop-color:#8AC7EB"
+   id="stop29457" />
+		<stop
+   offset="1"
+   style="stop-color:#7DC1E8"
+   id="stop29459" />
+	</linearGradient>
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+</g>
+
+<g
+   id="g29490"
+   transform="translate(2.6787077,2.7607894)">
+	<path
+   id="rect2730"
+   inkscape:export-xdpi="120"
+   inkscape:export-ydpi="120"
+   d="m 15.012,13 h 6.977 C 23.1,13 24,13.9 24,15.012 v 6.977 C 24,23.1 23.1,24 21.988,24 H 15.011 C 13.9,24 13,23.1 13,21.988 V 15.011 C 13,13.9 13.9,13 15.012,13 z"
+   inkscape:connector-curvature="0"
+   style="fill:#c4a000" />
+	<path
+   id="rect3812"
+   d="m 18,14 v 2.062 c -0.537,0.111 -1.024,0.383 -1.375,0.781 l -1.781,-1.031 -0.5,0.875 1.781,1.031 C 16.043,17.967 16,18.225 16,18.5 c 0,0.275 0.043,0.533 0.125,0.781 l -1.781,1.031 0.5,0.875 1.781,-1.031 c 0.353,0.4 0.832,0.67 1.375,0.781 V 23 h 1 v -2.062 c 0.537,-0.111 1.024,-0.383 1.375,-0.781 l 1.781,1.031 0.5,-0.875 -1.781,-1.031 C 20.957,19.033 21,18.775 21,18.5 21,18.225 20.957,17.967 20.875,17.719 l 1.781,-1.031 -0.5,-0.875 -1.781,1.031 C 20.022,16.444 19.543,16.174 19,16.063 V 14 h -1 z m 0.5,3.5 c 0.552,0 1,0.448 1,1 0,0.552 -0.448,1 -1,1 -0.552,0 -1,-0.448 -1,-1 0,-0.552 0.448,-1 1,-1 z"
+   inkscape:connector-curvature="0"
+   style="fill:#fcffff" />
+	<path
+   id="path4133"
+   sodipodi:nodetypes="ccsssc"
+   enable-background="new    "
+   d="m 14,19 9,-0.01 c 0,0 0,0 0,-2 C 23,14 22,14 18.5,14 15,14 14,14 14,17 c 0,2 0,2 0,2 z"
+   inkscape:connector-curvature="0"
+   style="opacity:0.3;fill:#fcffff" />
+</g>
+<path
+   inkscape:export-ydpi="90"
+   inkscape:export-xdpi="90"
+   inkscape:export-filename="e:\Program Files\QGIS-Dev\themes\gis\path3420.png"
+   style="fill:url(#linearGradient38147);fill-opacity:1;fill-rule:evenodd;stroke:#555753;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;enable-background:new"
+   d="M 5.1496604,7.2071487 C 6.0772632,4.4243427 8.8272107,3.0731149 11.898728,3.0304488 14.349783,2.9964015 17.005612,3.9064486 19.103582,4.7778452 8.7352798,12.854281 17.081804,9.2966885 11.406551,13.565734 6.7575729,16.633787 4.1153185,10.310172 5.1496604,7.2071487 z"
+   id="path3112-14"
+   sodipodi:nodetypes="ssccs"
+   inkscape:connector-curvature="0" /><path
+   inkscape:export-ydpi="90"
+   inkscape:export-xdpi="90"
+   inkscape:export-filename="e:\Program Files\QGIS-Dev\themes\gis\path3420.png"
+   style="fill:url(#linearGradient38127);fill-opacity:1;fill-rule:evenodd;stroke:#555753;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;enable-background:new"
+   d="m 13.987574,8.8393455 c 2.090412,-2.855781 2.300789,-3.989567 4.367376,-3.767934 2.35285,0.252333 1.103751,3.458339 0.254105,4.448534 -1.995861,0.377028 -1.719069,1.8714735 -4.186216,2.0987295 -1.495599,0.137764 -1.124215,-0.551734 -0.435265,-2.7793295 z"
+   id="path3112-1"
+   sodipodi:nodetypes="cscsc"
+   inkscape:connector-curvature="0" /></svg>
