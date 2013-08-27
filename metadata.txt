@@ -12,7 +12,7 @@
 name=Digitizing Tools
 qgisMinimumVersion=2.0
 description=Subsumes different tools useful during digitizing sessions
-version=0.2.1
+version=0.2.2
 
 # end of mandatory metadata
 
@@ -29,7 +29,7 @@ tracker=http://hub.qgis.org/projects/digitizingtools
 repository=https://github.com/bstroebl/DigitizingTools
 icon=
 # experimental flag
-experimental=True
+experimental=False
 
 # deprecated flag (applies to the whole plugin, not just a single version
 deprecated=False
