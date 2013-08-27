@@ -35,7 +35,7 @@ class DtMoveSideByDistance():
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
         self.gui = None
-    
+
         # points of the selected segment
         # p1 is always the left point
         self.p1 = None
@@ -47,12 +47,12 @@ class DtMoveSideByDistance():
         #create action
         self.side_mover = QtGui.QAction(QtGui.QIcon(":/ParallelMovePolygonSideByDistance.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Parallel move of polygon side to given distance"),  self.iface.mainWindow())
-        
+
         self.side_mover.triggered.connect(self.run)
         self.iface.currentLayerChanged.connect(self.enable)
         toolBar.addAction(self.side_mover)
         self.enable()
-        
+
         self.tool = DtSelectSegmentTool(self.canvas)
 
     def showDialog(self):
@@ -62,23 +62,23 @@ class DtMoveSideByDistance():
         self.gui.show()
         QObject.connect(self.gui, SIGNAL("unsetTool()"), self.unsetTool)
         QObject.connect(self.gui, SIGNAL("moveSide()"), self.moveSide)
-    
+
     def enableSegmentTool(self):
         self.canvas.setMapTool(self.tool)
         #Connect to the DtSelectVertexTool
         QObject.connect(self.tool, SIGNAL("segmentFound(PyQt_PyObject)"), self.storeSegmentPoints)
-        
+
     def unsetTool(self):
         self.p1 = None
         self.p2 = None
         self.selected_feature = None
-        self.canvas.unsetMapTool(self.tool) 
+        self.canvas.unsetMapTool(self.tool)
 
     def run(self):
         '''Function that does all the real work'''
         layer = self.iface.activeLayer()
         title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon side by distance")
-        
+
         if layer.selectedFeatureCount() == 0:
             QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select one polygon to edit."))
         elif layer.selectedFeatureCount() > 1:
@@ -98,8 +98,8 @@ class DtMoveSideByDistance():
             self.p2 = result[1]
         else:
             self.p1 = result[1]
-            self.p2 = result[0]      
-       
+            self.p2 = result[0]
+
     def enable(self):
         '''Enables/disables the corresponding button.'''
         # Disable the Button by default
@@ -130,11 +130,11 @@ class DtMoveSideByDistance():
             dist = float(self.gui.targetDistance.text())
         except:
             pass
-        
+
         if (dist == 0.0):
             QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Target Distance not valid."))
             return
-        
+
         if self.p1 == None or self.p2 == None:
             QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Polygon side not selected."))
         else:
@@ -145,23 +145,23 @@ class DtMoveSideByDistance():
                 new_geom = createNewGeometry(self.selected_feature.geometry(), self.p1, self.p2, dist)
                 fid = self.selected_feature.id()
                 layer = self.iface.activeLayer()
-                layer.beginEditCommand(QtCore.QCoreApplication.translate("digitizingtools", "Move Side By Distance"))
+                layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Move Side By Distance"))
                 layer.changeGeometry(fid,new_geom)
                 self.canvas.refresh()
                 layer.endEditCommand()
 
 
 def createNewGeometry(geom, p1, p2, new_distance):
-    
+
     pointList = geom.asPolygon()[0][0:-1]
     #Read input polygon geometry as a list of QgsPoints
-    
+
     #indices
     ind = 0
     ind_max = len(pointList)-1
     p1_indx = -1
     p2_indx = -1
-    
+
     #find p1 and p2 in the list
     for tmp_point in pointList:
         if (tmp_point == p1):
@@ -169,31 +169,31 @@ def createNewGeometry(geom, p1, p2, new_distance):
         elif (tmp_point == p2):
             p2_indx = ind
         ind += 1
-    
+
     (p3,p4)=getParallelLinePoints(p1,p2,new_distance)
-    
+
     pointList[p1_indx] = p3
     pointList[p2_indx] = p4
     new_geom = QgsGeometry.fromPolygon( [ pointList ] )
-    
+
     return new_geom
 
 def getParallelLinePoints(p1,  p2, dist):
     """
     This function is adopted/adapted from 'CadTools Plugin', Copyright (C) Stefan Ziegler
-    """    
+    """
     if dist == 0:
         g = (p1, p2)
         return g
 
     dn = ( (p1.x()-p2.x())**2 + (p1.y()-p2.y())**2 )**0.5
     x3 = p1.x() + dist*(p1.y()-p2.y()) / dn
-    y3 = p1.y() - dist*(p1.x()-p2.x()) / dn  
-    p3 = QgsPoint(x3,  y3)       
-    
+    y3 = p1.y() - dist*(p1.x()-p2.x()) / dn
+    p3 = QgsPoint(x3,  y3)
+
     x4 = p2.x() + dist*(p1.y()-p2.y()) / dn
-    y4 = p2.y() - dist*(p1.x()-p2.x()) / dn  
-    p4 = QgsPoint(x4,  y4)       
-    
+    y4 = p2.y() - dist*(p1.x()-p2.x()) / dn
+    p4 = QgsPoint(x4,  y4)
+
     g = (p3,p4)
     return g

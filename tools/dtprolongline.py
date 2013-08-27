@@ -58,7 +58,7 @@ class DtProlongLine():
         lineGeom = self.lineFeature.geometry()
         newGeom = lineGeom.combine(digitizedGeom)
         # step 5 change geometry in layer
-        self.lineLayer.beginEditCommand(QtCore.QCoreApplication.translate("digitizingtools", "Prolong Line"))
+        self.lineLayer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Prolong Line"))
         self.lineFeature.setGeometry(newGeom)
         self.lineLayer.updateFeature(self.lineFeature)
         self.lineLayer.endEditCommand()

@@ -68,7 +68,7 @@ class DtCutWithPolygon():
                 mc = self.iface.mapCanvas()
                 renderer = mc.mapRenderer()
                 projectCRSSrsid = renderer.destinationCrs().srsid()
-                passiveLayer.beginEditCommand(QtCore.QCoreApplication.translate("digitizingtools", "Cut Features"))
+                passiveLayer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Cut Features"))
                 featuresBeingCut = 0
 
                 for feat in cutterLayer.selectedFeatures():
@@ -124,7 +124,7 @@ class DtCutWithPolygon():
                 passiveLayer.removeSelection()
 
                 if len(fidsToDelete) > 0:
-                    passiveLayer.beginEditCommand(QtCore.QCoreApplication.translate("digitizingtools", "Delete Features"))
+                    passiveLayer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Delete Features"))
                     for fid in fidsToDelete:
                         if not passiveLayer.deleteFeature(fid):
                             passiveLayer.destroyEditCommand()

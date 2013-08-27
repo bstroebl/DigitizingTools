@@ -131,6 +131,7 @@ class DtSelectVertexTool(QgsMapTool):
         self.canvas.setCursor(self.cursor)
 
     def deactivate(self):
+        #self.canvas.setCursor(QtCore.Qt.ArrowCursor)
         self.clear()
 
     def clear(self):

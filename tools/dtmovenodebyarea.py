@@ -147,7 +147,7 @@ class DtMoveNodeByArea():
                     new_geom = createNewGeometry(self.selected_feature.geometry(), self.p1, self.p2, new_a)
                     fid = self.selected_feature.id()
                     layer = self.iface.activeLayer()
-                    layer.beginEditCommand(QtCore.QCoreApplication.translate("digitizingtools", "Move Node By Area"))
+                    layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Move Node By Area"))
                     layer.changeGeometry(fid,new_geom)
                     self.canvas.refresh()
                     layer.endEditCommand()

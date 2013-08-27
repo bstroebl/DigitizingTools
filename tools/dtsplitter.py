@@ -72,7 +72,7 @@ class DtSplitWithLine():
                 mc = self.iface.mapCanvas()
                 renderer = mc.mapRenderer()
                 projectCRSSrsid = renderer.destinationCrs().srsid()
-                passiveLayer.beginEditCommand(QtCore.QCoreApplication.translate("digitizingtools", "Split Features"))
+                passiveLayer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Split features"))
                 featuresBeingSplit = 0
                 featuresToAdd = []
 

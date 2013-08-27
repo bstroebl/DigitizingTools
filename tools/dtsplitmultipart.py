@@ -45,7 +45,7 @@ class DtSplitMultiPartTool():
         provider = layer.dataProvider()
         newFeatures = []
         n_of_splitted_features = 0
-        layer.beginEditCommand("Split features")
+        layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Split features"))
 
         for feature in layer.selectedFeatures():
             geom = feature.geometry()
