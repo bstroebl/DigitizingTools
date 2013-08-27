@@ -30,16 +30,28 @@ class DtFillRing():
         self.canvas = self.iface.mapCanvas()
         #create action
         self.act_fillRing = QtGui.QAction(QtGui.QIcon(":/fillRing.png"),
-            QtCore.QCoreApplication.translate("digitizingtools", "Fill ring."),  self.iface.mainWindow())
+            QtCore.QCoreApplication.translate("digitizingtools", "Fill ring"),  self.iface.mainWindow())
+        self.act_fillRing.setCheckable(True)
+        self.canvas.mapToolSet.connect(self.deactivate)
         self.act_fillRing.triggered.connect(self.run)
         self.iface.currentLayerChanged.connect(self.enable)
         toolBar.addAction(self.act_fillRing)
         self.enable()
         self.tool = DtSelectVertexTool(self.canvas)
 
+    def deactivate(self,  thisTool):
+        self.tool.clear()
+
+        if thisTool != self.tool:
+            self.act_fillRing.setChecked(False)
+            try:
+                self.tool.vertexFound.disconnect(self.vertexSnapped)
+            except:
+                pass
+
     def run(self):
         '''Function that does all the real work'''
-        title = QtCore.QCoreApplication.translate("digitizingtools", "Fill Ring")
+        title = QtCore.QCoreApplication.translate("digitizingtools", "Fill ring")
         layer = self.iface.activeLayer()
 
         if layer.selectedFeatureCount() > 0:
@@ -82,7 +94,7 @@ class DtFillRing():
 
                 if self.iface.openFeatureForm(layer,  newFeat,  True):
                     # let user edit attributes
-                    newFeat.setGeometry(aRing)
+                    newFeat.setGeometry(thisRing)
                     layer.addFeature(newFeat)
                     layer.endEditCommand()
                     self.canvas.refresh()
