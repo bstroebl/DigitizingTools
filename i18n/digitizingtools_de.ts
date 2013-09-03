@@ -4,22 +4,22 @@
 <context>
     <name>DigitizingTools</name>
     <message>
-        <location filename="digitizingtools.py" line="73"/>
+        <location filename="digitizingtools.py" line="74"/>
         <source>&amp;DigitizingTools</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="digitizingtools.py" line="74"/>
+        <location filename="digitizingtools.py" line="75"/>
         <source>Help</source>
         <translation>Hilfe</translation>
     </message>
     <message>
-        <location filename="digitizingtools.py" line="75"/>
+        <location filename="digitizingtools.py" line="76"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="digitizingtools.py" line="76"/>
+        <location filename="digitizingtools.py" line="77"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
@@ -319,12 +319,12 @@
         <translation>Das ausgewählte Segment muß auf dem ausgewählten Polygon liegen.</translation>
     </message>
     <message>
-        <location filename="tools/dtfillring.py" line="54"/>
+        <location filename="tools/dtfillring.py" line="55"/>
         <source>Fill ring</source>
         <translation>Ring füllen</translation>
     </message>
     <message>
-        <location filename="tools/dtfillring.py" line="58"/>
+        <location filename="tools/dtfillring.py" line="70"/>
         <source>Fill all rings in all selected polygons?</source>
         <translation>Wollen Sie alle Ringe in allen gewählten Objekten füllen?</translation>
     </message>
@@ -344,24 +344,39 @@
         <translation>Riss fluten</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="60"/>
+        <location filename="tools/dtfillgap.py" line="68"/>
         <source>Please select all features that surround the gap to be filled.</source>
         <translation>Bitte wählen Sie alle Objekte aus, die den zu flutenden Riss umgeben.</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="64"/>
+        <location filename="tools/dtfillgap.py" line="72"/>
         <source>Fill all gaps between selected polygons?</source>
         <translation>Wollen Sie alle Risse zwischen den ausgewählten Objekten fluten?</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="116"/>
+        <location filename="tools/dtfillgap.py" line="126"/>
         <source>There are no gaps between the polygons.</source>
         <translation>Zwischen den ausgewählten Objekten gibt es keine Risse.</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="140"/>
+        <location filename="tools/dtfillgap.py" line="150"/>
         <source>The selected gap is not closed.</source>
         <translation>Der ausgewählte Riss ist nicht geschlossen.</translation>
+    </message>
+    <message>
+        <location filename="tools/dtflipline.py" line="58"/>
+        <source>Flip line</source>
+        <translation>Richtung der Linie umdrehen</translation>
+    </message>
+    <message>
+        <location filename="tools/dtflipline.py" line="72"/>
+        <source>Flip all selected lines?</source>
+        <translation>Wollen Sie die Richtung aller ausgewählten Linien umdrehen?</translation>
+    </message>
+    <message>
+        <location filename="tools/dtflipline.py" line="110"/>
+        <source>An error occured during flipping</source>
+        <translation>Während des Umdrehens trat ein Fehler auf</translation>
     </message>
 </context>
 <context>
@@ -388,7 +403,7 @@
 <context>
     <name>editcommand</name>
     <message>
-        <location filename="tools/dtsplitmultipart.py" line="48"/>
+        <location filename="tools/dtsplitter.py" line="75"/>
         <source>Split features</source>
         <translation>Objekte aufgeteilt</translation>
     </message>
@@ -401,11 +416,6 @@
         <location filename="tools/dtcutter.py" line="127"/>
         <source>Delete Features</source>
         <translation>Objekte gelöscht</translation>
-    </message>
-    <message>
-        <location filename="tools/dtsplitter.py" line="75"/>
-        <source>Split Features</source>
-        <translation>Objekte auftgeteilt</translation>
     </message>
     <message>
         <location filename="tools/dtprolongline.py" line="61"/>
@@ -423,12 +433,12 @@
         <translation>Seite durch Festlegen einer Entfernung verschoben</translation>
     </message>
     <message>
-        <location filename="tools/dtfillring.py" line="93"/>
+        <location filename="tools/dtfillring.py" line="102"/>
         <source>Fill ring</source>
         <translation>Ring gefüllt</translation>
     </message>
     <message>
-        <location filename="tools/dtfillring.py" line="110"/>
+        <location filename="tools/dtfillring.py" line="118"/>
         <source>Fill rings</source>
         <translation>Ringe gefüllt</translation>
     </message>
@@ -438,14 +448,24 @@
         <translation>Seite durch Festlegen einer Zielfläche verschoben</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="130"/>
+        <location filename="tools/dtfillgap.py" line="140"/>
         <source>Fill gap</source>
         <translation>Riss geflutet</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="144"/>
+        <location filename="tools/dtfillgap.py" line="154"/>
         <source>Fill gaps</source>
         <translation>Risse geflutet</translation>
+    </message>
+    <message>
+        <location filename="tools/dtflipline.py" line="94"/>
+        <source>Flip lines</source>
+        <translation>Richtung der Linien umgedreht</translation>
+    </message>
+    <message>
+        <location filename="tools/dtflipline.py" line="92"/>
+        <source>Flip line</source>
+        <translation>Richtung der Linie umgedreht</translation>
     </message>
 </context>
 </TS>
