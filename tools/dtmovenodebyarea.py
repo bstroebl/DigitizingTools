@@ -35,6 +35,7 @@ class DtMoveNodeByArea():
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
         self.gui = None
+        self.multipolygon_detected = False
 
         # Points and Markers
         self.p1 = None
@@ -78,6 +79,8 @@ class DtMoveNodeByArea():
     def run(self):
         '''Function that does all the real work'''
         layer = self.iface.activeLayer()
+        if(layer.dataProvider().geometryType() == 6):
+            self.multipolygon_detected = True
         title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node by area")
 
         if layer.selectedFeatureCount() == 0:
@@ -144,7 +147,7 @@ class DtMoveNodeByArea():
                 if (not touch_p1_p2):
                     QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Selected vertices should be consecutive on the selected polygon."))
                 else:
-                    new_geom = createNewGeometry(self.selected_feature.geometry(), self.p1, self.p2, new_a)
+                    new_geom = createNewGeometry(self.selected_feature.geometry(), self.p1, self.p2, new_a, self.multipolygon_detected)
                     fid = self.selected_feature.id()
                     layer = self.iface.activeLayer()
                     layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Move Node By Area"))
@@ -160,9 +163,13 @@ class DtMoveNodeByArea():
                 QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Vertices not on the selected polygon."))
 
 # p1 is the stable node (red) and p2 is the node to move (blue)
-def createNewGeometry(geom, p1, p2, new_area):
+def createNewGeometry(geom, p1, p2, new_area, multipolygon):
     #Read input polygon geometry as a list of QgsPoints
-    pointList = geom.asPolygon()[0][0:-1]
+    pointList = []
+    if(multipolygon):
+        pointList = geom.asMultiPolygon()[0][0][0:-1]
+    else:
+        pointList = geom.asPolygon()[0][0:-1]
 
     #indices
     ind = 0

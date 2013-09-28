@@ -36,6 +36,7 @@ class DtMoveSideByArea():
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
         self.gui = None
+        self.multipolygon_detected = False
 
         # points of the selected segment
         # p1 is always the left point
@@ -76,6 +77,8 @@ class DtMoveSideByArea():
     def run(self):
         '''Function that does all the real work'''
         layer = self.iface.activeLayer()
+        if(layer.dataProvider().geometryType() == 6):
+            self.multipolygon_detected = True
         title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon side by area")
 
         if layer.selectedFeatureCount() == 0:
@@ -144,9 +147,9 @@ class DtMoveSideByArea():
             else:
                 #Select tool to create new geometry here
                 if self.gui.method == "fixed":
-                    new_geom = moveFixed(self.selected_feature.geometry(), self.p1, self.p2, new_a)
+                    new_geom = moveFixed(self.selected_feature.geometry(), self.p1, self.p2, new_a, self.multipolygon_detected)
                 else:
-                    new_geom = moveVariable(self.selected_feature.geometry(), self.p1, self.p2, new_a)
+                    new_geom = moveVariable(self.selected_feature.geometry(), self.p1, self.p2, new_a, self.multipolygon_detected)
 
                 #Store new geometry on the memory buffer
                 fid = self.selected_feature.id()
@@ -156,9 +159,13 @@ class DtMoveSideByArea():
                 self.canvas.refresh()
                 layer.endEditCommand()
 
-def moveFixed(geom, p1, p2, new_area):
+def moveFixed(geom, p1, p2, new_area, multipolygon):
 
-    pointList = geom.asPolygon()[0][0:-1]
+    pointList = []
+    if(multipolygon):
+        pointList = geom.asMultiPolygon()[0][0][0:-1]
+    else:
+        pointList = geom.asPolygon()[0][0:-1]
     #Read input polygon geometry as a list of QgsPoints
 
     mul = 1.0
@@ -188,9 +195,9 @@ def moveFixed(geom, p1, p2, new_area):
     #Find the initiallizer distance to parallel move
     test_dist1 = area_diff / dist_p1p2
     test_dist2 = (-1.0)*test_dist1
-    test_geom1 = getParallelGeomByDistance(geom, p1, p2, p1_indx, p2_indx, test_dist1)
+    test_geom1 = getParallelGeomByDistance(geom, p1, p2, p1_indx, p2_indx, test_dist1, multipolygon)
     test_area1 = test_geom1.area()
-    test_geom2 = getParallelGeomByDistance(geom, p1, p2, p1_indx, p2_indx, test_dist2)
+    test_geom2 = getParallelGeomByDistance(geom, p1, p2, p1_indx, p2_indx, test_dist2, multipolygon)
     test_area2 = test_geom2.area()
 
     if growing:
@@ -213,7 +220,7 @@ def moveFixed(geom, p1, p2, new_area):
 
     for i in range(1000):
         dist_mid = dist_start + (dist_end - dist_start)/2.0
-        geom_mid = getParallelGeomByDistance(geom, p1, p2, p1_indx, p2_indx, dist_mid)
+        geom_mid = getParallelGeomByDistance(geom, p1, p2, p1_indx, p2_indx, dist_mid, multipolygon)
         area_mid = geom_mid.area()
         if ((math.fabs(area_mid-new_area)) < EPSILON):
             print "wanted area reached"
@@ -226,9 +233,13 @@ def moveFixed(geom, p1, p2, new_area):
 
     return geom_mid
 
-def getParallelGeomByDistance(geom, p1, p2, p1_indx, p2_indx, dist):
+def getParallelGeomByDistance(geom, p1, p2, p1_indx, p2_indx, dist, multipolygon):
 
-    pointList = geom.asPolygon()[0][0:-1]
+    pointList = []
+    if(multipolygon):
+        pointList = geom.asMultiPolygon()[0][0][0:-1]
+    else:
+        pointList = geom.asPolygon()[0][0:-1]
     #Read input polygon geometry as a list of QgsPoints
 
     (p3, p4) = getParallelLinePointsByDistance(p1, p2, dist)
@@ -258,10 +269,14 @@ def getParallelLinePointsByDistance(p1, p2, dist):
     g = (p3,p4)
     return g
 
-def moveVariable(geom, p1, p2, new_area):
+def moveVariable(geom, p1, p2, new_area, multipolygon):
 
     #Read input polygon geometry as a list of QgsPoints
-    pointList = geom.asPolygon()[0][0:-1]
+    pointList = []
+    if(multipolygon):
+        pointList = geom.asMultiPolygon()[0][0][0:-1]
+    else:
+        pointList = geom.asPolygon()[0][0:-1]
 
     #indices
     ind = 0
