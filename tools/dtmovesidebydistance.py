@@ -35,6 +35,7 @@ class DtMoveSideByDistance():
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
         self.gui = None
+        self.multipolygon_detected = False
 
         # points of the selected segment
         # p1 is always the left point
@@ -77,6 +78,8 @@ class DtMoveSideByDistance():
     def run(self):
         '''Function that does all the real work'''
         layer = self.iface.activeLayer()
+        if(layer.dataProvider().geometryType() == 6):
+            self.multipolygon_detected = True
         title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon side by distance")
 
         if layer.selectedFeatureCount() == 0:
@@ -142,7 +145,7 @@ class DtMoveSideByDistance():
             if (not touch_p1_p2):
                 QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Selected segment should be on the selected polygon."))
             else:
-                new_geom = createNewGeometry(self.selected_feature.geometry(), self.p1, self.p2, dist)
+                new_geom = createNewGeometry(self.selected_feature.geometry(), self.p1, self.p2, dist, self.multipolygon_detected)
                 fid = self.selected_feature.id()
                 layer = self.iface.activeLayer()
                 layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Move Side By Distance"))
@@ -151,9 +154,13 @@ class DtMoveSideByDistance():
                 layer.endEditCommand()
 
 
-def createNewGeometry(geom, p1, p2, new_distance):
+def createNewGeometry(geom, p1, p2, new_distance, multipolygon):
 
-    pointList = geom.asPolygon()[0][0:-1]
+    pointList = []
+    if(multipolygon):
+        pointList = geom.asMultiPolygon()[0][0][0:-1]
+    else:
+        pointList = geom.asPolygon()[0][0:-1]
     #Read input polygon geometry as a list of QgsPoints
 
     #indices
