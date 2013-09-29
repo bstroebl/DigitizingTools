@@ -41,6 +41,7 @@ import dtprolongline
 import dtmovenodebyarea
 import dtmovesidebydistance
 import dtmovesidebyarea
+import dtdigitizeroad
 
 class DigitizingTools:
     """Main class for the plugin"""
@@ -96,6 +97,7 @@ class DigitizingTools:
         self.moveNodeByArea = dtmovenodebyarea.DtMoveNodeByArea(self.iface, self.toolBar)
         self.moveSideByDistance = dtmovesidebydistance.DtMoveSideByDistance(self.iface, self.toolBar)
         self.moveSideByArea = dtmovesidebyarea.DtMoveSideByArea(self.iface, self.toolBar)
+        self.digitizeRoad = dtdigitizeroad.DtDigitizeRoad(self.iface, self.toolBar)
 
         self.digitizingtools_about.triggered.connect(self.doAbout)
         #QObject.connect( self.digitizingtools_help, SIGNAL("triggered()"), self.doHelp )
