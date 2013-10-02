@@ -28,51 +28,86 @@ class DtFlipLine():
     def __init__(self, iface,  toolBar):
         # Save reference to the QGIS interface
         self.iface = iface
+        self.iface.currentLayerChanged.connect(self.enable)
         self.canvas = self.iface.mapCanvas()
         self.tool = DtSelectFeatureTool(self.canvas)
-        #create action
+        self.canvas.mapToolSet.connect(self.toolChanged)
+        #create button
+        self.button = QtGui.QToolButton(toolBar)
+        self.button.clicked.connect(self.run)
+        self.button.toggled.connect(self.hasBeenToggled)
+        #create menu
+        self.menu = QtGui.QMenu(toolBar)
+        self.menu.triggered.connect(self.menuTriggered)
+        self.button.setMenu(self.menu)
+        self.button.setPopupMode(QtGui.QToolButton.MenuButtonPopup)
+        # create actions
         self.act_flipLine = QtGui.QAction(QtGui.QIcon(":/flipLine.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Flip line"),  self.iface.mainWindow())
-        self.act_flipLine.setCheckable(True)
-        self.canvas.mapToolSet.connect(self.toolChanged)
-        self.act_flipLine.triggered.connect(self.run)
-        self.iface.currentLayerChanged.connect(self.enable)
-        toolBar.addAction(self.act_flipLine)
+        self.act_flipLineBatch = QtGui.QAction(QtGui.QIcon(":/flipLineBatch.png"),
+            QtCore.QCoreApplication.translate("digitizingtools", "Flip selected lines"),  self.iface.mainWindow())
+        # add actions to menu
+        self.menu.addAction(self.act_flipLine)
+        self.menu.addAction(self.act_flipLineBatch)
+        # set the interactive action as default action, user needs to click the button to activate it
+        self.button.setIcon(self.act_flipLine.icon())
+        self.button.setCheckable(True)
+        self.batchMode = False
+        # add button to toolBar
+        toolBar.addWidget(self.button)
+        # run the enable slot
         self.enable()
+
+    def menuTriggered(self,  thisAction):
+        if thisAction == self.act_flipLine:
+            self.batchMode = False
+            self.button.setCheckable(True)
+            if not self.button.isChecked():
+                self.button.toggle()
+        else:
+            self.batchMode = True
+            if self.button.isCheckable():
+                if self.button.isChecked():
+                    self.button.toggle()
+                self.button.setCheckable(False)
+
+            self.run(False)
+
+        self.button.setIcon(thisAction.icon())
+
+    def hasBeenToggled(self,  isChecked):
+        try:
+            self.tool.featureSelected.disconnect(self.featureSelectedSlot)
+            # disconnect if it was already connected, so slot gets called only once!
+        except:
+            pass
+
+        if isChecked:
+            self.canvas.setMapTool(self.tool)
+            self.tool.featureSelected.connect(self.featureSelectedSlot)
+        else:
+            self.canvas.unsetMapTool(self.tool)
 
     def toolChanged(self,  thisTool):
         if thisTool != self.tool:
             self.deactivate()
 
     def deactivate(self):
-        self.act_flipLine.setChecked(False)
-        try:
-            self.tool.featureSelected.disconnect(self.featureSelectedSlot)
-        except:
-            pass
+        if self.button.isChecked():
+            self.button.toggle()
 
-    def run(self):
+    def run(self,  isChecked):
         '''Function that does all the real work'''
-        self.title = QtCore.QCoreApplication.translate("digitizingtools", "Flip line")
-        self.canvas.setMapTool(self.tool)
-        layer = self.iface.activeLayer()
-        try:
-            self.tool.featureSelected.disconnect(self.featureSelectedSlot)
-            # disconnect if it was already connectedd, so slot gets called only once!
-        except:
-            pass
 
-        self.act_flipLine.setChecked(True)
-        self.tool.featureSelected.connect(self.featureSelectedSlot)
+        if self.batchMode:
+            layer = self.iface.activeLayer()
 
-        if layer.selectedFeatureCount() > 0:
-            reply = QtGui.QMessageBox.question(None, self.title,  QtCore.QCoreApplication.translate("digitizingtools",
-                "Flip all selected lines?"),  QtGui.QMessageBox.Yes | QtGui.QMessageBox.No | QtGui.QMessageBox.Cancel)
-
-            if reply == QtGui.QMessageBox.Yes:
+            if layer.selectedFeatureCount() > 0:
                 self.flipLines()
-            elif reply == QtGui.QMessageBox.No:
-                layer.removeSelection()
+        else:
+            if not isChecked:
+                self.button.toggle()
+
 
     def featureSelectedSlot(self,  fids):
         if len(fids) >0:
@@ -102,8 +137,8 @@ class DtFlipLine():
                 hadError = True
 
         if hadError:
-            QtGui.QMessageBox.warning(None, self.title,  QtCore.QCoreApplication.translate("digitizingtools",
-                "An error occured during flipping"))
+            self.iface.messageBar().pushMessage(QtCore.QCoreApplication.translate("digitizingtools",
+                "An error occured during flipping", level=QgsMessageBar.CRITICAL))
             layer.destroyEditCommand()
         else:
             layer.endEditCommand()
@@ -111,8 +146,8 @@ class DtFlipLine():
 
     def enable(self):
         ''''Enables/disables the corresponding button.'''
-        # Disable the Button by default
-        self.act_flipLine.setEnabled(False)
+        # Disable the Button by defaultself.button.setCheckable(thisAction == self.act_flipLine)
+        self.button.setEnabled(False)
         layer = self.iface.activeLayer()
 
         if layer <> None:
@@ -123,7 +158,7 @@ class DtFlipLine():
                     if not layer.isEditable():
                         self.deactivate()
 
-                    self.act_flipLine.setEnabled(layer.isEditable())
+                    self.button.setEnabled(layer.isEditable())
 
                     try:
                         layer.editingStarted.disconnect(self.enable) # disconnect, will be reconnected

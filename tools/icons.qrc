@@ -6,6 +6,7 @@
     <file alias="fillGap.png">icons/fillGap.png</file>
     <file alias="multi_to_single.png">icons/multi_to_single.png</file>
     <file alias="flipLine.png">icons/flipLine.png</file>
+    <file alias="flipLineBatch.png">icons/flipLineBatch.png</file>
     <file alias="prolongline.png">icons/prolongline.png</file>
     <file alias="MovePolygonNodeByArea.png">icons/MovePolygonNodeByArea.png</file>
     <file alias="ParallelMovePolygonSideByArea.png">icons/ParallelMovePolygonSideByArea.png</file>

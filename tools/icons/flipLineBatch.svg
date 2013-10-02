@@ -15,8 +15,8 @@
    id="svg5692"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="flipLine.svg"
-   inkscape:export-filename="/data/dev/python/qgis_plugins/DigitizingTools/tools/icons/flipLine.png"
+   sodipodi:docname="flipLineBatch.svg"
+   inkscape:export-filename="/data/dev/python/qgis_plugins/DigitizingTools/tools/icons/flipLineBatch.png"
    inkscape:export-xdpi="225"
    inkscape:export-ydpi="225"
    style="display:inline">
@@ -438,16 +438,6 @@
        id="linearGradient22723"
        xlink:href="#linearGradient3657-1"
        inkscape:collect="always" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3657-1"
-       id="linearGradient22759"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(-0.22135857,0.1870212,-0.1870212,-0.22135857,20.881008,26.680039)"
-       x1="62.513836"
-       y1="36.061237"
-       x2="15.984863"
-       y2="20.60858" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -457,8 +447,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="16.082031"
-     inkscape:cx="-12.665038"
-     inkscape:cy="6.5930001"
+     inkscape:cx="10.702772"
+     inkscape:cy="6.0955505"
      inkscape:current-layer="layer4"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -540,6 +530,15 @@
      inkscape:label="1"
      style="display:inline"
      transform="translate(0,-16)">
+    <rect
+       style="color:#000000;fill:#fce94f;stroke:#c4a000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:1, 2;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect2902"
+       width="12"
+       height="12"
+       x="2"
+       y="18"
+       rx="0.85714281"
+       ry="0.85714281" />
     <path
        sodipodi:type="star"
        style="fill:#8cbf8c;fill-opacity:1;stroke:#8cbf8c;stroke-width:0.1;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline"
@@ -642,7 +641,7 @@
     <g
        style="display:inline"
        id="g5693"
-       transform="matrix(1.1666667,0,0,1.1666667,-1.1000001,-4.5833328)">
+       transform="matrix(1.1666667,0,0,1.1666667,-1.0999999,-4.5833338)">
       <g
          transform="matrix(0.46700923,0,0,0.46700923,15.505652,20.997431)"
          id="g5369">
