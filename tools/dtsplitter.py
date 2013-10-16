@@ -131,8 +131,7 @@ class DtSplitWithLine():
         if layer <> None:
             ## Only for vector layers.
             if layer.type() == 0:
-                # not for point layers
-                if layer.geometryType() != 0:
+                if layer.geometryType() > 0 and layer.geometryType() < 3:
                     # enable if editable
                     self.act_splitter.setEnabled(layer.isEditable())
                     try:
