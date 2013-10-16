@@ -31,7 +31,7 @@ class DtSplitMultiPartTool(DtDualTool):
     def __init__(self, iface,  toolBar):
         DtDualTool.__init__(self,  iface,  toolBar,
             QtGui.QIcon(":/MultiToSingle.png"),
-            QtCore.QCoreApplication.translate("digitizingtools", "Split multi-part feature to single part"),
+            QtCore.QCoreApplication.translate("digitizingtools", "Split multi-part feature to single part (interactive mode)"),
             QtGui.QIcon(":/MultiToSingleBatch.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Split selected multi-part features to single part"))
 

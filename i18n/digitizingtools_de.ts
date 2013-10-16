@@ -359,24 +359,24 @@
         <translation>Der ausgewählte Riss ist nicht geschlossen.</translation>
     </message>
     <message>
-        <location filename="tools/dtflipline.py" line="45"/>
-        <source>Flip line</source>
-        <translation>Richtung der Linie umdrehen</translation>
-    </message>
-    <message>
-        <location filename="tools/dtsplitmultipart.py" line="32"/>
-        <source>Split multi-part feature to single part</source>
-        <translation>Multigeometrie in Einfachgeometrie aufteilen</translation>
-    </message>
-    <message>
         <location filename="tools/dtsplitmultipart.py" line="32"/>
         <source>Split selected multi-part features to single part</source>
         <translation>ausgewählte Multigeometrien in Einfachgeometrien aufteilen</translation>
     </message>
     <message>
-        <location filename="tools/dtflipline.py" line="47"/>
+        <location filename="tools/dtflipline.py" line="28"/>
         <source>Flip selected lines</source>
-        <translation type="unfinished"></translation>
+        <translation>Richtung der ausgewählten Linien umdrehen</translation>
+    </message>
+    <message>
+        <location filename="tools/dtsplitmultipart.py" line="32"/>
+        <source>Split multi-part feature to single part (interactive mode)</source>
+        <translation>Multigeometrie in Einfachgeometrien aufteilen (interaktiv)</translation>
+    </message>
+    <message>
+        <location filename="tools/dtflipline.py" line="28"/>
+        <source>Flip line (interactive mode)</source>
+        <translation>Richtung der Linie umdrehen (interaktiv)</translation>
     </message>
 </context>
 <context>
@@ -458,12 +458,12 @@
         <translation>Risse geflutet</translation>
     </message>
     <message>
-        <location filename="tools/dtflipline.py" line="124"/>
+        <location filename="tools/dtflipline.py" line="43"/>
         <source>Flip lines</source>
         <translation>Richtung der Linien umgedreht</translation>
     </message>
     <message>
-        <location filename="tools/dtflipline.py" line="122"/>
+        <location filename="tools/dtflipline.py" line="41"/>
         <source>Flip line</source>
         <translation>Richtung der Linie umgedreht</translation>
     </message>
