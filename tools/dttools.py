@@ -93,11 +93,14 @@ class DtDualTool():
         self.button.setPopupMode(QtGui.QToolButton.MenuButtonPopup)
         # create actions
         self.act = QtGui.QAction(icon, tooltip,  self.iface.mainWindow())
+        self.act.setToolTip(tooltip)
         self.act_batch = QtGui.QAction(iconBatch, tooltipBatch,  self.iface.mainWindow())
+        self.act_batch.setToolTip(tooltipBatch)
         self.menu.addAction(self.act)
         self.menu.addAction(self.act_batch)
         # set the interactive action as default action, user needs to click the button to activate it
         self.button.setIcon(self.act.icon())
+        self.button.setToolTip(self.act.toolTip())
         self.button.setCheckable(True)
         self.batchMode = False
         # add button to toolBar
@@ -122,6 +125,7 @@ class DtDualTool():
             self.runSlot(False)
 
         self.button.setIcon(thisAction.icon())
+        self.button.setToolTip(thisAction.toolTip())
 
     def hasBeenToggled(self,  isChecked):
         try:
