@@ -4,7 +4,8 @@
     <file alias="cutter.png">icons/cutter.png</file>
     <file alias="fillRing.png">icons/fillRing.png</file>
     <file alias="fillGap.png">icons/fillGap.png</file>
-    <file alias="multi_to_single.png">icons/multi_to_single.png</file>
+    <file alias="MultiToSingle.png">icons/MultiToSingle.png</file>
+    <file alias="MultiToSingleBatch.png">icons/MultiToSingleBatch.png</file>
     <file alias="flipLine.png">icons/flipLine.png</file>
     <file alias="flipLineBatch.png">icons/flipLineBatch.png</file>
     <file alias="prolongline.png">icons/prolongline.png</file>

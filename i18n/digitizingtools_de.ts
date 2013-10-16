@@ -134,11 +134,6 @@
 <context>
     <name>digitizingtools</name>
     <message>
-        <location filename="tools/dtsplitmultipart.py" line="36"/>
-        <source>Split multi part to single part</source>
-        <translation>Multigeometrien in Einfachgeometrien aufteilen</translation>
-    </message>
-    <message>
         <location filename="tools/dtcutter.py" line="31"/>
         <source>Cut with polygon from another layer</source>
         <translation>Mit einem Polygon eines anderen Layers ausstanzen</translation>
@@ -249,72 +244,72 @@
         <translation>Linie verlängern</translation>
     </message>
     <message>
-        <location filename="tools/dtmovenodebyarea.py" line="47"/>
+        <location filename="tools/dtmovenodebyarea.py" line="48"/>
         <source>Move polygon node (along a side) to achieve target area</source>
         <translation>Stützpunkt (entlang einer Seite) so verschieben, dass eine Zielfläche erreicht wird</translation>
     </message>
     <message>
-        <location filename="tools/dtmovenodebyarea.py" line="81"/>
+        <location filename="tools/dtmovenodebyarea.py" line="84"/>
         <source>Move polygon node by area</source>
         <translation>Stützpunkt durch Festlegen einer Zielfläche verschieben</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebyarea.py" line="82"/>
+        <location filename="tools/dtmovesidebyarea.py" line="85"/>
         <source>Please select one polygon to edit.</source>
         <translation>Bitte wählen Sie das Polygon aus, das bearbeitet werden soll.</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebyarea.py" line="84"/>
+        <location filename="tools/dtmovesidebyarea.py" line="87"/>
         <source>Please select only one polygon to edit.</source>
         <translation>Bitte wählen Sie nur ein Polygon aus.</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebyarea.py" line="143"/>
+        <location filename="tools/dtmovesidebyarea.py" line="146"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebyarea.py" line="135"/>
+        <location filename="tools/dtmovesidebyarea.py" line="138"/>
         <source>Target Area not valid.</source>
         <translation>Die Zielfläche ist ungültig.</translation>
     </message>
     <message>
-        <location filename="tools/dtmovenodebyarea.py" line="138"/>
+        <location filename="tools/dtmovenodebyarea.py" line="141"/>
         <source>Not enough vertices selected.</source>
         <translation>Sie haben nicht genug Knoten ausgewählt.</translation>
     </message>
     <message>
-        <location filename="tools/dtmovenodebyarea.py" line="145"/>
+        <location filename="tools/dtmovenodebyarea.py" line="148"/>
         <source>Selected vertices should be consecutive on the selected polygon.</source>
         <translation>Die ausgewählten Knoten müssen einander benachbart sein.</translation>
     </message>
     <message>
-        <location filename="tools/dtmovenodebyarea.py" line="160"/>
+        <location filename="tools/dtmovenodebyarea.py" line="163"/>
         <source>Vertices not on the selected polygon.</source>
         <translation>Die ausgewählten Knoten gehören nicht zum ausgewählten Polygon.</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebydistance.py" line="48"/>
+        <location filename="tools/dtmovesidebydistance.py" line="49"/>
         <source>Parallel move of polygon side to given distance</source>
         <translation>Paralleles Verschieben einer Seite durch Festlegen einer Entfernung</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebydistance.py" line="80"/>
+        <location filename="tools/dtmovesidebydistance.py" line="83"/>
         <source>Move polygon side by distance</source>
         <translation>Verschieben einer Seite durch Festlegen einer Entfernung</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebydistance.py" line="135"/>
+        <location filename="tools/dtmovesidebydistance.py" line="138"/>
         <source>Target Distance not valid.</source>
         <translation>Die Entfernung ist ungültig.</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebyarea.py" line="139"/>
+        <location filename="tools/dtmovesidebyarea.py" line="142"/>
         <source>Polygon side not selected.</source>
         <translation>Sie haben keine Polygonseite ausgewählt.</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebyarea.py" line="143"/>
+        <location filename="tools/dtmovesidebyarea.py" line="146"/>
         <source>Selected segment should be on the selected polygon.</source>
         <translation>Das ausgewählte Segment muß auf dem ausgewählten Polygon liegen.</translation>
     </message>
@@ -329,12 +324,12 @@
         <translation>Wollen Sie alle Ringe in allen gewählten Objekten füllen?</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebyarea.py" line="48"/>
+        <location filename="tools/dtmovesidebyarea.py" line="49"/>
         <source>Parallel move of polygon side to target area</source>
         <translation>Paralleles Verschieben einer Seite durch Festlegen einer Zielfläche</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebyarea.py" line="79"/>
+        <location filename="tools/dtmovesidebyarea.py" line="82"/>
         <source>Move polygon side by area</source>
         <translation>Verschieben einer Seite durch Festlegen einer Zielfläche</translation>
     </message>
@@ -364,19 +359,24 @@
         <translation>Der ausgewählte Riss ist nicht geschlossen.</translation>
     </message>
     <message>
-        <location filename="tools/dtflipline.py" line="58"/>
+        <location filename="tools/dtflipline.py" line="45"/>
         <source>Flip line</source>
         <translation>Richtung der Linie umdrehen</translation>
     </message>
     <message>
-        <location filename="tools/dtflipline.py" line="72"/>
-        <source>Flip all selected lines?</source>
-        <translation>Wollen Sie die Richtung aller ausgewählten Linien umdrehen?</translation>
+        <location filename="tools/dtsplitmultipart.py" line="32"/>
+        <source>Split multi-part feature to single part</source>
+        <translation>Multigeometrie in Einfachgeometrie aufteilen</translation>
     </message>
     <message>
-        <location filename="tools/dtflipline.py" line="110"/>
-        <source>An error occured during flipping</source>
-        <translation>Während des Umdrehens trat ein Fehler auf</translation>
+        <location filename="tools/dtsplitmultipart.py" line="32"/>
+        <source>Split selected multi-part features to single part</source>
+        <translation>ausgewählte Multigeometrien in Einfachgeometrien aufteilen</translation>
+    </message>
+    <message>
+        <location filename="tools/dtflipline.py" line="47"/>
+        <source>Flip selected lines</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -405,7 +405,7 @@
     <message>
         <location filename="tools/dtsplitter.py" line="75"/>
         <source>Split features</source>
-        <translation>Objekte aufgeteilt</translation>
+        <translation>Multigeoemtrien aufgeteilt</translation>
     </message>
     <message>
         <location filename="tools/dtcutter.py" line="71"/>
@@ -423,12 +423,12 @@
         <translation>Linie verlängert</translation>
     </message>
     <message>
-        <location filename="tools/dtmovenodebyarea.py" line="150"/>
+        <location filename="tools/dtmovenodebyarea.py" line="153"/>
         <source>Move Node By Area</source>
         <translation>Stützpunkt durch Festlegen einer Zielfläche verschoben</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebydistance.py" line="148"/>
+        <location filename="tools/dtmovesidebydistance.py" line="151"/>
         <source>Move Side By Distance</source>
         <translation>Seite durch Festlegen einer Entfernung verschoben</translation>
     </message>
@@ -443,7 +443,7 @@
         <translation>Ringe gefüllt</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebyarea.py" line="154"/>
+        <location filename="tools/dtmovesidebyarea.py" line="157"/>
         <source>Move Side By Area</source>
         <translation>Seite durch Festlegen einer Zielfläche verschoben</translation>
     </message>
@@ -458,14 +458,19 @@
         <translation>Risse geflutet</translation>
     </message>
     <message>
-        <location filename="tools/dtflipline.py" line="94"/>
+        <location filename="tools/dtflipline.py" line="124"/>
         <source>Flip lines</source>
         <translation>Richtung der Linien umgedreht</translation>
     </message>
     <message>
-        <location filename="tools/dtflipline.py" line="92"/>
+        <location filename="tools/dtflipline.py" line="122"/>
         <source>Flip line</source>
         <translation>Richtung der Linie umgedreht</translation>
+    </message>
+    <message>
+        <location filename="tools/dtsplitmultipart.py" line="43"/>
+        <source>Split feature</source>
+        <translation>Multigeometrie aufgeteilt</translation>
     </message>
 </context>
 </TS>
