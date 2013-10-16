@@ -75,7 +75,7 @@ class DtDualTool():
     tooltipBatch [str] for batch mode
     geometryTypes [array:integer] 0=point, 1=line, 2=polygon'''
 
-    def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [1, 2, 3]):
+    def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [0,  1, 2]):
         # Save reference to the QGIS interface
         self.iface = iface
         self.iface.currentLayerChanged.connect(self.enable)
