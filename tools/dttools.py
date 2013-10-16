@@ -34,14 +34,14 @@ class DtTool():
         self.act = QtGui.QAction(icon, tooltip,  self.iface.mainWindow())
         self.act.setCheckable(True)
         self.canvas.mapToolSet.connect(self.deactivate)
-        self.act.triggered.connect(self.run)
+        self.act.triggered.connect(self.process)
         self.iface.currentLayerChanged.connect(self.enable)
         toolBar.addAction(self.act)
         self.geometryTypes = geometryTypes
         self.enable()
 
-    def run(self):
-        raise NotImplementedError("Should have implemented run")
+    def process(self):
+        raise NotImplementedError("Should have implemented process")
 
     def enable(self):
         '''Enables/disables the corresponding button.'''
@@ -84,7 +84,7 @@ class DtDualTool():
         self.canvas.mapToolSet.connect(self.toolChanged)
         #create button
         self.button = QtGui.QToolButton(toolBar)
-        self.button.clicked.connect(self.run)
+        self.button.clicked.connect(self.runSlot)
         self.button.toggled.connect(self.hasBeenToggled)
         #create menu
         self.menu = QtGui.QMenu(toolBar)
@@ -119,7 +119,7 @@ class DtDualTool():
                     self.button.toggle()
                 self.button.setCheckable(False)
 
-            self.run(False)
+            self.runSlot(False)
 
         self.button.setIcon(thisAction.icon())
 
@@ -148,7 +148,7 @@ class DtDualTool():
         if len(fids) >0:
             self.process()
 
-    def run(self,  isChecked):
+    def runSlot(self,  isChecked):
         if self.batchMode:
             layer = self.iface.activeLayer()
 
