@@ -18,77 +18,35 @@ the Free Software Foundation; either version 2 of the License, or
 """
 from PyQt4 import QtCore,  QtGui
 from qgis.core import *
+from qgis.gui import *
 import icons_rc
 import dtutils
-from dtselectvertextool import DtSelectVertexTool
+from dttools import DtDualToolSelectVertex
 
-class DtFillGap():
+class DtFillGap(DtDualToolSelectVertex):
     '''Fill gaps between selected features of the active layer with new features'''
     def __init__(self, iface,  toolBar):
-        # Save reference to the QGIS interface
-        self.iface = iface
-        self.canvas = self.iface.mapCanvas()
-        self.tool = DtSelectVertexTool(self.canvas)
-        self.doIgnoreTool = False
-        #create action
-        self.act_fillGap = QtGui.QAction(QtGui.QIcon(":/fillGap.png"),
-            QtCore.QCoreApplication.translate("digitizingtools", "Fill gap"),  self.iface.mainWindow())
-        self.act_fillGap.setCheckable(True)
-        self.canvas.mapToolSet.connect(self.deactivate)
-        self.act_fillGap.triggered.connect(self.run)
-        self.iface.currentLayerChanged.connect(self.enable)
-        toolBar.addAction(self.act_fillGap)
-        self.enable()
-
-    def deactivate(self,  thisTool):
-        if thisTool != self.tool:
-            self.tool.clear()
-            self.act_fillGap.setChecked(False)
-            try:
-                self.tool.vertexFound.disconnect(self.vertexSnapped)
-            except:
-                pass
-
-
-    def run(self):
-        '''Function that does all the real work'''
-        self.title = QtCore.QCoreApplication.translate("digitizingtools", "Fill gap")
-        self.canvas.setMapTool(self.tool)
-        layer = self.iface.activeLayer()
-        self.doIgnoreTool = True
-        try:
-            self.tool.vertexFound.disconnect(self.vertexSnapped)
-            # disconnect if it was already connectedd, so slot gets called only once!
-        except:
-            pass
-        self.tool.vertexFound.connect(self.vertexSnapped)
-        self.act_fillGap.setChecked(True)
-
-        if layer.selectedFeatureCount() == 0:
-            QtGui.QMessageBox.information(None,  self.title,  dtutils.dtGetNoSelMessage()[0] + " " + layer.name() + ".\n" + \
-                                          QtCore.QCoreApplication.translate("digitizingtools", "Please select all features that surround the gap to be filled."))
-            return None
-        else:
-            reply = QtGui.QMessageBox.question(None, self.title,  QtCore.QCoreApplication.translate("digitizingtools",
-                "Fill all gaps between selected polygons?"),  QtGui.QMessageBox.Yes | QtGui.QMessageBox.No | QtGui.QMessageBox.Cancel)
-
-            if reply == QtGui.QMessageBox.Yes:
-                self.fillGaps()
-                return None
-            elif reply == QtGui.QMessageBox.No:
-                self.doIgnoreTool = False
-
+        DtDualToolSelectVertex.__init__(self,  iface,  toolBar,
+            QtGui.QIcon(":/fillGap.png"),
+            QtCore.QCoreApplication.translate("digitizingtools", "Fill gap (interactive mode)"),
+            QtGui.QIcon(":/fillGapBatch.png"),
+            QtCore.QCoreApplication.translate("digitizingtools", "Fill all gaps between selected polygons"),
+            geometryTypes = [2])
 
     def vertexSnapped(self,  snapResult):
-        if not self.doIgnoreTool:
-            snappedVertex = snapResult[0][0]
-            self.fillGaps(snappedVertex)
-
+        snappedVertex = snapResult[0][0]
+        self.fillGaps(snappedVertex)
         self.tool.clear()
 
+    def process(self):
+        self.fillGaps()
+
     def fillGaps(self, snappedVertex = None):
+        title = QtCore.QCoreApplication.translate("digitizingtools", "Fill gap")
         layer = self.iface.activeLayer()
-        if layer.selectedFeatureCount() == 0:
+        hasNoSelection = (layer.selectedFeatureCount() == 0)
+
+        if hasNoSelection:
             layer.invertSelection()
 
         multiGeom = None
@@ -97,7 +55,7 @@ class DtFillGap():
             aGeom = aFeat.geometry()
 
             if not aGeom.isGeosValid():
-                QtGui.QMessageBox.warning(None,  self.title,  dtutils.dtGetInvalidGeomWarning())
+                self.iface.messageBar().pushMessage(title,  dtutils.dtGetInvalidGeomWarning(), level=QgsMessageBar.CRITICAL)
                 return None
 
             # fill rings contained in the polygon
@@ -123,8 +81,8 @@ class DtFillGap():
         rings = dtutils.dtExtractRings(multiGeom)
 
         if len(rings) == 0:
-            QtGui.QMessageBox.warning(None,  self.title,  QtCore.QCoreApplication.translate("digitizingtools",
-                "There are no gaps between the polygons.") )
+            self.iface.messageBar().pushMessage(title,  QtCore.QCoreApplication.translate("digitizingtools",
+                "There are no gaps between the polygons."), level=QgsMessageBar.CRITICAL)
         else:
             if snappedVertex != None:
                 thisRing = None
@@ -137,54 +95,29 @@ class DtFillGap():
 
                 if thisRing != None:
                     newFeat = dtutils.dtCreateFeature(layer)
-                    layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Fill gap"))
 
                     if self.iface.openFeatureForm(layer,  newFeat,  True):
+                        layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Fill gap"))
                         newFeat.setGeometry(thisRing)
                         layer.addFeature(newFeat)
                         layer.endEditCommand()
-
-                    else:
-                        layer.destroyEditCommand()
                 else:
-                    QtGui.QMessageBox.warning(None,  self.title,  QtCore.QCoreApplication.translate("digitizingtools",
-                        "The selected gap is not closed.") )
+                    self.iface.messageBar().pushMessage(title,  QtCore.QCoreApplication.translate("digitizingtools",
+                        "The selected gap is not closed."), level=QgsMessageBar.CRITICAL)
             else:
                 newFeat = dtutils.dtCreateFeature(layer)
-                layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Fill gaps"))
 
                 if self.iface.openFeatureForm(layer,  newFeat):
+                    layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Fill gaps"))
+
                     for aRing in rings:
                         aFeat = dtutils.dtCopyFeature(layer,  newFeat)
                         aFeat.setGeometry(aRing)
                         layer.addFeature(aFeat)
 
                     layer.endEditCommand()
+
+            if hasNoSelection:
+                layer.removeSelection()
+
             self.canvas.refresh()
-
-
-
-
-    def enable(self):
-        '''Enables/disables the corresponding button.'''
-        # Disable the Button by default
-        self.act_fillGap.setEnabled(False)
-        layer = self.iface.activeLayer()
-
-        if layer <> None:
-            #Only for vector layers.
-            if layer.type() == QgsMapLayer.VectorLayer:
-                # only for polygon layers
-                if layer.geometryType() == 2:
-                    self.act_fillGap.setEnabled(layer.isEditable())
-                    try:
-                        layer.editingStarted.disconnect(self.enable) # disconnect, will be reconnected
-                    except:
-                        pass
-                    try:
-                        layer.editingStopped.disconnect(self.enable) # when it becomes active layer again
-                    except:
-                        pass
-                    layer.editingStarted.connect(self.enable)
-                    layer.editingStopped.connect(self.enable)
-

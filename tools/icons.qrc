@@ -3,7 +3,9 @@
     <file alias="splitter.png">icons/splitter.png</file>
     <file alias="cutter.png">icons/cutter.png</file>
     <file alias="fillRing.png">icons/fillRing.png</file>
+    <file alias="fillRingBatch.png">icons/fillRingBatch.png</file>
     <file alias="fillGap.png">icons/fillGap.png</file>
+    <file alias="fillGapBatch.png">icons/fillGapBatch.png</file>
     <file alias="MultiToSingle.png">icons/MultiToSingle.png</file>
     <file alias="MultiToSingleBatch.png">icons/MultiToSingleBatch.png</file>
     <file alias="flipLine.png">icons/flipLine.png</file>
