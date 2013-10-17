@@ -22,8 +22,8 @@ from qgis.gui import *
 from dtselectfeaturetool import DtSelectFeatureTool
 from dtselectvertextool import DtSelectVertexTool
 
-class DtTool():
-    '''Abstract class for a checkable tool
+class DtSingleButton():
+    '''Abstract class for a single button
     icon [QtGui.QIcon]
     tooltip [str]
     geometryTypes [array:integer] 0=point, 1=line, 2=polygon'''
@@ -32,14 +32,11 @@ class DtTool():
         # Save reference to the QGIS interface
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
-        self.act = QtGui.QAction(icon, tooltip,  self.iface.mainWindow())
-        self.act.setCheckable(True)
-        self.canvas.mapToolSet.connect(self.deactivate)
+        self.act = QtGui.QAction(icon, tooltip, self.iface.mainWindow())
         self.act.triggered.connect(self.process)
         self.iface.currentLayerChanged.connect(self.enable)
         toolBar.addAction(self.act)
         self.geometryTypes = geometryTypes
-        self.enable()
 
     def process(self):
         raise NotImplementedError("Should have implemented process")
@@ -67,6 +64,68 @@ class DtTool():
                         pass
                     layer.editingStarted.connect(self.enable)
                     layer.editingStopped.connect(self.enable)
+
+class DtSingleEditTool(DtSingleButton):
+    '''Abstract class for a tool for interactive editing'''
+    def __init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes = [0, 1, 2]):
+        DtSingleButton.__init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes)
+        self.editLayer = None
+        self.tool = None
+        self.act.setCheckable(True)
+        self.canvas.mapToolSet.connect(self.toolChanged)
+
+    def toolChanged(self,  thisTool):
+        if thisTool != self.tool:
+            self.deactivate()
+
+    def deactivate(self):
+        if self.tool != None:
+            self.tool.reset()
+
+        self.reset()
+        self.act.setChecked(False)
+
+    def reset(self):
+        self.editLayer = None
+
+    def enable(self):
+        '''Enables/disables the corresponding button.'''
+        # Disable the Button by default
+        doEnable = False
+        layer = self.iface.activeLayer()
+
+        if layer <> None:
+            if layer.type() == 0: #Only for vector layers.
+                if self.geometryTypes.count(layer.geometryType()) == 1:
+                    doEnable = layer.isEditable()
+                    try:
+                        layer.editingStarted.disconnect(self.enable) # disconnect, will be reconnected
+                    except:
+                        pass
+                    try:
+                        layer.editingStopped.disconnect(self.enable) # when it becomes active layer again
+                    except:
+                        pass
+                    layer.editingStarted.connect(self.enable)
+                    layer.editingStopped.connect(self.enable)
+
+        if self.editLayer != None: # we have a current edit session, activeLayer may have changed or editing status of self.editLayer
+            try:
+                self.editLayer.editingStarted.disconnect(self.enable) # disconnect, will be reconnected
+            except:
+                pass
+            try:
+                self.editLayer.editingStopped.disconnect(self.enable) # when it becomes active layer again
+            except:
+                pass
+
+            self.tool.reset()
+            self.reset()
+
+        if not doEnable:
+            self.deactivate()
+
+        self.act.setEnabled(doEnable)
 
 class DtDualTool():
     '''Abstract class for a tool with interactive and batch mode
