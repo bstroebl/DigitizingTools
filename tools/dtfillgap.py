@@ -105,14 +105,14 @@ class DtFillGap():
                 tempGeom = None
 
                 for poly in aGeom.asMultiPolygon():
-                    noRingGeom = self.deleteRings(poly)
+                    noRingGeom = dtutils.dtDeleteRings(poly)
 
                     if tempGeom == None:
                         tempGeom = noRingGeom
                     else:
                         tempGeom = tempGeom.combine(noRingGeom)
             else:
-                tempGeom = self.deleteRings(aGeom.asPolygon())
+                tempGeom = dtutils.dtDeleteRings(aGeom.asPolygon())
 
             # make a large polygon from all selected
             if multiGeom == None:
@@ -162,16 +162,7 @@ class DtFillGap():
                     layer.endEditCommand()
             self.canvas.refresh()
 
-    def deleteRings(self,  poly):
-        outGeom = QgsGeometry.fromPolygon(poly)
 
-        if len(poly) > 1:
-            # we have rings
-            rings = dtutils.dtExtractRings(outGeom)
-            for aRing in rings:
-                outGeom = outGeom.combine(aRing)
-
-        return outGeom
 
 
     def enable(self):

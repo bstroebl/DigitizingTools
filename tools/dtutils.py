@@ -219,3 +219,14 @@ def dtExtractRings(geom):
                     rings.append(QgsGeometry.fromPolygon([aRing]))
 
     return rings
+
+def dtDeleteRings(poly):
+    outGeom = QgsGeometry.fromPolygon(poly)
+
+    if len(poly) > 1:
+        # we have rings
+        rings = dtExtractRings(outGeom)
+        for aRing in rings:
+            outGeom = outGeom.combine(aRing)
+
+    return outGeom
