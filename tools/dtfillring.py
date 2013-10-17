@@ -27,9 +27,9 @@ class DtFillRing(DtDualToolSelectVertex):
     def __init__(self, iface,  toolBar):
         DtDualToolSelectVertex.__init__(self,  iface,  toolBar,
             QtGui.QIcon(":/fillRing.png"),
-            QtCore.QCoreApplication.translate("digitizingtools", "Fill ring (interactive mode)"),
+            QtCore.QCoreApplication.translate("digitizingtools", "Fill ring with a new feature (interactive mode)"),
             QtGui.QIcon(":/fillRingBatch.png"),
-            QtCore.QCoreApplication.translate("digitizingtools", "Fill all rings in selected polygons"),
+            QtCore.QCoreApplication.translate("digitizingtools", "Fill all rings in selected polygons with new features"),
             geometryTypes = [2])
 
     def vertexSnapped(self,  snapResult):

@@ -28,9 +28,9 @@ class DtFillGap(DtDualToolSelectVertex):
     def __init__(self, iface,  toolBar):
         DtDualToolSelectVertex.__init__(self,  iface,  toolBar,
             QtGui.QIcon(":/fillGap.png"),
-            QtCore.QCoreApplication.translate("digitizingtools", "Fill gap (interactive mode)"),
+            QtCore.QCoreApplication.translate("digitizingtools", "Fill gap with a new feature (interactive mode)"),
             QtGui.QIcon(":/fillGapBatch.png"),
-            QtCore.QCoreApplication.translate("digitizingtools", "Fill all gaps between selected polygons"),
+            QtCore.QCoreApplication.translate("digitizingtools", "Fill all gaps between selected polygons with new features"),
             geometryTypes = [2])
 
     def vertexSnapped(self,  snapResult):
