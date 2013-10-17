@@ -314,16 +314,6 @@
         <translation>Das ausgewählte Segment muß auf dem ausgewählten Polygon liegen.</translation>
     </message>
     <message>
-        <location filename="tools/dtfillring.py" line="55"/>
-        <source>Fill ring</source>
-        <translation>Ring füllen</translation>
-    </message>
-    <message>
-        <location filename="tools/dtfillring.py" line="70"/>
-        <source>Fill all rings in all selected polygons?</source>
-        <translation>Wollen Sie alle Ringe in allen gewählten Objekten füllen?</translation>
-    </message>
-    <message>
         <location filename="tools/dtmovesidebyarea.py" line="49"/>
         <source>Parallel move of polygon side to target area</source>
         <translation>Paralleles Verschieben einer Seite durch Festlegen einer Zielfläche</translation>
@@ -334,27 +324,17 @@
         <translation>Verschieben einer Seite durch Festlegen einer Zielfläche</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="55"/>
+        <location filename="tools/dtfillgap.py" line="45"/>
         <source>Fill gap</source>
         <translation>Riss fluten</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="68"/>
-        <source>Please select all features that surround the gap to be filled.</source>
-        <translation>Bitte wählen Sie alle Objekte aus, die den zu flutenden Riss umgeben.</translation>
-    </message>
-    <message>
-        <location filename="tools/dtfillgap.py" line="72"/>
-        <source>Fill all gaps between selected polygons?</source>
-        <translation>Wollen Sie alle Risse zwischen den ausgewählten Objekten fluten?</translation>
-    </message>
-    <message>
-        <location filename="tools/dtfillgap.py" line="126"/>
+        <location filename="tools/dtfillgap.py" line="84"/>
         <source>There are no gaps between the polygons.</source>
         <translation>Zwischen den ausgewählten Objekten gibt es keine Risse.</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="150"/>
+        <location filename="tools/dtfillgap.py" line="105"/>
         <source>The selected gap is not closed.</source>
         <translation>Der ausgewählte Riss ist nicht geschlossen.</translation>
     </message>
@@ -377,6 +357,26 @@
         <location filename="tools/dtflipline.py" line="28"/>
         <source>Flip line (interactive mode)</source>
         <translation>Richtung der Linie umdrehen (interaktiv)</translation>
+    </message>
+    <message>
+        <location filename="tools/dtfillring.py" line="28"/>
+        <source>Fill ring with a new feature (interactive mode)</source>
+        <translation>Ring mit einem neuen Objekt füllen (interaktiv)</translation>
+    </message>
+    <message>
+        <location filename="tools/dtfillring.py" line="28"/>
+        <source>Fill all rings in selected polygons with new features</source>
+        <translation>Alle Ringe in den ausgewählten Objekten mit neuen Objekten füllen</translation>
+    </message>
+    <message>
+        <location filename="tools/dtfillgap.py" line="29"/>
+        <source>Fill gap with a new feature (interactive mode)</source>
+        <translation>Riss mit einem neuen Objekt fluten (interaktiv)</translation>
+    </message>
+    <message>
+        <location filename="tools/dtfillgap.py" line="29"/>
+        <source>Fill all gaps between selected polygons with new features</source>
+        <translation>Alle Risse in den ausgewählten Objekten mit neuen Objekten fluten</translation>
     </message>
 </context>
 <context>
@@ -433,12 +433,12 @@
         <translation>Seite durch Festlegen einer Entfernung verschoben</translation>
     </message>
     <message>
-        <location filename="tools/dtfillring.py" line="102"/>
+        <location filename="tools/dtfillring.py" line="57"/>
         <source>Fill ring</source>
         <translation>Ring gefüllt</translation>
     </message>
     <message>
-        <location filename="tools/dtfillring.py" line="118"/>
+        <location filename="tools/dtfillring.py" line="78"/>
         <source>Fill rings</source>
         <translation>Ringe gefüllt</translation>
     </message>
@@ -448,12 +448,12 @@
         <translation>Seite durch Festlegen einer Zielfläche verschoben</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="140"/>
+        <location filename="tools/dtfillgap.py" line="100"/>
         <source>Fill gap</source>
         <translation>Riss geflutet</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="154"/>
+        <location filename="tools/dtfillgap.py" line="111"/>
         <source>Fill gaps</source>
         <translation>Risse geflutet</translation>
     </message>
