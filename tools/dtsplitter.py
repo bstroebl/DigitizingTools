@@ -21,28 +21,25 @@ from PyQt4 import QtCore,  QtGui
 from qgis.core import *
 import icons_rc
 import dtutils
+from dttools import DtSingleButton
 
-class DtSplitWithLine():
+class DtSplitWithLine(DtSingleButton):
     '''Split selected features in active editable layer with selected line from another layer'''
     def __init__(self, iface,  toolBar):
-        # Save reference to the QGIS interface
-        self.iface = iface
+        DtSingleButton.__init__(self,  iface,  toolBar,
+            QtGui.QIcon(":/splitter.png"),
+            QtCore.QCoreApplication.translate("digitizingtools", "Split selected features with selected line(s) from another layer"),
+            geometryTypes = [1, 2])
 
-        #create action
-        self.act_splitter = QtGui.QAction(QtGui.QIcon(":/splitter.png"),
-            QtCore.QCoreApplication.translate("digitizingtools", "Split selected features with selected line(s) from another layer"),  self.iface.mainWindow())
-        self.act_splitter.triggered.connect(self.run)
-        self.iface.currentLayerChanged.connect(self.enable)
-        toolBar.addAction(self.act_splitter)
         self.enable()
 
-    def run(self):
+    def process(self):
         '''Function that does all the real work'''
         title = QtCore.QCoreApplication.translate("digitizingtools", "Splitter")
         splitterLayer = dtutils.dtChooseVectorLayer(self.iface,  1,  msg = QtCore.QCoreApplication.translate("digitizingtools", "splitter layer"))
 
         if splitterLayer == None:
-            QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please provide a line layer to split with."))
+            self.iface.messageBar().pushMessage(title,  QtCore.QCoreApplication.translate("digitizingtools", "Please provide a line layer to split with."))
         else:
             passiveLayer = self.iface.activeLayer()
             msgLst = dtutils.dtGetNoSelMessage()
@@ -53,7 +50,7 @@ class DtSplitWithLine():
 
                 reply = QtGui.QMessageBox.question(None,  title,
                                                    noSelMsg1 + " " + splitterLayer.name() + "\n" + noSelMsg2,
-                                                   QtGui.QMessageBox.Yes | QtGui.QMessageBox.Cancel )
+                                                   QtGui.QMessageBox.Yes | QtGui.QMessageBox.No )
 
                 if reply == QtGui.QMessageBox.Yes:
                     splitterLayer.invertSelection()
@@ -62,7 +59,7 @@ class DtSplitWithLine():
 
             if splitterLayer.selectedFeatureCount() > 0:
                 if passiveLayer.selectedFeatureCount() == 0:
-                    QtGui.QMessageBox.information(None, title,  noSelMsg1  + " " + passiveLayer.name() + ".\n" + \
+                    self.iface.messageBar().pushMessage(title,  noSelMsg1  + " " + passiveLayer.name() + ".\n" + \
                         QtCore.QCoreApplication.translate("digitizingtools", "Please select the features to be splitted."))
                     return None
 
@@ -94,8 +91,9 @@ class DtSplitWithLine():
                             try:
                                 result,  newGeometries,  topoTestPoints = selGeom.splitGeometry(splitterPList,  False) #QgsProject.instance().topologicalEditing())
                             except:
-                                QtGui.QMessageBox.warning(None,  title,
-                                    dtutils.dtGetErrorMessage() + QtCore.QCoreApplication.translate("digitizingtools", "splitting of feature") + " " + str(selFeat.id()))
+                                self.iface.messageBar().pushMessage(title,
+                                    dtutils.dtGetErrorMessage() + QtCore.QCoreApplication.translate("digitizingtools", "splitting of feature") + " " + str(selFeat.id()),
+                                    level=QgsMessageBar.CRITICAL)
                                 return None
 
                             if result == 0:
@@ -121,27 +119,3 @@ class DtSplitWithLine():
                     passiveLayer.removeSelection()
                 else:
                     passiveLayer.destroyEditCommand()
-
-    def enable(self):
-        '''Enables/disables the corresponding button.'''
-        # Disable the Button by default
-        self.act_splitter.setEnabled(False)
-        layer = self.iface.activeLayer()
-
-        if layer <> None:
-            ## Only for vector layers.
-            if layer.type() == 0:
-                if layer.geometryType() > 0 and layer.geometryType() < 3:
-                    # enable if editable
-                    self.act_splitter.setEnabled(layer.isEditable())
-                    try:
-                        layer.editingStarted.disconnect(self.enable) # disconnect, will be reconnected
-                    except:
-                        pass
-                    try:
-                        layer.editingStopped.disconnect(self.enable) # when it becomes active layer again
-                    except:
-                        pass
-                    layer.editingStarted.connect(self.enable)
-                    layer.editingStopped.connect(self.enable)
-

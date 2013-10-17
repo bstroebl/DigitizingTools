@@ -10,15 +10,15 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="48"
-   height="48"
+   width="24"
+   height="24"
    id="svg5692"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
    sodipodi:docname="splitter.svg"
-   inkscape:export-filename="/mnt/home1/robert/svn/graphics/trunk/toolbar-icons/24x24/polygon-edit.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90"
+   inkscape:export-filename="/data/dev/python/qgis_plugins/DigitizingTools/tools/icons/splitter.png"
+   inkscape:export-xdpi="91.940002"
+   inkscape:export-ydpi="91.940002"
    style="display:inline">
   <title
      id="title9233">polygon split</title>
@@ -660,10 +660,19 @@
      id="layer4"
      inkscape:label="1"
      style="display:inline"
-     transform="translate(0,16)">
+     transform="translate(0,-8)">
+    <rect
+       style="color:#000000;fill:#fce94f;stroke:#c4a000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:1, 2;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect2902-3"
+       width="12"
+       height="12"
+       x="11.5"
+       y="19.5"
+       rx="0.85714281"
+       ry="0.85714281" />
     <g
        id="g38470"
-       transform="translate(2.4257851,2.6730778)">
+       transform="matrix(0.53039899,0,0,0.53039899,0.51472688,14.94389)">
       <path
          inkscape:connector-curvature="0"
          sodipodi:nodetypes="csssssssss"
