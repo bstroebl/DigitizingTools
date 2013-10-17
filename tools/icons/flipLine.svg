@@ -10,13 +10,13 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="16"
-   height="16"
+   width="24"
+   height="24"
    id="svg5692"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="flipLine.svg"
-   inkscape:export-filename="/data/dev/python/qgis_plugins/DigitizingTools/tools/icons/flipLine.png"
+   sodipodi:docname="flipLineBatch.svg"
+   inkscape:export-filename="/data/dev/python/qgis_plugins/DigitizingTools/tools/icons/flipLineBatch.png"
    inkscape:export-xdpi="225"
    inkscape:export-ydpi="225"
    style="display:inline">
@@ -438,16 +438,6 @@
        id="linearGradient22723"
        xlink:href="#linearGradient3657-1"
        inkscape:collect="always" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3657-1"
-       id="linearGradient22759"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(-0.22135857,0.1870212,-0.1870212,-0.22135857,20.881008,26.680039)"
-       x1="62.513836"
-       y1="36.061237"
-       x2="15.984863"
-       y2="20.60858" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -457,8 +447,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="16.082031"
-     inkscape:cx="-12.665038"
-     inkscape:cy="6.5930001"
+     inkscape:cx="2.8368501"
+     inkscape:cy="6.0955505"
      inkscape:current-layer="layer4"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -539,7 +529,7 @@
      id="layer4"
      inkscape:label="1"
      style="display:inline"
-     transform="translate(0,-16)">
+     transform="translate(0,-8)">
     <path
        sodipodi:type="star"
        style="fill:#8cbf8c;fill-opacity:1;stroke:#8cbf8c;stroke-width:0.1;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline"
@@ -555,9 +545,9 @@
        inkscape:rounded="0"
        inkscape:randomized="0"
        d="M 13.237691,2.2081083 -3.4820852,10.445059 -2.2556057,-8.1531672 z"
-       transform="matrix(0.26720209,0,0,0.26742849,2.1573745,22.909489)"
-       inkscape:transform-center-x="0.031002207"
-       inkscape:transform-center-y="-0.2136855" />
+       transform="matrix(0.39585495,0,0,0.39619036,3.3442582,18.384428)"
+       inkscape:transform-center-x="0.045929216"
+       inkscape:transform-center-y="-0.31657105" />
     <path
        sodipodi:type="star"
        style="fill:#8cbf8c;fill-opacity:1;stroke:#8cbf8c;stroke-width:0.1;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline"
@@ -573,14 +563,14 @@
        inkscape:rounded="0"
        inkscape:randomized="0"
        d="M 12.93474,0.69463614 -2.0199046,10.939432 -3.4148357,-7.1340683 z"
-       transform="matrix(0.27506837,0,0,0.27530143,6.5391092,25.584377)"
-       inkscape:transform-center-x="0.031914969"
-       inkscape:transform-center-y="-0.21997623" />
+       transform="matrix(0.4075087,0,0,0.40785397,9.835717,22.347225)"
+       inkscape:transform-center-x="0.047281462"
+       inkscape:transform-center-y="-0.3258907" />
     <path
-       style="color:#000000;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#8cbf8c;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 1.5,4.5 4,9 5,-11 4,0"
+       style="color:#000000;fill:none;stroke:#8cbf8c;stroke-width:1.48148143;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 2.3703701,14.814815 5.9259259,13.333333 7.407408,-16.296296 5.925926,0"
        id="path2960"
-       transform="translate(0,16)" />
+       inkscape:connector-curvature="0" />
     <path
        sodipodi:type="arc"
        style="color:#000000;fill:#eeeeec;fill-opacity:1;fill-rule:evenodd;stroke:#8cbf8c;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
@@ -589,8 +579,8 @@
        sodipodi:cy="12.5"
        sodipodi:rx="1"
        sodipodi:ry="1"
-       d="m 4.5,12.5 c 0,0.552285 -0.4477153,1 -1,1 -0.5522847,0 -1,-0.447715 -1,-1 0,-0.552285 0.4477153,-1 1,-1 0.5522847,0 1,0.447715 1,1 z"
-       transform="translate(11,6)" />
+       d="m 4.5,12.5 a 1,1 0 1 1 -2,0 1,1 0 1 1 2,0 z"
+       transform="matrix(1.4814815,0,0,1.4814815,16.444445,-6.6666673)" />
     <path
        sodipodi:type="arc"
        style="color:#000000;fill:#eeeeec;fill-opacity:1;fill-rule:evenodd;stroke:#8cbf8c;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
@@ -599,8 +589,8 @@
        sodipodi:cy="12.5"
        sodipodi:rx="1"
        sodipodi:ry="1"
-       d="m 4.5,12.5 c 0,0.552285 -0.4477153,1 -1,1 -0.5522847,0 -1,-0.447715 -1,-1 0,-0.552285 0.4477153,-1 1,-1 0.5522847,0 1,0.447715 1,1 z"
-       transform="translate(-2,8)" />
+       d="m 4.5,12.5 a 1,1 0 1 1 -2,0 1,1 0 1 1 2,0 z"
+       transform="matrix(1.4814815,0,0,1.4814815,-2.8148151,-3.7037043)" />
     <path
        sodipodi:type="arc"
        style="color:#000000;fill:#eeeeec;fill-opacity:1;fill-rule:evenodd;stroke:#8cbf8c;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
@@ -609,8 +599,8 @@
        sodipodi:cy="12.5"
        sodipodi:rx="1"
        sodipodi:ry="1"
-       d="m 4.5,12.5 c 0,0.552285 -0.4477153,1 -1,1 -0.5522847,0 -1,-0.447715 -1,-1 0,-0.552285 0.4477153,-1 1,-1 0.5522847,0 1,0.447715 1,1 z"
-       transform="translate(2,17)" />
+       d="m 4.5,12.5 a 1,1 0 1 1 -2,0 1,1 0 1 1 2,0 z"
+       transform="matrix(1.4814815,0,0,1.4814815,3.1111108,9.6296286)" />
     <path
        sodipodi:type="star"
        style="fill:#8cbf8c;fill-opacity:1;stroke:#8cbf8c;stroke-width:0.1;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
@@ -626,9 +616,9 @@
        inkscape:rounded="0"
        inkscape:randomized="0"
        d="M 12.93474,0.69463614 -2.0199046,10.939432 -3.4148357,-7.1340683 z"
-       transform="matrix(0.27506837,0,0,0.27530143,8.4772595,21.257527)"
-       inkscape:transform-center-x="0.031914969"
-       inkscape:transform-center-y="-0.21997623" />
+       transform="matrix(0.4075087,0,0,0.40785397,12.707051,15.937077)"
+       inkscape:transform-center-x="0.04728164"
+       inkscape:transform-center-y="-0.32589055" />
     <path
        sodipodi:type="arc"
        style="color:#000000;fill:#eeeeec;fill-opacity:1;fill-rule:evenodd;stroke:#8cbf8c;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
@@ -637,12 +627,12 @@
        sodipodi:cy="12.5"
        sodipodi:rx="1"
        sodipodi:ry="1"
-       d="m 4.5,12.5 c 0,0.552285 -0.4477153,1 -1,1 -0.5522847,0 -1,-0.447715 -1,-1 0,-0.552285 0.4477153,-1 1,-1 0.5522847,0 1,0.447715 1,1 z"
-       transform="translate(7,6)" />
+       d="m 4.5,12.5 a 1,1 0 1 1 -2,0 1,1 0 1 1 2,0 z"
+       transform="matrix(1.4814815,0,0,1.4814815,10.518519,-6.6666673)" />
     <g
        style="display:inline"
        id="g5693"
-       transform="matrix(1.1666667,0,0,1.1666667,-1.1000001,-4.5833328)">
+       transform="matrix(1.8333333,0,0,1.8333333,-1.2999993,-23.916666)">
       <g
          transform="matrix(0.46700923,0,0,0.46700923,15.505652,20.997431)"
          id="g5369">
