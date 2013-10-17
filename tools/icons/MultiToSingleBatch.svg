@@ -14,7 +14,7 @@
    id="svg5692"
    sodipodi:docname="MultiToSingleBatch.svg"
    inkscape:version="0.48.3.1 r9886"
-   inkscape:export-filename="/data/dev/python/qgis_plugins/DigitizingTools/tools/icons/cutter.png"
+   inkscape:export-filename="/data/dev/python/qgis_plugins/DigitizingTools/tools/icons/MultiToSingleBatch.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90"
    x="0px"
@@ -135,7 +135,7 @@
    id="namedview29495"
    showgrid="false"
    inkscape:zoom="13.906434"
-   inkscape:cx="6.7253305"
+   inkscape:cx="-2.6947696"
    inkscape:cy="11.59322"
    inkscape:window-x="0"
    inkscape:window-y="27"
@@ -182,14 +182,14 @@
 	
 		
 <rect
-   style="color:#000000;fill:#fce94f;stroke:#c4a000;stroke-width:0.81355578;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:0.81355581, 1.6271116;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-   id="rect2902"
-   width="9.7626686"
-   height="9.7626686"
-   x="12.830504"
-   y="12.830553"
-   rx="0.69733351"
-   ry="0.69733351" /><path
+   style="color:#000000;fill:#fce94f;stroke:#c4a000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:1, 2;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+   id="rect2902-3"
+   width="12"
+   height="12"
+   x="11.5"
+   y="11.5"
+   rx="0.85714281"
+   ry="0.85714281" /><path
    inkscape:export-ydpi="90"
    inkscape:export-xdpi="90"
    inkscape:export-filename="e:\Program Files\QGIS-Dev\themes\gis\path3420.png"
