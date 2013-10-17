@@ -20,12 +20,12 @@ from PyQt4 import QtCore,  QtGui
 from qgis.core import *
 from qgis.gui import *
 import icons_rc
-from dttools import DtDualTool
+from dttools import DtDualToolSelectFeature
 
-class DtFlipLine(DtDualTool):
+class DtFlipLine(DtDualToolSelectFeature):
     '''Flip line direction tool'''
     def __init__(self, iface,  toolBar):
-        DtDualTool.__init__(self,  iface,  toolBar,
+        DtDualToolSelectFeature.__init__(self,  iface,  toolBar,
             QtGui.QIcon(":/flipLine.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Flip line (interactive mode)"),
             QtGui.QIcon(":/flipLineBatch.png"),

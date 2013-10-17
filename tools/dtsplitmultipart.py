@@ -25,11 +25,11 @@ from PyQt4 import QtCore,  QtGui
 from qgis.core import *
 import dtutils
 import icons_rc
-from dttools import DtDualTool
+from dttools import DtDualToolSelectFeature
 
-class DtSplitMultiPartTool(DtDualTool):
+class DtSplitMultiPartTool(DtDualToolSelectFeature):
     def __init__(self, iface,  toolBar):
-        DtDualTool.__init__(self,  iface,  toolBar,
+        DtDualToolSelectFeature.__init__(self,  iface,  toolBar,
             QtGui.QIcon(":/MultiToSingle.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Split multi-part feature to single part (interactive mode)"),
             QtGui.QIcon(":/MultiToSingleBatch.png"),

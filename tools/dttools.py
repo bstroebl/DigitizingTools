@@ -20,6 +20,7 @@ from PyQt4 import QtGui
 from qgis.core import *
 from qgis.gui import *
 from dtselectfeaturetool import DtSelectFeatureTool
+from dtselectvertextool import DtSelectVertexTool
 
 class DtTool():
     '''Abstract class for a checkable tool
@@ -80,7 +81,6 @@ class DtDualTool():
         self.iface = iface
         self.iface.currentLayerChanged.connect(self.enable)
         self.canvas = self.iface.mapCanvas()
-        self.tool = DtSelectFeatureTool(self.canvas)
         self.canvas.mapToolSet.connect(self.toolChanged)
         #create button
         self.button = QtGui.QToolButton(toolBar)
@@ -127,30 +127,16 @@ class DtDualTool():
         self.button.setIcon(thisAction.icon())
         self.button.setToolTip(thisAction.toolTip())
 
-    def hasBeenToggled(self,  isChecked):
-        try:
-            self.tool.featureSelected.disconnect(self.featureSelectedSlot)
-            # disconnect if it was already connected, so slot gets called only once!
-        except:
-            pass
-
-        if isChecked:
-            self.canvas.setMapTool(self.tool)
-            self.tool.featureSelected.connect(self.featureSelectedSlot)
-        else:
-            self.canvas.unsetMapTool(self.tool)
-
     def toolChanged(self,  thisTool):
         if thisTool != self.tool:
             self.deactivate()
 
+    def hasBeenToggled(self,  isChecked):
+        raise NotImplementedError("Should have implemented hasBeenToggled")
+
     def deactivate(self):
         if self.button.isChecked():
             self.button.toggle()
-
-    def featureSelectedSlot(self,  fids):
-        if len(fids) >0:
-            self.process()
 
     def runSlot(self,  isChecked):
         if self.batchMode:
@@ -192,3 +178,51 @@ class DtDualTool():
                     layer.editingStopped.connect(self.enable)
                 else:
                     self.deactivate()
+
+class DtDualToolSelectFeature(DtDualTool):
+    '''Abstract class for a DtDualToo which uses the DtSelectFeatureTool for interactive mode'''
+
+    def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [0,  1, 2]):
+        DtDualTool.__init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes)
+        self.tool = DtSelectFeatureTool(self.canvas)
+
+    def featureSelectedSlot(self,  fids):
+        if len(fids) >0:
+            self.process()
+
+    def hasBeenToggled(self,  isChecked):
+        try:
+            self.tool.featureSelected.disconnect(self.featureSelectedSlot)
+            # disconnect if it was already connected, so slot gets called only once!
+        except:
+            pass
+
+        if isChecked:
+            self.canvas.setMapTool(self.tool)
+            self.tool.featureSelected.connect(self.featureSelectedSlot)
+        else:
+            self.canvas.unsetMapTool(self.tool)
+
+class DtDualToolSelectVertex(DtDualTool):
+    '''Abstract class for a DtDualTool which uses the DtSelectVertexTool for interactive mode
+    numVertices [integer] nnumber of vertices to be snapped until vertexFound signal is emitted'''
+
+    def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [0,  1, 2],  numVertices = 1):
+        DtDualTool.__init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes)
+        self.tool = DtSelectVertexTool(self.canvas,  numVertices)
+
+    def hasBeenToggled(self,  isChecked):
+        try:
+            self.tool.vertexFound.disconnect(self.vertexSnapped)
+            # disconnect if it was already connected, so slot gets called only once!
+        except:
+            pass
+
+        if isChecked:
+            self.canvas.setMapTool(self.tool)
+            self.tool.vertexFound.connect(self.vertexSnapped)
+        else:
+            self.canvas.unsetMapTool(self.tool)
+
+    def vertexSnapped(self,  snapResult):
+        raise NotImplementedError("Should have implemented vertexSnapped")
