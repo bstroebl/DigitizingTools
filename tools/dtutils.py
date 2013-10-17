@@ -24,6 +24,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 from PyQt4 import QtCore,  QtGui
 from qgis.core import *
+from qgis.gui import *
 
 def debug(msg):
     QtGui.QMessageBox.information(None, "debug",  unicode(msg))
