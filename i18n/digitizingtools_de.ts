@@ -134,112 +134,112 @@
 <context>
     <name>digitizingtools</name>
     <message>
-        <location filename="tools/dtcutter.py" line="31"/>
+        <location filename="tools/dtcutter.py" line="28"/>
         <source>Cut with polygon from another layer</source>
         <translation>Mit einem Polygon eines anderen Layers ausstanzen</translation>
     </message>
     <message>
-        <location filename="tools/dtcutter.py" line="47"/>
+        <location filename="tools/dtcutter.py" line="43"/>
         <source>Please provide a polygon layer to cut with.</source>
         <translation>Bitte einen Polygonlayer zum Ausstanzen bereitstellen.</translation>
     </message>
     <message>
-        <location filename="tools/dtcutter.py" line="44"/>
+        <location filename="tools/dtcutter.py" line="40"/>
         <source>cutter layer</source>
         <translation>Ausstanzlayer</translation>
     </message>
     <message>
-        <location filename="tools/dtutils.py" line="136"/>
+        <location filename="tools/dtutils.py" line="137"/>
         <source>No Selection in layer</source>
         <translation>Keine Auswahl in Layer</translation>
     </message>
     <message>
-        <location filename="tools/dtutils.py" line="137"/>
+        <location filename="tools/dtutils.py" line="138"/>
         <source>Use all features for process?</source>
         <translation>Alle Objekte zum Prozessieren benutzen?</translation>
     </message>
     <message>
-        <location filename="tools/dtutils.py" line="142"/>
+        <location filename="tools/dtutils.py" line="143"/>
         <source>There are </source>
         <translation>Es gibt</translation>
     </message>
     <message>
-        <location filename="tools/dtutils.py" line="144"/>
+        <location filename="tools/dtutils.py" line="145"/>
         <source> features selected in layer </source>
         <translation>gewählte Objekte im Layer</translation>
     </message>
     <message>
-        <location filename="tools/dtutils.py" line="149"/>
+        <location filename="tools/dtutils.py" line="150"/>
         <source>There are invalid geometries in layer </source>
         <translation>Es gibt ungültige Geometrien im Layer</translation>
     </message>
     <message>
-        <location filename="tools/dtutils.py" line="162"/>
+        <location filename="tools/dtutils.py" line="163"/>
         <source>Snap Tolerance</source>
         <translation>Fangtoleranz</translation>
     </message>
     <message>
-        <location filename="tools/dtutils.py" line="163"/>
+        <location filename="tools/dtutils.py" line="164"/>
         <source>Don&apos;t show this message again</source>
         <translation>Diese Nachricht nicht mehr anzeigen</translation>
     </message>
     <message>
-        <location filename="tools/dtutils.py" line="166"/>
+        <location filename="tools/dtutils.py" line="167"/>
         <source>Could not snap vertex</source>
         <translation>Konnte keinen Stützpunkt fangen</translation>
     </message>
     <message>
-        <location filename="tools/dtutils.py" line="166"/>
+        <location filename="tools/dtutils.py" line="167"/>
         <source>Have you set the tolerance in Settings &gt; Snapping Options?</source>
         <translation>Haben Sie die Toleranz in Einstellungen &gt; Fangoptionen eingetragen?</translation>
     </message>
     <message>
-        <location filename="tools/dtutils.py" line="172"/>
+        <location filename="tools/dtutils.py" line="173"/>
         <source>Error occured during</source>
         <translation>Während dieses Prozesses trat ein Fehler auf</translation>
     </message>
     <message>
-        <location filename="tools/dtcutter.py" line="40"/>
+        <location filename="tools/dtcutter.py" line="36"/>
         <source>Cutter</source>
         <translation>Stanze</translation>
     </message>
     <message>
-        <location filename="tools/dtcutter.py" line="96"/>
+        <location filename="tools/dtcutter.py" line="92"/>
         <source>A feature would be completely removed by cutting. Delete this feature&apos;s dataset altogether?</source>
         <translation>Durch das Ausstanzen würde ein Objekt komplett entfernt werden. Soll der Datensatz dieses Objektes gelöscht werden?</translation>
     </message>
     <message>
-        <location filename="tools/dtsplitter.py" line="32"/>
+        <location filename="tools/dtsplitter.py" line="29"/>
         <source>Split selected features with selected line(s) from another layer</source>
         <translation>Ausgewählte Objekte mit ausgewählter(n) Linie(n) eines anderen Layers aufteilen</translation>
     </message>
     <message>
-        <location filename="tools/dtsplitter.py" line="41"/>
+        <location filename="tools/dtsplitter.py" line="38"/>
         <source>Splitter</source>
         <translation>Aufteilen</translation>
     </message>
     <message>
-        <location filename="tools/dtsplitter.py" line="42"/>
+        <location filename="tools/dtsplitter.py" line="39"/>
         <source>splitter layer</source>
         <translation>Aufteilungslayer</translation>
     </message>
     <message>
-        <location filename="tools/dtsplitter.py" line="45"/>
+        <location filename="tools/dtsplitter.py" line="42"/>
         <source>Please provide a line layer to split with.</source>
         <translation>Bitte stellen Sie einen Linienlayer zum Aufteilen bereit.</translation>
     </message>
     <message>
-        <location filename="tools/dtsplitter.py" line="65"/>
+        <location filename="tools/dtsplitter.py" line="62"/>
         <source>Please select the features to be splitted.</source>
         <translation>Bitte wählen Sie die Objekte, die aufgeteilt werden sollen aus.</translation>
     </message>
     <message>
-        <location filename="tools/dtsplitter.py" line="97"/>
+        <location filename="tools/dtsplitter.py" line="94"/>
         <source>splitting of feature</source>
         <translation>Objekt aufteilen</translation>
     </message>
     <message>
-        <location filename="tools/dtprolongline.py" line="32"/>
+        <location filename="tools/dtprolongline.py" line="29"/>
         <source>Prolong Line</source>
         <translation>Linie verlängern</translation>
     </message>
@@ -395,7 +395,7 @@
 <context>
     <name>dtutils</name>
     <message>
-        <location filename="tools/dtutils.py" line="122"/>
+        <location filename="tools/dtutils.py" line="123"/>
         <source>Choose Layer</source>
         <translation>Layer wählen</translation>
     </message>
@@ -403,22 +403,22 @@
 <context>
     <name>editcommand</name>
     <message>
-        <location filename="tools/dtsplitter.py" line="75"/>
+        <location filename="tools/dtsplitter.py" line="72"/>
         <source>Split features</source>
-        <translation>Multigeoemtrien aufgeteilt</translation>
+        <translation>Geometrien aufgeteilt</translation>
     </message>
     <message>
-        <location filename="tools/dtcutter.py" line="71"/>
+        <location filename="tools/dtcutter.py" line="67"/>
         <source>Cut Features</source>
         <translation>Objekte ausgestanzt</translation>
     </message>
     <message>
-        <location filename="tools/dtcutter.py" line="127"/>
+        <location filename="tools/dtcutter.py" line="123"/>
         <source>Delete Features</source>
         <translation>Objekte gelöscht</translation>
     </message>
     <message>
-        <location filename="tools/dtprolongline.py" line="61"/>
+        <location filename="tools/dtprolongline.py" line="54"/>
         <source>Prolong Line</source>
         <translation>Linie verlängert</translation>
     </message>
@@ -470,7 +470,7 @@
     <message>
         <location filename="tools/dtsplitmultipart.py" line="43"/>
         <source>Split feature</source>
-        <translation>Multigeometrie aufgeteilt</translation>
+        <translation>Geometrie aufgeteilt</translation>
     </message>
 </context>
 </TS>
