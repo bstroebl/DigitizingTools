@@ -20,22 +20,18 @@ from PyQt4 import QtCore,  QtGui
 from qgis.core import *
 import icons_rc
 import dtutils
+from dttools import DtSingleButton
 
-class DtCutWithPolygon():
+class DtCutWithPolygon(DtSingleButton):
     '''Cut out from active editable layer with selected polygon from another layer'''
     def __init__(self, iface,  toolBar):
-        # Save reference to the QGIS interface
-        self.iface = iface
-
-        #create action
-        self.act_cutter = QtGui.QAction(QtGui.QIcon(":/cutter.png"),
-            QtCore.QCoreApplication.translate("digitizingtools", "Cut with polygon from another layer"),  self.iface.mainWindow())
-        self.act_cutter.triggered.connect(self.run)
-        self.iface.currentLayerChanged.connect(self.enable)
-        toolBar.addAction(self.act_cutter)
+        DtSingleButton.__init__(self,  iface,  toolBar,
+            QtGui.QIcon(":/cutter.png"),
+            QtCore.QCoreApplication.translate("digitizingtools", "Cut with polygon from another layer"),
+            geometryTypes = [1, 2])
         self.enable()
 
-    def run(self):
+    def process(self):
         '''Function that does all the real work'''
         title = QtCore.QCoreApplication.translate("digitizingtools", "Cutter")
         showEmptyWarning = True
@@ -44,7 +40,7 @@ class DtCutWithPolygon():
         cutterLayer = dtutils.dtChooseVectorLayer(self.iface,  2,  msg = QtCore.QCoreApplication.translate("digitizingtools", "cutter layer"))
 
         if cutterLayer == None:
-            QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please provide a polygon layer to cut with."))
+            self.iface.messageBar().pushMessage(title,  QtCore.QCoreApplication.translate("digitizingtools", "Please provide a polygon layer to cut with."))
         else:
             passiveLayer = self.iface.activeLayer()
 
@@ -54,7 +50,7 @@ class DtCutWithPolygon():
                 noSelMsg2 = msgLst[1]
                 reply = QtGui.QMessageBox.question(None,  title,
                                                    noSelMsg1 + " " + cutterLayer.name() + "\n" + noSelMsg2,
-                                                   QtGui.QMessageBox.Yes | QtGui.QMessageBox.Cancel )
+                                                   QtGui.QMessageBox.Yes | QtGui.QMessageBox.No )
 
                 if reply == QtGui.QMessageBox.Yes:
                     cutterLayer.invertSelection()
@@ -133,30 +129,4 @@ class DtCutWithPolygon():
                     passiveLayer.endEditCommand()
 
                 self.iface.mapCanvas().refresh()
-
-    def enable(self):
-        '''Enables/disables the corresponding button.'''
-        # Disable the Button by default
-        self.act_cutter.setEnabled(False)
-        layer = self.iface.activeLayer()
-
-        if layer <> None:
-            #Only for vector layers.
-
-            if layer.type() == 0:
-                # not for point layers
-
-                if layer.geometryType() > 0 and layer.geometryType() < 3:
-                    # enable if editable
-                    self.act_cutter.setEnabled(layer.isEditable())
-                    try:
-                        layer.editingStarted.disconnect(self.enable) # disconnect, will be reconnected
-                    except:
-                        pass
-                    try:
-                        layer.editingStopped.disconnect(self.enable) # when it becomes active layer again
-                    except:
-                        pass
-                    layer.editingStarted.connect(self.enable)
-                    layer.editingStopped.connect(self.enable)
 
