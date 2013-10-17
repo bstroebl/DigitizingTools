@@ -12,9 +12,9 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
    id="svg5692"
-   sodipodi:docname="fillRing.svg"
+   sodipodi:docname="fillRingBatch.svg"
    inkscape:version="0.48.3.1 r9886"
-   inkscape:export-filename="/data/dev/python/qgis_plugins/DigitizingTools/tools/icons/fillRing.png"
+   inkscape:export-filename="/data/dev/python/qgis_plugins/DigitizingTools/tools/icons/fillRingBatch.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90"
    x="0px"
@@ -145,13 +145,13 @@
    inkscape:window-height="1030"
    id="namedview29495"
    showgrid="false"
-   inkscape:zoom="19.666667"
-   inkscape:cx="-1.4626398"
+   inkscape:zoom="27.812867"
+   inkscape:cx="7.939055"
    inkscape:cy="12"
    inkscape:window-x="0"
    inkscape:window-y="27"
    inkscape:window-maximized="1"
-   inkscape:current-layer="layer8" />
+   inkscape:current-layer="layer4" />
 <g
    id="layer8"
    inkscape:groupmode="layer"
@@ -192,7 +192,15 @@
 		
 	
 		
-<path
+<g
+   inkscape:label="1"
+   inkscape:groupmode="layer"
+   transform="matrix(1.0926289,0,0,1.0926289,-2.2456499,-11.038999)"
+   id="layer4"><path
+     d="m 4.5,11.5 h 11.999 c 0.553,0 1.001,0.447 1.001,1 v 11.999 c 0,0.553 -0.448,1.001 -1.001,1.001 H 4.5 c -0.552,0 -1,-0.448 -1,-1.001 V 12.5 c 0,-0.552 0.448,-1 1,-1 z"
+     id="rect2902-0"
+     inkscape:connector-curvature="0"
+     style="fill:#fce94f;stroke:#c4a000;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1, 2" /></g><path
    inkscape:export-ydpi="90"
    inkscape:export-xdpi="90"
    inkscape:export-filename="e:\Program Files\QGIS-Dev\themes\gis\path3420.png"
@@ -209,6 +217,7 @@
    id="path3112-1"
    sodipodi:nodetypes="cscsc"
    inkscape:connector-curvature="0" /></g>
+
 
 <g
    id="g29490">
@@ -229,5 +238,4 @@
    fill="#FCFFFF"
    enable-background="new    "
    d="M14,19l9-0.01   c0,0,0,0,0-2C23,14,22,14,18.5,14S14,14,14,17C14,19,14,19,14,19z" />
-</g>
-</svg>
+</g></svg>
