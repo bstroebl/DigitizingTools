@@ -23,6 +23,11 @@
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
+    <message>
+        <location filename="tools/dttools.py" line="135"/>
+        <source>is disabled because layer CRS and project CRS do not match!</source>
+        <translation>wird deaktiviert weil das KBS des Layers und das KBS des Projektes nicht übereinstimmen!</translation>
+    </message>
 </context>
 <context>
     <name>DtMoveNodeByArea</name>

@@ -67,8 +67,9 @@ class DtSingleButton():
 
 class DtSingleEditTool(DtSingleButton):
     '''Abstract class for a tool for interactive editing'''
-    def __init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes = [0, 1, 2]):
+    def __init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes = [0, 1, 2],  crsWarning = True):
         DtSingleButton.__init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes)
+        self.crsWarning = crsWarning
         self.editLayer = None
         self.tool = None
         self.act.setCheckable(True)
@@ -124,6 +125,17 @@ class DtSingleEditTool(DtSingleButton):
 
         if not doEnable:
             self.deactivate()
+
+        if doEnable and self.crsWarning:
+            layerCRSSrsid = layer.crs().srsid()
+            renderer = self.canvas.mapRenderer()
+            projectCRSSrsid = renderer.destinationCrs().srsid()
+
+            if layerCRSSrsid != projectCRSSrsid:
+                self.iface.messageBar().pushMessage("DigitizingTools",  self.act.toolTip() + " " +
+                    QtGui.QApplication.translate("DigitizingTools", "is disabled because layer CRS and project CRS do not match!" ),
+                    level=QgsMessageBar.WARNING)
+                doEnable = False
 
         self.act.setEnabled(doEnable)
 
