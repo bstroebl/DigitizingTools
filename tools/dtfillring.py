@@ -30,7 +30,7 @@ class DtFillRing(DtDualToolSelectVertex):
             QtCore.QCoreApplication.translate("digitizingtools", "Fill ring with a new feature (interactive mode)"),
             QtGui.QIcon(":/fillRingBatch.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Fill all rings in selected polygons with new features"),
-            geometryTypes = [2])
+            geometryTypes = [2],  dtName = "dtFillRing")
 
     def vertexSnapped(self,  snapResult):
         snappedVertex = snapResult[0][0]

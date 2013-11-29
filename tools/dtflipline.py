@@ -30,7 +30,7 @@ class DtFlipLine(DtDualToolSelectFeature):
             QtCore.QCoreApplication.translate("digitizingtools", "Flip line (interactive mode)"),
             QtGui.QIcon(":/flipLineBatch.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Flip selected lines"),
-            geometryTypes = [1])
+            geometryTypes = [1],  dtName = "dtFlipLine")
 
     def process(self):
         '''algorythm taken from Nathan Woodrow's Swap Line Direction see

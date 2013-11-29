@@ -29,7 +29,7 @@ class DtSplitWithLine(DtSingleButton):
         DtSingleButton.__init__(self,  iface,  toolBar,
             QtGui.QIcon(":/splitter.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Split selected features with selected line(s) from another layer"),
-            geometryTypes = [1, 2])
+            geometryTypes = [1, 2],  dtName = "dtSplitWithLine")
 
         self.enable()
 

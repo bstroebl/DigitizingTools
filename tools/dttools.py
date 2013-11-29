@@ -28,12 +28,16 @@ class DtSingleButton():
     tooltip [str]
     geometryTypes [array:integer] 0=point, 1=line, 2=polygon'''
 
-    def __init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes = [0, 1, 2]):
+    def __init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes = [0, 1, 2],  dtName = None):
         # Save reference to the QGIS interface
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
         self.act = QtGui.QAction(icon, tooltip, self.iface.mainWindow())
         self.act.triggered.connect(self.process)
+
+        if dtName != None:
+            self.act.setObjectName(dtName)
+
         self.iface.currentLayerChanged.connect(self.enable)
         toolBar.addAction(self.act)
         self.geometryTypes = geometryTypes
@@ -67,8 +71,8 @@ class DtSingleButton():
 
 class DtSingleEditTool(DtSingleButton):
     '''Abstract class for a tool for interactive editing'''
-    def __init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes = [0, 1, 2],  crsWarning = True):
-        DtSingleButton.__init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes)
+    def __init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes = [0, 1, 2],  crsWarning = True,  dtName = None):
+        DtSingleButton.__init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes,  dtName)
         self.crsWarning = crsWarning
         self.editLayer = None
         self.tool = None
@@ -147,7 +151,7 @@ class DtDualTool():
     tooltipBatch [str] for batch mode
     geometryTypes [array:integer] 0=point, 1=line, 2=polygon'''
 
-    def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [0,  1, 2]):
+    def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [0,  1, 2],  dtName = None):
         # Save reference to the QGIS interface
         self.iface = iface
         self.iface.currentLayerChanged.connect(self.enable)
@@ -159,13 +163,25 @@ class DtDualTool():
         self.button.toggled.connect(self.hasBeenToggled)
         #create menu
         self.menu = QtGui.QMenu(toolBar)
+
+        if dtName != None:
+            self.menu.setObjectName(dtName)
+
         self.menu.triggered.connect(self.menuTriggered)
         self.button.setMenu(self.menu)
         self.button.setPopupMode(QtGui.QToolButton.MenuButtonPopup)
         # create actions
         self.act = QtGui.QAction(icon, tooltip,  self.iface.mainWindow())
+
+        if dtName != None:
+            self.act.setObjectName(dtName + "Action")
+
         self.act.setToolTip(tooltip)
         self.act_batch = QtGui.QAction(iconBatch, tooltipBatch,  self.iface.mainWindow())
+
+        if dtName != None:
+            self.act_batch.setObjectName(dtName + "BatchAction")
+
         self.act_batch.setToolTip(tooltipBatch)
         self.menu.addAction(self.act)
         self.menu.addAction(self.act_batch)
@@ -253,8 +269,8 @@ class DtDualTool():
 class DtDualToolSelectFeature(DtDualTool):
     '''Abstract class for a DtDualToo which uses the DtSelectFeatureTool for interactive mode'''
 
-    def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [0,  1, 2]):
-        DtDualTool.__init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes)
+    def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [0,  1, 2],  dtName = None):
+        DtDualTool.__init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes,  dtName)
         self.tool = DtSelectFeatureTool(self.canvas)
 
     def featureSelectedSlot(self,  fids):
@@ -278,8 +294,8 @@ class DtDualToolSelectVertex(DtDualTool):
     '''Abstract class for a DtDualTool which uses the DtSelectVertexTool for interactive mode
     numVertices [integer] nnumber of vertices to be snapped until vertexFound signal is emitted'''
 
-    def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [0,  1, 2],  numVertices = 1):
-        DtDualTool.__init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes)
+    def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [0,  1, 2],  numVertices = 1,  dtName = None):
+        DtDualTool.__init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes,  dtName)
         self.tool = DtSelectVertexTool(self.canvas,  numVertices)
 
     def hasBeenToggled(self,  isChecked):

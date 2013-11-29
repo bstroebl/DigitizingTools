@@ -71,9 +71,11 @@ class DigitizingTools:
 
         #. Add a menu
         self.menu = QtGui.QMenu()
+        self.menu.setObjectName("mDigitizingTools")
         self.menu.setTitle( QtGui.QApplication.translate( "DigitizingTools","&DigitizingTools" ) )
         self.digitizingtools_help = QtGui.QAction( QtGui.QApplication.translate("DigitizingTools", "Help" ), self.iface.mainWindow() )
         self.digitizingtools_about = QtGui.QAction( QtGui.QApplication.translate("DigitizingTools", "About" ), self.iface.mainWindow() )
+        self.digitizingtools_about.setObjectName("DtAbout")
         self.digitizingtools_settings = QtGui.QAction( QtGui.QApplication.translate("DigitizingTools", "Settings" ), self.iface.mainWindow() )
 
         self.menu.addActions( [self.digitizingtools_about] )
