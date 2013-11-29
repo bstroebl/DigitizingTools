@@ -24,7 +24,7 @@ from dtprolonglinetool import DtProlongLineTool
 from dttools import DtSingleEditTool
 
 class DtProlongLine(DtSingleEditTool):
-    '''Cut out from active editable layer with selected polygon from another layer'''
+    '''Prolong an existing line'''
     def __init__(self, iface,  toolBar):
         DtSingleEditTool.__init__(self,  iface,  toolBar,
             QtGui.QIcon(":/prolongline.png"),
@@ -63,3 +63,5 @@ class DtProlongLine(DtSingleEditTool):
     def process(self):
         self.canvas.setMapTool(self.tool)
         self.act.setChecked(True)
+
+
