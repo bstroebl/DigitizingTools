@@ -38,6 +38,8 @@ class DigitizingToolsAbout(QtGui.QDialog):
         aboutText +="\n"
         aboutText += "Alexandre Neto"
         aboutText += "\n"
+        aboutText += "Jean-Cyrille Notter (French translation)"
+        aboutText += "\n"
         aboutText += u"Bernhard Ströbl"
         aboutText += "\n"
         aboutText += u"Angelos Tzotsos"
