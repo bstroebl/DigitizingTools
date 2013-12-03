@@ -55,7 +55,7 @@ class DtFillGap(DtDualToolSelectVertex):
             aGeom = aFeat.geometry()
 
             if not aGeom.isGeosValid():
-                self.iface.messageBar().pushMessage(title,  dtutils.dtGetInvalidGeomWarning(), level=QgsMessageBar.CRITICAL)
+                self.iface.messageBar().pushMessage(title,  dtutils.dtGetInvalidGeomWarning(layer), level=QgsMessageBar.CRITICAL)
                 return None
 
             # fill rings contained in the polygon
