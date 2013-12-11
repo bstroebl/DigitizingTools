@@ -154,9 +154,15 @@ class DtProlongLineTool(QgsMapTool):
                     self.rubberBand.addPoint(mapToPixel.toMapCoordinates(thisPoint))
             else: # right click
                 if self.lineFeature != None: # step 4: end digitizing merge rubbber band and existing geometry
-                    rbGeom = self.rubberBand.asGeometry()
-                    self.finishedDigitizing.emit(rbGeom)
-                    self.reset()
+                    self.rubberBand.removeLastPoint()
+
+                    if self.rubberBand.numberOfVertices() > 1:
+                        rbGeom = self.rubberBand.asGeometry()
+                        self.finishedDigitizing.emit(rbGeom)
+                        self.reset()
+                    else:
+                        self.reset(True)
+
                     self.canvas.refresh()
 
     def keyPressEvent(self,  event):
