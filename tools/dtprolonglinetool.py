@@ -33,6 +33,16 @@ class DtProlongLineTool(QgsMapTool):
         self.canvas=canvas
         self.marker = None
         self.rubberBand = None
+        settings = QtCore.QSettings()
+        settings.beginGroup("Qgis/digitizing")
+        a = settings.value("line_color_alpha",200,type=int)
+        b = settings.value("line_color_blue",0,type=int)
+        g = settings.value("line_color_green",0,type=int)
+        r = settings.value("line_color_red",255,type=int)
+        lw = settings.value("line_width",1,type=int)
+        settings.endGroup()
+        self.rubberBandColor = QtGui.QColor(r, g, b, a)
+        self.rubberBandWidth = lw
         self.cursor = QtGui.QCursor(QtGui.QPixmap(["16 16 3 1",
                                   "      c None",
                                   ".     c #000000",
@@ -60,6 +70,7 @@ class DtProlongLineTool(QgsMapTool):
 
         if self.rubberBand != None:
             self.rubberBand.reset()
+            self.canvas.scene().removeItem(self.rubberBand)
             self.rubberBand = None
 
         if self.marker != None:
@@ -129,6 +140,8 @@ class DtProlongLineTool(QgsMapTool):
                                 self.marker.setCenter(startPoint)
                                 # step 2: create a QgsRubberBand
                                 self.rubberBand = QgsRubberBand(self.canvas)
+                                self.rubberBand.setColor(self.rubberBandColor)
+                                self.rubberBand.setWidth(self.rubberBandWidth)
                                 self.rubberBand.addPoint(startPoint)
                                 self.rubberBand.addPoint(startPoint) # second point to be moved
                                 self.startedDigitizing.emit(layer, self.lineFeature,  startPoint,  self.rubberBand)
