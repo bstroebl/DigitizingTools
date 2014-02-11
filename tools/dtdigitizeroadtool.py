@@ -7,7 +7,7 @@ digitizeroadtool
 Part of DigitizingTools, a QGIS plugin that
 subsumes different tools neded during digitizing sessions
 
- This segment selection tool is adopted/adapted from:
+ This vertex selection tool is adopted/adapted from:
  'CadTools Plugin', Copyright (C) Stefan Ziegler
 
 * begin                : 2013-08-15
@@ -20,19 +20,21 @@ the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 """
 
-from PyQt4 import QtCore,  QtGui
+from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from qgis.core import *
 from qgis.gui import *
 
+
 class DtDigitizeRoadTool(QgsMapTool):
     finishedDigitizing = QtCore.pyqtSignal()
-    
-    def __init__(self, canvas):
-        QgsMapTool.__init__(self,canvas)
-        self.canvas=canvas
-        self.rb1 = QgsRubberBand(self.canvas,  False)
+
+    def __init__(self, parent):
+        QgsMapTool.__init__(self, parent.canvas)
+        self.canvas = parent.canvas
+        self.parent = parent
+        self.markers = []
         #custom cursor
         self.cursor = QCursor(QPixmap(["16 16 3 1",
                                     "      c None",
@@ -54,75 +56,87 @@ class DtDigitizeRoadTool(QgsMapTool):
                                     "    ++.....+    ",
                                     "      ++.++     ",
                                     "       +.+      "]))
-                                    
- 
-    def canvasPressEvent(self,event):
+
+    def canvasPressEvent(self, event):
         pass
-    
-    def canvasMoveEvent(self,event):
+
+    def canvasMoveEvent(self, event):
         pass
-    
-    def canvasReleaseEvent(self,event):
+
+    def canvasReleaseEvent(self, event):
         #Get the click
         x = event.pos().x()
         y = event.pos().y()
-        
+
         if event.button() == QtCore.Qt.RightButton:
             self.finishedDigitizing.emit()
             return
-        
+
         layer = self.canvas.currentLayer()
-        
-        if layer <> None:
+
+        if layer is not None:
             #the clicked point is our starting point
-            startingPoint = QPoint(x,y)
-            
-            #we need a snapper, so we use the MapCanvas snapper   
+            startingPoint = QPoint(x, y)
+
+            #we need a snapper, so we use the MapCanvas snapper
             snapper = QgsMapCanvasSnapper(self.canvas)
-            
-            #we snap to the current layer (we don't have exclude points and use the tolerances from the qgis properties)
-            (retval,result) = snapper.snapToCurrentLayer (startingPoint,QgsSnapper.SnapToSegment)
-            
-            #if we don't have found a linesegment we try to find one on the backgroundlayer
+
+            #we snap to the current layer (we don't have exclude points and use
+            #the tolerances from the qgis properties)
+            (retval, result) = snapper.snapToCurrentLayer(startingPoint,
+                QgsSnapper.SnapToVertex)
+
+            #if we don't have found a linesegment we try to find one on the
+            #backgroundlayer
             if result == []:
-                (retval,result) = snapper.snapToBackgroundLayers(startingPoint)
-            
-            #if we have found a linesegment
-            if result <> []:
-                # we like to mark the segment that is choosen, so we need a rubberband
-                self.rb1.reset()
-                color = QColor(255,0,0)
-                self.rb1.setColor(color)
-                self.rb1.setWidth(2)
-                self.rb1.addPoint(result[0].beforeVertex)
-                self.rb1.addPoint(result[0].afterVertex)
-                self.rb1.show()
-                self.emit(SIGNAL("segmentFound(PyQt_PyObject)"), [self.rb1.getPoint(0, 0),  self.rb1.getPoint(0, 1),  self.rb1])
+                #(retval, result) = snapper.snapToBackgroundLayers(
+                #    startingPoint)
+                pass
+
+            #if we have found a vertex
+            if result != []:
+                # we like to mark the vertex that is choosen
+                p = QgsPoint()
+                p.setX(result[0].snappedVertex.x())
+                p.setY(result[0].snappedVertex.y())
+                m = QgsVertexMarker(self.canvas)
+                m.setIconType(1)
+                modulo = self.parent.selected_points % 2
+                if modulo == 0:
+                    m.setColor(QtGui.QColor(255, 0, 0))
+                else:
+                    m.setColor(QtGui.QColor(0, 0, 255))
+                m.setIconSize(12)
+                m.setPenWidth(3)
+                m.setCenter(p)
+                self.markers.append(m)
+                self.emit(SIGNAL("vertexFound(PyQt_PyObject)"), [p])
             else:
                 pass
-            
-                
+
     def showSettingsWarning(self):
         m = QgsMessageViewer()
         m.setWindowTitle("Snap tolerance")
         m.setCheckBoxText("Don't show this message again")
         m.setCheckBoxVisible(True)
         m.setCheckBoxQSettingsLabel(settingsLabel)
-        m.setMessageAsHtml( "<p>Could not snap segment.</p><p>Have you set the tolerance in Settings > Project Properties > General?</p>")
+        m.setMessageAsHtml("<p>Could not snap segment.</p><p>Have you set "
+          "the tolerance in Settings > Project Properties > General?</p>")
         m.showMessage()
-        
+
     def activate(self):
         self.canvas.setCursor(self.cursor)
-    
+
     def deactivate(self):
-        self.rb1.reset()
+        for m in self.markers:
+            self.canvas.scene().removeItem(m)
+        del self.markers[:]
 
     def isZoomTool(self):
         return False
-    
+
     def isTransient(self):
         return False
-        
+
     def isEditTool(self):
         return True
-
