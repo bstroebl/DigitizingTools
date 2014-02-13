@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-dtdigitizeroad
-``````````````
+dtdigitizemedianline
+````````````````````
 """
 """
 Part of DigitizingTools, a QGIS plugin that
@@ -19,11 +19,11 @@ the Free Software Foundation; either version 2 of the License, or
 from PyQt4 import QtCore, QtGui
 from qgis.core import *
 from qgis.gui import *
-from dtdigitizeroadtool import DtDigitizeRoadTool
+from dtmedianlinetool import DtMedianLineTool
 
 
-class DtDigitizeRoad():
-    '''Digitize road line by selecting vertices on both road sides'''
+class DtMedianLine():
+    '''Digitize median line by selecting vertices on adjacent polygons'''
 
     def __init__(self, iface, toolBar):
         # Save reference to the QGIS interface
@@ -39,16 +39,16 @@ class DtDigitizeRoad():
         self.point_list = []
 
         #create action
-        self.road_digitizer = QtGui.QAction(QtGui.QIcon(":/medianLine.png"),
+        self.median_digitizer = QtGui.QAction(QtGui.QIcon(":/medianLine.png"),
             QtCore.QCoreApplication.translate("digitizingtools",
-                "Digitize road by selecting block segments"),
+                "Digitize median line between adjacent polygons"),
                 self.iface.mainWindow())
 
-        self.road_digitizer.triggered.connect(self.run)
+        self.median_digitizer.triggered.connect(self.run)
         self.iface.currentLayerChanged.connect(self.enable)
-        toolBar.addAction(self.road_digitizer)
+        toolBar.addAction(self.median_digitizer)
         self.enable()
-        self.tool = DtDigitizeRoadTool(self)
+        self.tool = DtMedianLineTool(self)
         self.tool.finishedDigitizing.connect(self.digitizingFinished)
 
     def reset(self):
@@ -76,19 +76,19 @@ class DtDigitizeRoad():
 
     def deactivate(self):
         self.disableTool()
-        self.road_digitizer.setChecked(False)
+        self.median_digitizer.setChecked(False)
 
     def run(self):
         '''Function that does all the real work'''
         self.reset()
         layer = self.iface.activeLayer()
         title = QtCore.QCoreApplication.translate("digitizingtools",
-            "Digitize road")
+            "Digitize median line")
 
         if layer.selectedFeatureCount() == 0:
             self.enableTool()
             #self.lineLayer = layer
-            self.road_digitizer.setChecked(True)
+            self.median_digitizer.setChecked(True)
         else:
             QtGui.QMessageBox.information(None, title,
                 QtCore.QCoreApplication.translate("digitizingtools",
@@ -154,7 +154,7 @@ class DtDigitizeRoad():
         '''Enables/disables the corresponding button.'''
         # Disable the Button by default
         self.reset()
-        self.road_digitizer.setEnabled(False)
+        self.median_digitizer.setEnabled(False)
         layer = self.iface.activeLayer()
 
         if layer is not None:
@@ -163,7 +163,7 @@ class DtDigitizeRoad():
                 # only for polygon layers
                 if layer.geometryType() == 2:
                     # enable if editable
-                    self.road_digitizer.setEnabled(layer.isEditable())
+                    self.median_digitizer.setEnabled(layer.isEditable())
                     try:
                         layer.editingStarted.disconnect(self.enable)
                         # disconnect, will be reconnected
