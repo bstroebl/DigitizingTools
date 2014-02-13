@@ -39,7 +39,7 @@ class DtDigitizeRoad():
         self.point_list = []
 
         #create action
-        self.road_digitizer = QtGui.QAction(QtGui.QIcon(":/digitizeRoads.png"),
+        self.road_digitizer = QtGui.QAction(QtGui.QIcon(":/medianLine.png"),
             QtCore.QCoreApplication.translate("digitizingtools",
                 "Digitize road by selecting block segments"),
                 self.iface.mainWindow())
