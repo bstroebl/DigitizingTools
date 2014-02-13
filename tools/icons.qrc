@@ -14,5 +14,6 @@
     <file alias="MovePolygonNodeByArea.png">icons/MovePolygonNodeByArea.png</file>
     <file alias="ParallelMovePolygonSideByArea.png">icons/ParallelMovePolygonSideByArea.png</file>
     <file alias="ParallelMovePolygonSideByDistance.png">icons/ParallelMovePolygonSideByDistance.png</file>
+    <file alias="medianLine.png">icons/medianLine.png</file>
   </qresource>
 </RCC>
