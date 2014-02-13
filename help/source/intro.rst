@@ -27,6 +27,16 @@ Currently the following tools are contained:
     (2) moving selected side along the direction of the two touching sides,
     forming a trapezoid along the process. The second option modifies the 
     selected side length (variable).
+#.  DigitizeRoad: creates polylines between city blocks representing the main 
+    road line. This is done by selecting nodes in turns, on corresponding 
+    sides of opposite city blocks. This has to be done in the following way: 
+    the first point is selected on side 1 (red marker), the second point on side 2 
+    (blue marker), the third point is the next vertex of side 1 (red marker) 
+    the forth point is the next vertex of side 2 (blue marker) etc, until 
+    full coverage of both sides of opposite blocks. The same number of clicks
+    has to be performed on both sides, but clicking on the same vertex is permitted 
+    (the tool will ignore douplicate points). When finished, right click and the road 
+    line will be created on a new polyline layer.
 
 Planned/discussed tools can be found here http://osgeo-org.1560.x6.nabble.com/more-advanced-editing-tools-td5019552.html
 
