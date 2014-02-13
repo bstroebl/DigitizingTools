@@ -32,7 +32,7 @@ PLUGINNAME = DigitizingTools
 
 PY_FILES = digitizingtools.py __init__.py dtDialog.py
 
-TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtfillring.py tools/dtfillgap.py tools/dtsplitter.py tools/dtprolongline.py tools/dtprolonglinetool.py tools/dtmovenodebyarea.py tools/dtmovesidebydistance.py tools/dtselectvertextool.py tools/dtselectsegmenttool.py tools/ui_dtmovenodebyarea.py tools/ui_dtmovesidebydistance.py tools/dtmovenodebyarea_dialog.py tools/dtmovesidebydistance_dialog.py tools/dtmovesidebyarea.py tools/ui_dtmovesidebyarea.py tools/dtmovesidebyarea_dialog.py tools/dtselectfeaturetool.py tools/dtflipline.py tools/dttools.py  tools/dtdigitizeroad.py tools/dtdigitizeroadtool.py
+TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtfillring.py tools/dtfillgap.py tools/dtsplitter.py tools/dtprolongline.py tools/dtprolonglinetool.py tools/dtmovenodebyarea.py tools/dtmovesidebydistance.py tools/dtselectvertextool.py tools/dtselectsegmenttool.py tools/ui_dtmovenodebyarea.py tools/ui_dtmovesidebydistance.py tools/dtmovenodebyarea_dialog.py tools/dtmovesidebydistance_dialog.py tools/dtmovesidebyarea.py tools/ui_dtmovesidebyarea.py tools/dtmovesidebyarea_dialog.py tools/dtselectfeaturetool.py tools/dtflipline.py tools/dttools.py  tools/dtmedianline.py tools/dtmedianlinetool.py
 
 EXTRAS = metadata.txt license.txt
 

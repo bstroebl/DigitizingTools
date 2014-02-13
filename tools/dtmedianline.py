@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-dtdigitizeroad
-``````````````
+dtdigitizemedianline
+````````````````````
 """
 """
 Part of DigitizingTools, a QGIS plugin that
@@ -17,17 +17,13 @@ the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 """
 from PyQt4 import QtCore, QtGui
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
 from qgis.core import *
 from qgis.gui import *
-#import math
-#import icons_rc
-from dtdigitizeroadtool import DtDigitizeRoadTool
+from dtmedianlinetool import DtMedianLineTool
 
 
-class DtDigitizeRoad():
-    '''Digitize road line by selecting vertices on both road sides'''
+class DtMedianLine():
+    '''Digitize median line by selecting vertices on adjacent polygons'''
 
     def __init__(self, iface, toolBar):
         # Save reference to the QGIS interface
@@ -43,16 +39,16 @@ class DtDigitizeRoad():
         self.point_list = []
 
         #create action
-        self.road_digitizer = QtGui.QAction(QtGui.QIcon(":/digitizeRoads.png"),
+        self.median_digitizer = QtGui.QAction(QtGui.QIcon(":/medianLine.png"),
             QtCore.QCoreApplication.translate("digitizingtools",
-                "Digitize road by selecting block segments"),
+                "Digitize median line between adjacent polygons"),
                 self.iface.mainWindow())
 
-        self.road_digitizer.triggered.connect(self.run)
+        self.median_digitizer.triggered.connect(self.run)
         self.iface.currentLayerChanged.connect(self.enable)
-        toolBar.addAction(self.road_digitizer)
+        toolBar.addAction(self.median_digitizer)
         self.enable()
-        self.tool = DtDigitizeRoadTool(self)
+        self.tool = DtMedianLineTool(self)
         self.tool.finishedDigitizing.connect(self.digitizingFinished)
 
     def reset(self):
@@ -67,32 +63,32 @@ class DtDigitizeRoad():
         self.tool.activate()
         self.canvas.setMapTool(self.tool)
         #Connect to the DtSelectVertexTool
-        QObject.connect(self.tool, SIGNAL("vertexFound(PyQt_PyObject)"),
-            self.storePoints)
+        QtCore.QObject.connect(self.tool, QtCore.SIGNAL(
+            "vertexFound(PyQt_PyObject)"), self.storePoints)
 
     def disableTool(self):
         self.reset()
         #self.tool.deactivate()
         self.canvas.unsetMapTool(self.tool)
-        QObject.disconnect(self.tool, SIGNAL("vertexFound(PyQt_PyObject)"),
-            self.storePoints)
+        QtCore.QObject.disconnect(self.tool, QtCore.SIGNAL(
+            "vertexFound(PyQt_PyObject)"), self.storePoints)
         self.tool.deactivate()
 
     def deactivate(self):
         self.disableTool()
-        self.road_digitizer.setChecked(False)
+        self.median_digitizer.setChecked(False)
 
     def run(self):
         '''Function that does all the real work'''
         self.reset()
         layer = self.iface.activeLayer()
         title = QtCore.QCoreApplication.translate("digitizingtools",
-            "Digitize road")
+            "Digitize median line")
 
         if layer.selectedFeatureCount() == 0:
             self.enableTool()
             #self.lineLayer = layer
-            self.road_digitizer.setChecked(True)
+            self.median_digitizer.setChecked(True)
         else:
             QtGui.QMessageBox.information(None, title,
                 QtCore.QCoreApplication.translate("digitizingtools",
@@ -104,50 +100,50 @@ class DtDigitizeRoad():
         modulo = self.selected_points % 2
         if (modulo == 0):                              # Select first vertex
             if ((tmp_x in self.side1_x) and (tmp_y in self.side1_y)):
-                print "Point (%f,%f) already in list1" % (tmp_x, tmp_y)
+                #print "Point (%f,%f) already in list1" % (tmp_x, tmp_y)
                 self.selected_points = self.selected_points + 1
                 return
             else:
-                print "Point (%f,%f) added in list1" % (tmp_x, tmp_y)
+                #print "Point (%f,%f) added in list1" % (tmp_x, tmp_y)
                 self.side1_x.append(tmp_x)
                 self.side1_y.append(tmp_y)
                 self.selected_points = self.selected_points + 1
                 return
         else:                                         # Select second vertex
             if ((tmp_x in self.side2_x) and (tmp_y in self.side2_y)):
-                print "Point (%f,%f) already in list2" % (tmp_x, tmp_y)
+                #print "Point (%f,%f) already in list2" % (tmp_x, tmp_y)
                 self.selected_points = self.selected_points + 1
                 return
             else:
-                print "Point (%f,%f) added in list2" % (tmp_x, tmp_y)
+                #print "Point (%f,%f) added in list2" % (tmp_x, tmp_y)
                 self.side2_x.append(tmp_x)
                 self.side2_y.append(tmp_y)
                 self.selected_points = self.selected_points + 1
                 return
 
     def digitizingFinished(self):
-        print "side1_x"
-        print self.side1_x
-        print "side1_y"
-        print self.side1_y
-        print "side2_x"
-        print self.side2_x
-        print "side2_y"
-        print self.side2_y
+        #print "side1_x"
+        #print self.side1_x
+        #print "side1_y"
+        #print self.side1_y
+        #print "side2_x"
+        #print self.side2_x
+        #print "side2_y"
+        #print self.side2_y
         (x, y) = median_polyline(self.side1_x, self.side1_y, self.side2_x,
             self.side2_y)
-        print "x"
-        print x
-        print "y"
-        print y
+        #print "x"
+        #print x
+        #print "y"
+        #print y
         for i in range(len(x)):
             p = QgsPoint(x[i], y[i])
-            print "current p is:"
-            print p
+            #print "current p is:"
+            #print p
             self.point_list.append(p)
         # Debug
-        print "Point list:"
-        print self.point_list
+        #print "Point list:"
+        #print self.point_list
         new_geom = QgsGeometry.fromPolyline(self.point_list)
         addGeometryToCadLayer(new_geom)
         self.canvas.refresh()
@@ -158,7 +154,7 @@ class DtDigitizeRoad():
         '''Enables/disables the corresponding button.'''
         # Disable the Button by default
         self.reset()
-        self.road_digitizer.setEnabled(False)
+        self.median_digitizer.setEnabled(False)
         layer = self.iface.activeLayer()
 
         if layer is not None:
@@ -167,7 +163,7 @@ class DtDigitizeRoad():
                 # only for polygon layers
                 if layer.geometryType() == 2:
                     # enable if editable
-                    self.road_digitizer.setEnabled(layer.isEditable())
+                    self.median_digitizer.setEnabled(layer.isEditable())
                     try:
                         layer.editingStarted.disconnect(self.enable)
                         # disconnect, will be reconnected

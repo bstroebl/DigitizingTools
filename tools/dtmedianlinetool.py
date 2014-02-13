@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-digitizeroadtool
-````````````````
+digitizemedianlinetool
+``````````````````````
 """
 """
 Part of DigitizingTools, a QGIS plugin that
@@ -27,7 +27,7 @@ from qgis.core import *
 from qgis.gui import *
 
 
-class DtDigitizeRoadTool(QgsMapTool):
+class DtMedianLineTool(QgsMapTool):
     finishedDigitizing = QtCore.pyqtSignal()
 
     def __init__(self, parent):
