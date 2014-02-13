@@ -35,5 +35,5 @@ experimental=False
 deprecated=False
 
 # Author contact information
-author=Bernhard Ströbl, Kommunale Immobilien Jena
+author=Bernhard Ströbl (Kommunale Immobilien Jena), Angelos Tzotsos (NTUA)
 email=bernhard.stroebl@jena.de
