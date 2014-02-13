@@ -104,50 +104,50 @@ class DtDigitizeRoad():
         modulo = self.selected_points % 2
         if (modulo == 0):                              # Select first vertex
             if ((tmp_x in self.side1_x) and (tmp_y in self.side1_y)):
-                print "Point (%f,%f) already in list1" % (tmp_x, tmp_y)
+                #print "Point (%f,%f) already in list1" % (tmp_x, tmp_y)
                 self.selected_points = self.selected_points + 1
                 return
             else:
-                print "Point (%f,%f) added in list1" % (tmp_x, tmp_y)
+                #print "Point (%f,%f) added in list1" % (tmp_x, tmp_y)
                 self.side1_x.append(tmp_x)
                 self.side1_y.append(tmp_y)
                 self.selected_points = self.selected_points + 1
                 return
         else:                                         # Select second vertex
             if ((tmp_x in self.side2_x) and (tmp_y in self.side2_y)):
-                print "Point (%f,%f) already in list2" % (tmp_x, tmp_y)
+                #print "Point (%f,%f) already in list2" % (tmp_x, tmp_y)
                 self.selected_points = self.selected_points + 1
                 return
             else:
-                print "Point (%f,%f) added in list2" % (tmp_x, tmp_y)
+                #print "Point (%f,%f) added in list2" % (tmp_x, tmp_y)
                 self.side2_x.append(tmp_x)
                 self.side2_y.append(tmp_y)
                 self.selected_points = self.selected_points + 1
                 return
 
     def digitizingFinished(self):
-        print "side1_x"
-        print self.side1_x
-        print "side1_y"
-        print self.side1_y
-        print "side2_x"
-        print self.side2_x
-        print "side2_y"
-        print self.side2_y
+        #print "side1_x"
+        #print self.side1_x
+        #print "side1_y"
+        #print self.side1_y
+        #print "side2_x"
+        #print self.side2_x
+        #print "side2_y"
+        #print self.side2_y
         (x, y) = median_polyline(self.side1_x, self.side1_y, self.side2_x,
             self.side2_y)
-        print "x"
-        print x
-        print "y"
-        print y
+        #print "x"
+        #print x
+        #print "y"
+        #print y
         for i in range(len(x)):
             p = QgsPoint(x[i], y[i])
-            print "current p is:"
-            print p
+            #print "current p is:"
+            #print p
             self.point_list.append(p)
         # Debug
-        print "Point list:"
-        print self.point_list
+        #print "Point list:"
+        #print self.point_list
         new_geom = QgsGeometry.fromPolyline(self.point_list)
         addGeometryToCadLayer(new_geom)
         self.canvas.refresh()
