@@ -47,7 +47,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'DigitizingTools'
-copyright = u'2013, Bernhard Ströbl / Kommunale Immobilien Jena'
+copyright = u'2014, Bernhard Ströbl / Kommunale Immobilien Jena'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
