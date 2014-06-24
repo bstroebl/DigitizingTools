@@ -71,20 +71,13 @@ class DigitizingTools:
         self.toolBar.setObjectName("DigitizingTools")
 
         #. Add a menu
-        self.menu = QtGui.QMenu()
-        self.menu.setObjectName("mDigitizingTools")
-        self.menu.setTitle( QtGui.QApplication.translate( "DigitizingTools","&DigitizingTools" ) )
+        self.menuLabel = QtGui.QApplication.translate( "DigitizingTools","&DigitizingTools" )
         self.digitizingtools_help = QtGui.QAction( QtGui.QApplication.translate("DigitizingTools", "Help" ), self.iface.mainWindow() )
         self.digitizingtools_about = QtGui.QAction( QtGui.QApplication.translate("DigitizingTools", "About" ), self.iface.mainWindow() )
         self.digitizingtools_about.setObjectName("DtAbout")
         self.digitizingtools_settings = QtGui.QAction( QtGui.QApplication.translate("DigitizingTools", "Settings" ), self.iface.mainWindow() )
 
-        self.menu.addActions( [self.digitizingtools_about] )
-
-        menu_bar = self.iface.mainWindow().menuBar()
-        actions = menu_bar.actions()
-        lastAction = actions[len(actions) - 1]
-        menu_bar.insertMenu(lastAction, self.menu)
+        self.iface.addPluginToMenu(self.menuLabel, self.digitizingtools_about)
 
         #. Add the tools
         self.multiPartSplitter = dtsplitmultipart.DtSplitMultiPartTool(self.iface, self.toolBar)
@@ -116,7 +109,7 @@ class DigitizingTools:
         settings.show()
 
     def unload(self):
-        # remove toolbar and menubar
+        # remove toolbar and menu
         del self.toolBar
-        del self.menu
+        self.iface.removePluginMenu(self.menuLabel, self.digitizingtools_about)
 
