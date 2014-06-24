@@ -36,6 +36,8 @@ class DigitizingToolsAbout(QtGui.QDialog):
         aboutText += "\n\n"
         aboutText += QtCore.QCoreApplication.translate("dtAbout", "List of Contributors:")
         aboutText +="\n"
+        aboutText += "Sandra Lopes (Portugese translation)"
+        aboutText +="\n"
         aboutText += "Alexandre Neto"
         aboutText += "\n"
         aboutText += "Jean-Cyrille Notter (French translation)"
@@ -44,7 +46,7 @@ class DigitizingToolsAbout(QtGui.QDialog):
         aboutText += "\n"
         aboutText += u"Angelos Tzotsos"
         aboutText += "\n\n"
-        aboutText += u"DigitizingTools is copyright (C) 2013 Bernhard Ströbl bernhard.stroebl@jena.de\n\n"
+        aboutText += u"DigitizingTools is copyright (C) 2013 Bernhard Ströbl bernhard.stroebl[at]jena.de\n\n"
         aboutText += u"Licensed under the terms of the GNU GPL V 2:\n"
         aboutText += u"This program is free software; you can redistribute it and/or modify it under the"
         aboutText += " terms of the GNU General Public License as published by the Free Software Foundation;"
