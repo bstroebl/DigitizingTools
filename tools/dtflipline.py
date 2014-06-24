@@ -30,11 +30,12 @@ class DtFlipLine(DtDualToolSelectFeature):
             QtCore.QCoreApplication.translate("digitizingtools", "Flip line (interactive mode)"),
             QtGui.QIcon(":/flipLineBatch.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Flip selected lines"),
-            geometryTypes = [1],  dtName = "dtFlipLine")
+            geometryTypes = [2, 5],  dtName = "dtFlipLine")
 
     def process(self):
         '''algorythm taken from Nathan Woodrow's Swap Line Direction see
-       http://gis.stackexchange.com/questions/9261/how-can-i-switch-line-direction-in-qgis '''
+       http://gis.stackexchange.com/questions/9261/how-can-i-switch-line-direction-in-qgis
+       adapted to use with MultiPolylines '''
         layer = self.iface.activeLayer()
 
         if layer.selectedFeatureCount() == 1:
@@ -48,9 +49,24 @@ class DtFlipLine(DtDualToolSelectFeature):
 
         for feat in layer.selectedFeatures():
             geom = feat.geometry()
-            nodes = geom.asPolyline()
-            nodes.reverse()
-            newGeom = QgsGeometry.fromPolyline(nodes)
+
+            if layer.wkbType() == 2:
+                nodes = geom.asPolyline()
+                nodes.reverse()
+            elif layer.wkbType() == 5:
+                nodes = []
+
+                for aLine in geom.asGeometryCollection():
+                    aNodes = aLine.asPolyline()
+                    aNodes.reverse()
+                    nodes.append(aNodes)
+            else: # should not happen as tool is deactivated in all other cases
+                nodes = []
+
+            if layer.wkbType() == 2:
+                newGeom = QgsGeometry.fromPolyline(nodes)
+            else:
+                newGeom = QgsGeometry.fromMultiPolyline(nodes)
 
             if not layer.changeGeometry(feat.id(),  newGeom):
                 hadError = True
