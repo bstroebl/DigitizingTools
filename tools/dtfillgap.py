@@ -31,7 +31,7 @@ class DtFillGap(DtDualToolSelectVertex):
             QtCore.QCoreApplication.translate("digitizingtools", "Fill gap with a new feature (interactive mode)"),
             QtGui.QIcon(":/fillGapBatch.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Fill all gaps between selected polygons with new features"),
-            geometryTypes = [2],  dtName = "dtFillGap")
+            geometryTypes = [3, 6],  dtName = "dtFillGap")
 
     def vertexSnapped(self,  snapResult):
         snappedVertex = snapResult[0][0]

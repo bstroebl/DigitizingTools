@@ -28,7 +28,7 @@ class DtSingleButton():
     tooltip [str]
     geometryTypes [array:integer] 0=point, 1=line, 2=polygon'''
 
-    def __init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes = [0, 1, 2],  dtName = None):
+    def __init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes = [1, 2, 3],  dtName = None):
         # Save reference to the QGIS interface
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
@@ -55,7 +55,7 @@ class DtSingleButton():
             #Only for vector layers.
             if layer.type() == QgsMapLayer.VectorLayer:
                 # only for layers of
-                if self.geometryTypes.count(layer.geometryType()) == 1:
+                if self.geometryTypes.count(layer.wkbType()) == 1:
                     #check if this layer'S geometry type is within the list of allowed types
                     self.act.setEnabled(layer.isEditable())
                     try:
@@ -101,7 +101,7 @@ class DtSingleEditTool(DtSingleButton):
 
         if layer <> None:
             if layer.type() == 0: #Only for vector layers.
-                if self.geometryTypes.count(layer.geometryType()) == 1:
+                if self.geometryTypes.count(layer.wkbType()) == 1:
                     doEnable = layer.isEditable()
                     try:
                         layer.editingStarted.disconnect(self.enable) # disconnect, will be reconnected
@@ -151,7 +151,7 @@ class DtDualTool():
     tooltipBatch [str] for batch mode
     geometryTypes [array:integer] 0=point, 1=line, 2=polygon'''
 
-    def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [0,  1, 2],  dtName = None):
+    def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [1, 2, 3],  dtName = None):
         # Save reference to the QGIS interface
         self.iface = iface
         self.iface.currentLayerChanged.connect(self.enable)
@@ -247,7 +247,7 @@ class DtDualTool():
             #Only for vector layers.
             if layer.type() == QgsMapLayer.VectorLayer:
                 # only for certain layers
-                if self.geometryTypes.count(layer.geometryType()) == 1:
+                if self.geometryTypes.count(layer.wkbType()) == 1:
                     if not layer.isEditable():
                         self.deactivate()
 
@@ -269,7 +269,7 @@ class DtDualTool():
 class DtDualToolSelectFeature(DtDualTool):
     '''Abstract class for a DtDualToo which uses the DtSelectFeatureTool for interactive mode'''
 
-    def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [0,  1, 2],  dtName = None):
+    def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [1, 2, 3],  dtName = None):
         DtDualTool.__init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes,  dtName)
         self.tool = DtSelectFeatureTool(self.canvas)
 
@@ -294,7 +294,7 @@ class DtDualToolSelectVertex(DtDualTool):
     '''Abstract class for a DtDualTool which uses the DtSelectVertexTool for interactive mode
     numVertices [integer] nnumber of vertices to be snapped until vertexFound signal is emitted'''
 
-    def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [0,  1, 2],  numVertices = 1,  dtName = None):
+    def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [1, 2, 3],  numVertices = 1,  dtName = None):
         DtDualTool.__init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes,  dtName)
         self.tool = DtSelectVertexTool(self.canvas,  numVertices)
 

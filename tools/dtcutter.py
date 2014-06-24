@@ -28,7 +28,7 @@ class DtCutWithPolygon(DtSingleButton):
         DtSingleButton.__init__(self,  iface,  toolBar,
             QtGui.QIcon(":/cutter.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Cut with polygon from another layer"),
-            geometryTypes = [1, 2],  dtName = "dtCutter")
+            geometryTypes = [2, 3, 5, 6],  dtName = "dtCutter")
         self.enable()
 
     def process(self):
