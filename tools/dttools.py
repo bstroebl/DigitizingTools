@@ -22,16 +22,40 @@ from qgis.gui import *
 from dtselectfeaturetool import DtSelectFeatureTool
 from dtselectvertextool import DtSelectVertexTool
 
-class DtSingleButton():
+
+class DtTool():
+    '''Abstract class; parent for any Dt tool or button'''
+    def __init__(self,  iface,  geometryTypes):
+        self.iface = iface
+        self.canvas = self.iface.mapCanvas()
+        self.geometryTypes = geometryTypes
+        self.shapeFileGeometryTypes = []
+
+        # ESRI shapefile does not distinguish between single and multi geometries
+        for aGeomType in self.geometryTypes:
+            if aGeomType < 4:
+                self.shapeFileGeometryTypes.append(aGeomType)
+            else:
+                self.shapeFileGeometryTypes.append(aGeomType - 3)
+
+    def allowedGeometry(self,  layer):
+        '''check if this layer's geometry type is within the list of allowed types'''
+        if layer.dataProvider().storageType() == u'ESRI Shapefile': # does not distinguish between single and multi
+            result = self.shapeFileGeometryTypes.count(layer.wkbType()) >= 1
+        else:
+            result = self.geometryTypes.count(layer.wkbType()) == 1
+
+        return result
+
+class DtSingleButton(DtTool):
     '''Abstract class for a single button
     icon [QtGui.QIcon]
     tooltip [str]
     geometryTypes [array:integer] 0=point, 1=line, 2=polygon'''
 
     def __init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes = [1, 2, 3],  dtName = None):
-        # Save reference to the QGIS interface
-        self.iface = iface
-        self.canvas = self.iface.mapCanvas()
+        DtTool.__init__(self,  iface,  geometryTypes)
+
         self.act = QtGui.QAction(icon, tooltip, self.iface.mainWindow())
         self.act.triggered.connect(self.process)
 
@@ -54,9 +78,7 @@ class DtSingleButton():
         if layer <> None:
             #Only for vector layers.
             if layer.type() == QgsMapLayer.VectorLayer:
-                # only for layers of
-                if self.geometryTypes.count(layer.wkbType()) == 1:
-                    #check if this layer'S geometry type is within the list of allowed types
+                if self.allowedGeometry(layer):
                     self.act.setEnabled(layer.isEditable())
                     try:
                         layer.editingStarted.disconnect(self.enable) # disconnect, will be reconnected
@@ -101,7 +123,7 @@ class DtSingleEditTool(DtSingleButton):
 
         if layer <> None:
             if layer.type() == 0: #Only for vector layers.
-                if self.geometryTypes.count(layer.wkbType()) == 1:
+                if self.allowedGeometry(layer):
                     doEnable = layer.isEditable()
                     try:
                         layer.editingStarted.disconnect(self.enable) # disconnect, will be reconnected
@@ -143,7 +165,7 @@ class DtSingleEditTool(DtSingleButton):
 
         self.act.setEnabled(doEnable)
 
-class DtDualTool():
+class DtDualTool(DtTool):
     '''Abstract class for a tool with interactive and batch mode
     icon [QtGui.QIcon] for interactive mode
     tooltip [str] for interactive mode
@@ -152,10 +174,9 @@ class DtDualTool():
     geometryTypes [array:integer] 0=point, 1=line, 2=polygon'''
 
     def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [1, 2, 3],  dtName = None):
-        # Save reference to the QGIS interface
-        self.iface = iface
+        DtTool.__init__(self,  iface,  geometryTypes)
+
         self.iface.currentLayerChanged.connect(self.enable)
-        self.canvas = self.iface.mapCanvas()
         self.canvas.mapToolSet.connect(self.toolChanged)
         #create button
         self.button = QtGui.QToolButton(toolBar)
@@ -246,8 +267,9 @@ class DtDualTool():
         if layer <> None:
             #Only for vector layers.
             if layer.type() == QgsMapLayer.VectorLayer:
+
                 # only for certain layers
-                if self.geometryTypes.count(layer.wkbType()) == 1:
+                if self.allowedGeometry(layer):
                     if not layer.isEditable():
                         self.deactivate()
 
