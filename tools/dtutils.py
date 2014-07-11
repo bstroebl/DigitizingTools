@@ -231,3 +231,12 @@ def dtDeleteRings(poly):
             outGeom = outGeom.combine(aRing)
 
     return outGeom
+
+def dtGetDefaultAttributeMap(layer):
+    attributeMap = {}
+    dp = layer.dataProvider()
+
+    for i in range(len(layer.pendingFields())):
+        attributeMap[i] = dp.defaultValue(i)
+
+    return attributeMap

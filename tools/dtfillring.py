@@ -31,6 +31,7 @@ class DtFillRing(DtDualToolSelectVertex):
             QtGui.QIcon(":/fillRingBatch.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Fill all rings in selected polygons with new features"),
             geometryTypes = [3, 6],  dtName = "dtFillRing")
+        self.newFid = None
 
     def vertexSnapped(self,  snapResult):
         snappedVertex = snapResult[0][0]
@@ -50,43 +51,55 @@ class DtFillRing(DtDualToolSelectVertex):
                         break
 
             if thisRing != None:
-                newFeat = dtutils.dtCreateFeature(layer)
+                defaultAttributeMap = dtutils.dtGetDefaultAttributeMap(layer)
+                layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Fill ring"))
 
-                if self.iface.openFeatureForm(layer,  newFeat,  True):
-                    # let user edit attributes
-                    layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Fill ring"))
-                    newFeat.setGeometry(thisRing)
-                    layer.addFeature(newFeat)
+                if self.iface.vectorLayerTools().addFeature(layer, defaultValues = defaultAttributeMap, defaultGeometry = thisRing):
                     layer.endEditCommand()
                     self.canvas.refresh()
+                else:
+                    layer.destroyEditCommand()
 
         self.tool.reset()
 
     def process(self):
         layer = self.iface.activeLayer()
-        newFeat = dtutils.dtCreateFeature(layer)
+        layer.featureAdded.connect(self.featureAdded)
         numRingsFilled = 0
+        aborted = False
 
-        if self.iface.openFeatureForm(layer,  newFeat):
-            for featureToFill in layer.selectedFeatures():
-                geom = featureToFill.geometry()
-                rings = dtutils.dtExtractRings(geom)
+        for featureToFill in layer.selectedFeatures():
+            geom = featureToFill.geometry()
+            rings = dtutils.dtExtractRings(geom)
 
-                for aRing in rings:
+            for aRing in rings:
 
-                    if numRingsFilled == 0:
-                        layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Fill rings"))
+                if numRingsFilled == 0:
+                    defaultAttributeMap = dtutils.dtGetDefaultAttributeMap(layer)
+                    layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Fill rings"))
 
-                    aFeat = dtutils.dtCopyFeature(layer,  newFeat)
+                    if self.iface.vectorLayerTools().addFeature(layer, defaultValues = defaultAttributeMap, defaultGeometry = aRing):
+                        layer.featureAdded.disconnect(self.featureAdded)
+                    else:
+                        layer.featureAdded.disconnect(self.featureAdded)
+                        layer.destroyEditCommand()
+                        aborted = True
+                        break
+                else:
+                    aFeat = dtutils.dtCopyFeature(layer,  srcFid = self.newFid)
                     aFeat.setGeometry(aRing)
-                    #for i in range(layer.pendingFields().count()):
                     layer.addFeature(aFeat)
-                    numRingsFilled += 1
 
-            layer.endEditCommand()
-            self.canvas.refresh()
-        else:
-            layer.destroyEditCommand()
+                numRingsFilled += 1
+
+                if aborted:
+                    break
+
+        layer.endEditCommand()
+        self.canvas.refresh()
+
+    def featureAdded(self,  newFid):
+        self.newFid = newFid
 
 
 

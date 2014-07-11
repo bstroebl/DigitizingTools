@@ -33,10 +33,12 @@ class DtFillGap(DtDualToolSelectVertex):
             QtCore.QCoreApplication.translate("digitizingtools", "Fill all gaps between selected polygons with new features"),
             geometryTypes = [3, 6],  dtName = "dtFillGap")
 
+        self.newFid = None
+
     def vertexSnapped(self,  snapResult):
         snappedVertex = snapResult[0][0]
         self.fillGaps(snappedVertex)
-        self.tool.clear()
+        self.tool.reset()
 
     def process(self):
         self.fillGaps()
@@ -84,6 +86,8 @@ class DtFillGap(DtDualToolSelectVertex):
             self.iface.messageBar().pushMessage(title,  QtCore.QCoreApplication.translate("digitizingtools",
                 "There are no gaps between the polygons."), level=QgsMessageBar.CRITICAL)
         else:
+            defaultAttributeMap = dtutils.dtGetDefaultAttributeMap(layer)
+
             if snappedVertex != None:
                 thisRing = None
 
@@ -94,30 +98,47 @@ class DtFillGap(DtDualToolSelectVertex):
                             break
 
                 if thisRing != None:
-                    newFeat = dtutils.dtCreateFeature(layer)
+                    layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Fill gap"))
 
-                    if self.iface.openFeatureForm(layer,  newFeat,  True):
-                        layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Fill gap"))
-                        newFeat.setGeometry(thisRing)
-                        layer.addFeature(newFeat)
+                    if self.iface.vectorLayerTools().addFeature(layer, defaultValues = defaultAttributeMap, defaultGeometry = thisRing):
                         layer.endEditCommand()
+                        self.canvas.refresh()
+                    else:
+                        layer.destroyEditCommand()
                 else:
                     self.iface.messageBar().pushMessage(title,  QtCore.QCoreApplication.translate("digitizingtools",
                         "The selected gap is not closed."), level=QgsMessageBar.CRITICAL)
             else:
-                newFeat = dtutils.dtCreateFeature(layer)
+                layer.featureAdded.connect(self.featureAdded)
+                numRingsFilled = 0
+                aborted = False
 
-                if self.iface.openFeatureForm(layer,  newFeat):
-                    layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Fill gaps"))
+                for aRing in rings:
+                    if numRingsFilled == 0:
+                        layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Fill gaps"))
 
-                    for aRing in rings:
-                        aFeat = dtutils.dtCopyFeature(layer,  newFeat)
+                        if self.iface.vectorLayerTools().addFeature(layer, defaultValues = defaultAttributeMap, defaultGeometry = aRing):
+                            layer.featureAdded.disconnect(self.featureAdded)
+                        else:
+                            layer.featureAdded.disconnect(self.featureAdded)
+                            aborted = True
+                            break
+                    else:
+                        aFeat = dtutils.dtCopyFeature(layer,  srcFid = self.newFid)
                         aFeat.setGeometry(aRing)
                         layer.addFeature(aFeat)
 
+                    numRingsFilled += 1
+
+                if aborted:
+                    layer.destroyEditCommand()
+                else:
                     layer.endEditCommand()
 
             if hasNoSelection:
                 layer.removeSelection()
 
             self.canvas.refresh()
+
+    def featureAdded(self,  newFid):
+        self.newFid = newFid
