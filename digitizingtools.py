@@ -42,6 +42,7 @@ import dtmovenodebyarea
 import dtmovesidebydistance
 import dtmovesidebyarea
 import dtmedianline
+import dtextractpart
 
 class DigitizingTools:
     """Main class for the plugin"""
@@ -81,6 +82,7 @@ class DigitizingTools:
 
         #. Add the tools
         self.multiPartSplitter = dtsplitmultipart.DtSplitMultiPartTool(self.iface, self.toolBar)
+        self.partExtractor = dtextractpart.DtExtractPartTool(self.iface, self.toolBar)
         self.cutter = dtcutter.DtCutWithPolygon(self.iface, self.toolBar)
         self.ringFiller = dtfillring.DtFillRing(self.iface, self.toolBar)
         self.gapFiller = dtfillgap.DtFillGap(self.iface, self.toolBar)
