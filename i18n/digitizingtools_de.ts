@@ -4,27 +4,27 @@
 <context>
     <name>DigitizingTools</name>
     <message>
-        <location filename="digitizingtools.py" line="74"/>
+        <location filename="digitizingtools.py" line="75"/>
         <source>&amp;DigitizingTools</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="digitizingtools.py" line="75"/>
+        <location filename="digitizingtools.py" line="76"/>
         <source>Help</source>
         <translation>Hilfe</translation>
     </message>
     <message>
-        <location filename="digitizingtools.py" line="76"/>
+        <location filename="digitizingtools.py" line="77"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="digitizingtools.py" line="77"/>
+        <location filename="digitizingtools.py" line="79"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="tools/dttools.py" line="135"/>
+        <location filename="tools/dttools.py" line="167"/>
         <source>is disabled because layer CRS and project CRS do not match!</source>
         <translation>wird deaktiviert weil das KBS des Layers und das KBS des Projektes nicht übereinstimmen!</translation>
     </message>
@@ -329,17 +329,17 @@
         <translation>Verschieben einer Seite durch Festlegen einer Zielfläche</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="45"/>
+        <location filename="tools/dtfillgap.py" line="47"/>
         <source>Fill gap</source>
         <translation>Riss fluten</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="84"/>
+        <location filename="tools/dtfillgap.py" line="86"/>
         <source>There are no gaps between the polygons.</source>
         <translation>Zwischen den ausgewählten Objekten gibt es keine Risse.</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="105"/>
+        <location filename="tools/dtfillgap.py" line="109"/>
         <source>The selected gap is not closed.</source>
         <translation>Der ausgewählte Riss ist nicht geschlossen.</translation>
     </message>
@@ -382,6 +382,26 @@
         <location filename="tools/dtfillgap.py" line="29"/>
         <source>Fill all gaps between selected polygons with new features</source>
         <translation>Alle Risse in den ausgewählten Objekten mit neuen Objekten fluten</translation>
+    </message>
+    <message>
+        <location filename="tools/dtmedianline.py" line="42"/>
+        <source>Digitize median line between adjacent polygons</source>
+        <translation>Mittellinie zwischen zwei benachbarten Polygonen erzeugen</translation>
+    </message>
+    <message>
+        <location filename="tools/dtmedianline.py" line="85"/>
+        <source>Digitize median line</source>
+        <translation>Mittellinie erzeugen</translation>
+    </message>
+    <message>
+        <location filename="tools/dtmedianline.py" line="93"/>
+        <source>Please clear selection.</source>
+        <translation>Bitte löschen Sie die Auswahl.</translation>
+    </message>
+    <message>
+        <location filename="tools/dtextractpart.py" line="29"/>
+        <source>Delete part and add it as a new feature</source>
+        <translation>Teil einer Multigeometrie löschen und als neues Feature einfügen</translation>
     </message>
 </context>
 <context>
@@ -438,12 +458,12 @@
         <translation>Seite durch Festlegen einer Entfernung verschoben</translation>
     </message>
     <message>
-        <location filename="tools/dtfillring.py" line="57"/>
+        <location filename="tools/dtfillring.py" line="55"/>
         <source>Fill ring</source>
         <translation>Ring gefüllt</translation>
     </message>
     <message>
-        <location filename="tools/dtfillring.py" line="78"/>
+        <location filename="tools/dtfillring.py" line="79"/>
         <source>Fill rings</source>
         <translation>Ringe gefüllt</translation>
     </message>
@@ -453,29 +473,34 @@
         <translation>Seite durch Festlegen einer Zielfläche verschoben</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="100"/>
+        <location filename="tools/dtfillgap.py" line="101"/>
         <source>Fill gap</source>
         <translation>Riss geflutet</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="111"/>
+        <location filename="tools/dtfillgap.py" line="118"/>
         <source>Fill gaps</source>
         <translation>Risse geflutet</translation>
     </message>
     <message>
-        <location filename="tools/dtflipline.py" line="43"/>
+        <location filename="tools/dtflipline.py" line="44"/>
         <source>Flip lines</source>
         <translation>Richtung der Linien umgedreht</translation>
     </message>
     <message>
-        <location filename="tools/dtflipline.py" line="41"/>
+        <location filename="tools/dtflipline.py" line="42"/>
         <source>Flip line</source>
         <translation>Richtung der Linie umgedreht</translation>
     </message>
     <message>
-        <location filename="tools/dtsplitmultipart.py" line="43"/>
+        <location filename="tools/dtsplitmultipart.py" line="44"/>
         <source>Split feature</source>
         <translation>Geometrie aufgeteilt</translation>
+    </message>
+    <message>
+        <location filename="tools/dtextractpart.py" line="69"/>
+        <source>Extract part</source>
+        <translation>Teil extrahiert</translation>
     </message>
 </context>
 </TS>
