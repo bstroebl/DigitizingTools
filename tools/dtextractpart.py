@@ -67,13 +67,12 @@ class DtExtractPartTool(DtSingleTool):
             if foundPart:
                 if geom.deletePart(i):
                     layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Extract part"))
-
-                    if self.iface.vectorLayerTools().addFeature(layer,  defaultGeometry = aPart):
-                        feature.setGeometry(geom)
-                        layer.updateFeature(feature)
-                        layer.endEditCommand()
-                        self.canvas.refresh()
-                    else:
-                        layer.destroyEditCommand()
+                    aFeat = dtutils.dtCopyFeature(layer,  feature)
+                    aFeat.setGeometry(aPart)
+                    layer.addFeature(aFeat)
+                    feature.setGeometry(geom)
+                    layer.updateFeature(feature)
+                    layer.endEditCommand()
+                    self.canvas.refresh()
 
         self.tool.reset()
