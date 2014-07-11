@@ -24,7 +24,7 @@ from qgis.core import *
 from qgis.gui import *
 
 import icons_rc
-from dtselectsegmenttool import DtSelectSegmentTool
+from dttools import DtSelectSegmentTool
 from ui_dtmovesidebydistance import Ui_DtMoveSideByDistance
 from dtmovesidebydistance_dialog import DtMoveSideByDistance_Dialog
 

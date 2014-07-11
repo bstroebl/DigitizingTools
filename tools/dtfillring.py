@@ -60,7 +60,7 @@ class DtFillRing(DtDualToolSelectVertex):
                     layer.endEditCommand()
                     self.canvas.refresh()
 
-        self.tool.clear()
+        self.tool.reset()
 
     def process(self):
         layer = self.iface.activeLayer()

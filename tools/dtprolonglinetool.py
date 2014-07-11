@@ -22,15 +22,15 @@ from PyQt4 import QtCore,  QtGui
 from qgis.core import *
 from qgis.gui import *
 import dtutils
+from dttools import DtMapTool
 
-class DtProlongLineTool(QgsMapTool):
+class DtProlongLineTool(DtMapTool):
     startedDigitizing = QtCore.pyqtSignal(QgsVectorLayer,  QgsFeature,  QgsPoint,  QgsRubberBand)
     finishedDigitizing = QtCore.pyqtSignal(QgsGeometry)
     stoppedDigitizing = QtCore.pyqtSignal()
 
     def __init__(self, canvas):
-        QgsMapTool.__init__(self, canvas)
-        self.canvas=canvas
+        DtMapTool.__init__(self, canvas)
         self.marker = None
         self.rubberBand = None
         settings = QtCore.QSettings()
@@ -43,29 +43,9 @@ class DtProlongLineTool(QgsMapTool):
         settings.endGroup()
         self.rubberBandColor = QtGui.QColor(r, g, b, a)
         self.rubberBandWidth = lw
-        self.cursor = QtGui.QCursor(QtGui.QPixmap(["16 16 3 1",
-                                  "      c None",
-                                  ".     c #000000",
-                                  "+     c #FFFFFF",
-                                  "                ",
-                                  "       +.+      ",
-                                  "      ++.++     ",
-                                  "     +.....+    ",
-                                  "    +.     .+   ",
-                                  "   +.   .   .+  ",
-                                  "  +.    .    .+ ",
-                                  " ++.    .    .++",
-                                  " ... ...+... ...",
-                                  " ++.    .    .++",
-                                  "  +.    .    .+ ",
-                                  "   +.   .   .+  ",
-                                  "   ++.     .+   ",
-                                  "    ++.....+    ",
-                                  "      ++.++     ",
-                                  "       +.+      "]))
         self.reset()
 
-    def reset(self,  emitStopped = False):
+    def reset(self,  emitSignal = False):
         self.lineFeature = None
 
         if self.rubberBand != None:
@@ -77,11 +57,8 @@ class DtProlongLineTool(QgsMapTool):
             self.canvas.scene().removeItem(self.marker)
             self.marker = None
             # only emit signal if digitizing has already started
-            if emitStopped:
+            if emitSignal:
                 self.stoppedDigitizing.emit()
-
-    def canvasPressEvent(self, event):
-        pass
 
     def canvasMoveEvent(self, event):
         # move the last point
@@ -169,19 +146,5 @@ class DtProlongLineTool(QgsMapTool):
         if event.key() == QtCore.Qt.Key_Escape:
             self.reset(True )
 
-    def activate(self):
-        self.canvas.setCursor(self.cursor)
-
     def deactivate(self):
         self.reset(True)
-
-    def isZoomTool(self):
-        return False
-
-    def isTransient(self):
-        return False
-
-    def isEditTool(self):
-        return True
-
-

@@ -16,12 +16,10 @@ it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 """
-from PyQt4 import QtGui
+from PyQt4 import QtGui,  QtCore
 from qgis.core import *
 from qgis.gui import *
-from dtselectfeaturetool import DtSelectFeatureTool
-from dtselectvertextool import DtSelectVertexTool
-
+import dtutils
 
 class DtTool():
     '''Abstract class; parent for any Dt tool or button'''
@@ -91,12 +89,10 @@ class DtSingleButton(DtTool):
                     layer.editingStarted.connect(self.enable)
                     layer.editingStopped.connect(self.enable)
 
-class DtSingleEditTool(DtSingleButton):
-    '''Abstract class for a tool for interactive editing'''
+class DtSingleTool(DtSingleButton):
+    '''Abstract class for a tool'''
     def __init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes = [0, 1, 2],  crsWarning = True,  dtName = None):
         DtSingleButton.__init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes,  dtName)
-        self.crsWarning = crsWarning
-        self.editLayer = None
         self.tool = None
         self.act.setCheckable(True)
         self.canvas.mapToolSet.connect(self.toolChanged)
@@ -111,6 +107,16 @@ class DtSingleEditTool(DtSingleButton):
 
         self.reset()
         self.act.setChecked(False)
+
+    def reset(self):
+        pass
+
+class DtSingleEditTool(DtSingleTool):
+    '''Abstract class for a tool for interactive editing'''
+    def __init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes = [0, 1, 2],  crsWarning = True,  dtName = None):
+        DtSingleTool.__init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes,  dtName)
+        self.crsWarning = crsWarning
+        self.editLayer = None
 
     def reset(self):
         self.editLayer = None
@@ -335,3 +341,224 @@ class DtDualToolSelectVertex(DtDualTool):
 
     def vertexSnapped(self,  snapResult):
         raise NotImplementedError("Should have implemented vertexSnapped")
+
+class DtMapTool(QgsMapTool):
+    '''abstract subclass of QgsMapTool'''
+    def __init__(self, canvas):
+        QgsMapTool.__init__(self,canvas)
+        self.canvas=canvas
+
+        #custom cursor
+        self.cursor = QtGui.QCursor(QtGui.QPixmap(["16 16 3 1",
+                                        "      c None",
+                                        ".     c #FF0000",
+                                        "+     c #FFFFFF",
+                                        "                ",
+                                        "       +.+      ",
+                                        "      ++.++     ",
+                                        "     +.....+    ",
+                                        "    +.     .+   ",
+                                        "   +.   .   .+  ",
+                                        "  +.    .    .+ ",
+                                        " ++.    .    .++",
+                                        " ... ...+... ...",
+                                        " ++.    .    .++",
+                                        "  +.    .    .+ ",
+                                        "   +.   .   .+  ",
+                                        "   ++.     .+   ",
+                                        "    ++.....+    ",
+                                        "      ++.++     ",
+                                        "       +.+      "]))
+
+    def activate(self):
+        self.canvas.setCursor(self.cursor)
+
+    def deactivate(self):
+        self.reset()
+
+    def reset(self,  emitSignal = False):
+        pass
+
+    def isZoomTool(self):
+        return False
+
+    def isTransient(self):
+        return False
+
+    def isEditTool(self):
+        return True
+
+class DtSelectFeatureTool(DtMapTool):
+    featureSelected = QtCore.pyqtSignal(list)
+
+    def __init__(self, canvas):
+        DtMapTool.__init__(self, canvas)
+
+    def canvasReleaseEvent(self,event):
+        #Get the click
+        x = event.pos().x()
+        y = event.pos().y()
+
+        layer = self.canvas.currentLayer()
+
+        if layer <> None:
+            #the clicked point is our starting point
+            startingPoint = QtCore.QPoint(x,y)
+
+            #we need a snapper, so we use the MapCanvas snapper
+            snapper = QgsMapCanvasSnapper(self.canvas)
+            (hasSnapSettings,  snapEnabled,  snapType,  snapUnits,  snapTolerance, avoidInters) = QgsProject.instance().snapSettingsForLayer(layer.id())
+
+            if not hasSnapSettings:
+                dtutils.showSnapSettingsWarning()
+            elif not snapEnabled:
+                dtutils.showSnapSettingsWarning()
+            else:
+                #we snap to the current layer (we don't have exclude points and use the tolerances from the qgis properties)
+                (retval,result) = snapper.snapToCurrentLayer(startingPoint, snapType)
+
+                if result == []:
+                    dtutils.showSnapSettingsWarning()
+                else:
+                    #mehrere fids
+                    fids = []
+                    for i in range(len(result)):
+                        fid = result[i].snappedAtGeometry # QgsFeatureId of the snapped geometry
+                        fids.append(fid)
+
+                    layer.removeSelection()
+                    layer.setSelectedFeatures(fids)
+                    self.featureSelected.emit(fids)
+
+class DtSelectVertexTool(DtMapTool):
+    '''select and mark numVertices vertices in the active layer'''
+    vertexFound = QtCore.pyqtSignal(list)
+
+    def __init__(self, canvas,  numVertices = 1):
+        DtMapTool.__init__(self,canvas)
+
+        # desired number of marked vertex until signal
+        self.numVertices = numVertices
+        # number of marked vertex
+        self.count = 0
+        # arrays to hold markers and vertex points
+        self.markers = []
+        self.points = []
+        self.fids = []
+
+    def canvasReleaseEvent(self,event):
+        if self.count < self.numVertices: #not yet enough
+            #Get the click
+            x = event.pos().x()
+            y = event.pos().y()
+
+            layer = self.canvas.currentLayer()
+
+            if layer <> None:
+                #the clicked point is our starting point
+                startingPoint = QtCore.QPoint(x,y)
+
+                #we need a snapper, so we use the MapCanvas snapper
+                snapper = QgsMapCanvasSnapper(self.canvas)
+
+                #we snap to the current layer (we don't have exclude points and use the tolerances from the qgis properties)
+                (retval,result) = snapper.snapToCurrentLayer (startingPoint,QgsSnapper.SnapToVertex)
+
+                if result == []:
+                    #warn about missing snapping tolerance if appropriate
+                    #self.showSettingsWarning()
+                    pass
+
+                if result <> []:
+                    #mark the vertex
+                    p = QgsPoint()
+                    p.setX( result[0].snappedVertex.x() )
+                    p.setY( result[0].snappedVertex.y() )
+                    m = QgsVertexMarker(self.canvas)
+                    m.setIconType(1)
+
+                    if self.count == 0:
+                        m.setColor(QtGui.QColor(255,0,0))
+                    else:
+                        m.setColor(QtGui.QColor(0, 0, 255))
+
+                    m.setIconSize(12)
+                    m.setPenWidth (3)
+                    m.setCenter(p)
+                    self.points.append(p)
+                    self.markers.append(m)
+                    fid = result[0].snappedAtGeometry # QgsFeatureId of the snapped geometry
+                    self.fids.append(fid)
+                    self.count += 1
+
+                    if self.count == self.numVertices:
+                        self.vertexFound.emit([self.points,  self.markers,  self.fids])
+                        #self.emit(SIGNAL("vertexFound(PyQt_PyObject)"), [self.points,  self.markers])
+
+    def showSettingsWarning(self):
+        m = QgsMessageViewer()
+        m.setWindowTitle("Snap tolerance")
+        m.setCheckBoxText("Don't show this message again")
+        m.setCheckBoxVisible(True)
+        m.setCheckBoxQSettingsLabel(settingsLabel)
+        m.setMessageAsHtml( "<p>Could not snap vertex.</p><p>Have you set the tolerance in Settings > Project Properties > General?</p>")
+        m.showMessage()
+
+    def reset(self,  emitSignal = False):
+        for m in self.markers:
+            self.canvas.scene().removeItem(m)
+
+        self.markers = []
+        self.points = []
+        self.fids = []
+        self.count = 0
+
+class DtSelectSegmentTool(DtMapTool):
+    segmentFound = QtCore.pyqtSignal(list)
+
+    def __init__(self, canvas):
+        DtMapTool.__init__(self,canvas)
+        self.rb1 = QgsRubberBand(self.canvas,  False)
+
+    def canvasReleaseEvent(self,event):
+        #Get the click
+        x = event.pos().x()
+        y = event.pos().y()
+
+        layer = self.canvas.currentLayer()
+
+        if layer <> None:
+            #the clicked point is our starting point
+            startingPoint = QtCore.QPoint(x,y)
+
+            #we need a snapper, so we use the MapCanvas snapper
+            snapper = QgsMapCanvasSnapper(self.canvas)
+
+            #we snap to the current layer (we don't have exclude points and use the tolerances from the qgis properties)
+            (retval,result) = snapper.snapToCurrentLayer (startingPoint,QgsSnapper.SnapToSegment)
+
+            #if we have found a linesegment
+            if result <> []:
+                # we like to mark the segment that is choosen, so we need a rubberband
+                self.rb1.reset()
+                color = QtGui.QColor(255,0,0)
+                self.rb1.setColor(color)
+                self.rb1.setWidth(2)
+                self.rb1.addPoint(result[0].beforeVertex)
+                self.rb1.addPoint(result[0].afterVertex)
+                self.rb1.show()
+                self.segmentFound.emit([self.rb1.getPoint(0, 0),  self.rb1.getPoint(0, 1),  self.rb1])
+            else:
+                pass
+
+    def showSettingsWarning(self):
+        m = QgsMessageViewer()
+        m.setWindowTitle("Snap tolerance")
+        m.setCheckBoxText("Don't show this message again")
+        m.setCheckBoxVisible(True)
+        m.setCheckBoxQSettingsLabel(settingsLabel)
+        m.setMessageAsHtml( "<p>Could not snap segment.</p><p>Have you set the tolerance in Settings > Project Properties > General?</p>")
+        m.showMessage()
+
+    def reset(self,  emitSignal = False):
+        self.rb1.reset()
