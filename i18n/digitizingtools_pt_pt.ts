@@ -206,7 +206,7 @@
     <message>
         <location filename="tools/dtcutter.py" line="36"/>
         <source>Cutter</source>
-        <translation type="unfinished">Cortador</translation>
+        <translation>Cortador</translation>
     </message>
     <message>
         <location filename="tools/dtcutter.py" line="92"/>
@@ -221,12 +221,12 @@
     <message>
         <location filename="tools/dtsplitter.py" line="38"/>
         <source>Splitter</source>
-        <translation type="unfinished">Divisor</translation>
+        <translation>Divisor</translation>
     </message>
     <message>
         <location filename="tools/dtsplitter.py" line="39"/>
         <source>splitter layer</source>
-        <translation type="unfinished">camada de divisão</translation>
+        <translation>camada de divisão</translation>
     </message>
     <message>
         <location filename="tools/dtsplitter.py" line="42"/>
