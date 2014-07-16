@@ -62,7 +62,7 @@
     <message>
         <location filename="tools/ui_dtmovesidebyarea.ui" line="14"/>
         <source>Parallel Move Side By Area</source>
-        <translation>Déplacement parallèle d&apos;un côté en définissant une zone cible</translation>
+        <translation>Déplacement parallèle d&apos;un côté par zone</translation>
     </message>
     <message>
         <location filename="tools/ui_dtmovesidebyarea.ui" line="22"/>
@@ -151,7 +151,7 @@
     <message>
         <location filename="tools/dtcutter.py" line="40"/>
         <source>cutter layer</source>
-        <translation>Couche de coupe</translation>
+        <translation>Couche de découpe</translation>
     </message>
     <message>
         <location filename="tools/dtutils.py" line="137"/>
@@ -161,7 +161,7 @@
     <message>
         <location filename="tools/dtutils.py" line="138"/>
         <source>Use all features for process?</source>
-        <translation>Utiliser tous les objets ?</translation>
+        <translation>Utiliser tous les objets pour le processus ?</translation>
     </message>
     <message>
         <location filename="tools/dtutils.py" line="143"/>
@@ -171,7 +171,7 @@
     <message>
         <location filename="tools/dtutils.py" line="145"/>
         <source> features selected in layer </source>
-        <translation>Les objets sélectionnés dans la couche</translation>
+        <translation> objets sélectionnés dans la couche</translation>
     </message>
     <message>
         <location filename="tools/dtutils.py" line="150"/>
@@ -201,7 +201,7 @@
     <message>
         <location filename="tools/dtutils.py" line="173"/>
         <source>Error occured during</source>
-        <translation>Au cours de ce processus, une erreur s&apos;est produite</translation>
+        <translation>Au cours de ce processus une erreur s&apos;est produite</translation>
     </message>
     <message>
         <location filename="tools/dtcutter.py" line="36"/>
@@ -256,17 +256,17 @@
     <message>
         <location filename="tools/dtmovenodebyarea.py" line="84"/>
         <source>Move polygon node by area</source>
-        <translation>Déplacer la base en définissant une surface cible</translation>
+        <translation>Déplacez un noeud de polygone par secteur</translation>
     </message>
     <message>
         <location filename="tools/dtmovesidebyarea.py" line="85"/>
         <source>Please select one polygon to edit.</source>
-        <translation>S&apos;il vous plaît sélectionner le polygone à modifier.</translation>
+        <translation>S&apos;il vous plaît sélectionner un polygone à modifier.</translation>
     </message>
     <message>
         <location filename="tools/dtmovesidebyarea.py" line="87"/>
         <source>Please select only one polygon to edit.</source>
-        <translation>S&apos;il vous plaît choisir un seul polygone.</translation>
+        <translation>Ne choisir qu&apos;un seul polygone à éditer SVP.</translation>
     </message>
     <message>
         <location filename="tools/dtmovesidebyarea.py" line="146"/>
@@ -286,7 +286,7 @@
     <message>
         <location filename="tools/dtmovenodebyarea.py" line="148"/>
         <source>Selected vertices should be consecutive on the selected polygon.</source>
-        <translation>Le noeud sélectionné doit être adjacent au polygone sélectionné.</translation>
+        <translation>Les noeuds sélectionnés doivent être adjacents au polygone sélectionné.</translation>
     </message>
     <message>
         <location filename="tools/dtmovenodebyarea.py" line="163"/>
@@ -296,7 +296,7 @@
     <message>
         <location filename="tools/dtmovesidebydistance.py" line="49"/>
         <source>Parallel move of polygon side to given distance</source>
-        <translation>Déplacer parallèlement un polygone en définissant une distance</translation>
+        <translation>Déplacer parallèlement un polygone selon une distance définie</translation>
     </message>
     <message>
         <location filename="tools/dtmovesidebydistance.py" line="83"/>
@@ -306,12 +306,12 @@
     <message>
         <location filename="tools/dtmovesidebydistance.py" line="138"/>
         <source>Target Distance not valid.</source>
-        <translation>La distance n&apos;est pas valide.</translation>
+        <translation>La distance définie n&apos;est pas valide.</translation>
     </message>
     <message>
         <location filename="tools/dtmovesidebyarea.py" line="142"/>
         <source>Polygon side not selected.</source>
-        <translation>Vous n&apos;avez pas sélectionné un côté du polygone.</translation>
+        <translation>Vous n&apos;avez pas sélectionné de côté au polygone.</translation>
     </message>
     <message>
         <location filename="tools/dtmovesidebyarea.py" line="146"/>
@@ -331,17 +331,17 @@
     <message>
         <location filename="tools/dtfillgap.py" line="45"/>
         <source>Fill gap</source>
-        <translation>Remplir l&apos;espace parasite</translation>
+        <translation>Remplir un interstice</translation>
     </message>
     <message>
         <location filename="tools/dtfillgap.py" line="84"/>
         <source>There are no gaps between the polygons.</source>
-        <translation>Entre les objets sélectionnés, il n&apos;y a pas d&apos;espace.</translation>
+        <translation>Entre les objets sélectionnés, il n&apos;y a pas d&apos;interstice.</translation>
     </message>
     <message>
         <location filename="tools/dtfillgap.py" line="105"/>
         <source>The selected gap is not closed.</source>
-        <translation>L&apos;espace sélectionné n&apos;est pas fermé.</translation>
+        <translation>L&apos;interstice sélectionné n&apos;est pas fermé.</translation>
     </message>
     <message>
         <location filename="tools/dtsplitmultipart.py" line="32"/>
@@ -376,12 +376,12 @@
     <message>
         <location filename="tools/dtfillgap.py" line="29"/>
         <source>Fill gap with a new feature (interactive mode)</source>
-        <translation>Remplir un espace avec un nouvel objet (mode interactif)</translation>
+        <translation>Remplir un interstice avec un nouvel objet (mode interactif)</translation>
     </message>
     <message>
         <location filename="tools/dtfillgap.py" line="29"/>
         <source>Fill all gaps between selected polygons with new features</source>
-        <translation>Remplir tous les espaces avec de nouveux objets (mode interactif)</translation>
+        <translation>Remplir tous les interstices avec de nouveux objets (mode interactif)</translation>
     </message>
 </context>
 <context>
@@ -389,7 +389,7 @@
     <message>
         <location filename="dtDialog.py" line="35"/>
         <source>Subsumes different tools useful during digitizing sessions</source>
-        <translation>Résume les différents outils utiles lors des séances de numérisation</translation>
+        <translation>Inclut les différents outils utiles lors des séances de numérisation</translation>
     </message>
     <message>
         <location filename="dtDialog.py" line="37"/>
@@ -420,7 +420,7 @@
     <message>
         <location filename="tools/dtcutter.py" line="123"/>
         <source>Delete Features</source>
-        <translation>Détruires des objets</translation>
+        <translation>Détruire des objets</translation>
     </message>
     <message>
         <location filename="tools/dtprolongline.py" line="54"/>
@@ -430,7 +430,7 @@
     <message>
         <location filename="tools/dtmovenodebyarea.py" line="153"/>
         <source>Move Node By Area</source>
-        <translation>Déplacer un noeud en définissant une surface cible</translation>
+        <translation>Déplacer un noeud par zone</translation>
     </message>
     <message>
         <location filename="tools/dtmovesidebydistance.py" line="151"/>
@@ -455,12 +455,12 @@
     <message>
         <location filename="tools/dtfillgap.py" line="100"/>
         <source>Fill gap</source>
-        <translation>Remplir un espace (lacune)</translation>
+        <translation>Remplir un interstice</translation>
     </message>
     <message>
         <location filename="tools/dtfillgap.py" line="111"/>
         <source>Fill gaps</source>
-        <translation>Remplir les espaces (lacunes)</translation>
+        <translation>Remplir les interstices</translation>
     </message>
     <message>
         <location filename="tools/dtflipline.py" line="43"/>
