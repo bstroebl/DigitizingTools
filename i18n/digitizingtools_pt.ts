@@ -4,27 +4,27 @@
 <context>
     <name>DigitizingTools</name>
     <message>
-        <location filename="digitizingtools.py" line="74"/>
+        <location filename="digitizingtools.py" line="75"/>
         <source>&amp;DigitizingTools</source>
         <translation>&amp;Ferramentas de Digitalização</translation>
     </message>
     <message>
-        <location filename="digitizingtools.py" line="75"/>
+        <location filename="digitizingtools.py" line="76"/>
         <source>Help</source>
         <translation>Ajuda</translation>
     </message>
     <message>
-        <location filename="digitizingtools.py" line="76"/>
+        <location filename="digitizingtools.py" line="77"/>
         <source>About</source>
         <translation>Sobre</translation>
     </message>
     <message>
-        <location filename="digitizingtools.py" line="77"/>
+        <location filename="digitizingtools.py" line="79"/>
         <source>Settings</source>
         <translation>Configurações</translation>
     </message>
     <message>
-        <location filename="tools/dttools.py" line="135"/>
+        <location filename="tools/dttools.py" line="167"/>
         <source>is disabled because layer CRS and project CRS do not match!</source>
         <translation>está desativado porque o sistema de coordenadas da camada e do projecto não coincidem!</translation>
     </message>
@@ -32,27 +32,27 @@
 <context>
     <name>DtMoveNodeByArea</name>
     <message>
-        <location filename="tools/ui_dtmovenodebyarea.ui" line="14"/>
+        <location filename="tools/ui_dtmovenodebyarea.py" line="68"/>
         <source>Move Node By Area</source>
         <translation>Mover Nó por Área</translation>
     </message>
     <message>
-        <location filename="tools/ui_dtmovenodebyarea.ui" line="22"/>
+        <location filename="tools/ui_dtmovenodebyarea.py" line="69"/>
         <source>Area of the selected polygon:</source>
         <translation>Área do polígono seleccionado:</translation>
     </message>
     <message>
-        <location filename="tools/ui_dtmovenodebyarea.ui" line="59"/>
+        <location filename="tools/ui_dtmovenodebyarea.py" line="70"/>
         <source>Target Area:</source>
         <translation>Área Alvo:</translation>
     </message>
     <message>
-        <location filename="tools/ui_dtmovenodebyarea.ui" line="103"/>
+        <location filename="tools/ui_dtmovenodebyarea.py" line="71"/>
         <source>Move Node</source>
         <translation>Mover Nó</translation>
     </message>
     <message>
-        <location filename="tools/ui_dtmovenodebyarea.ui" line="110"/>
+        <location filename="tools/ui_dtmovenodebyarea.py" line="72"/>
         <source>Close</source>
         <translation>Fechar</translation>
     </message>
@@ -60,42 +60,42 @@
 <context>
     <name>DtMoveSideByArea</name>
     <message>
-        <location filename="tools/ui_dtmovesidebyarea.ui" line="14"/>
+        <location filename="tools/ui_dtmovesidebyarea.py" line="86"/>
         <source>Parallel Move Side By Area</source>
         <translation>Movimento Paralelo de Lado por Área</translation>
     </message>
     <message>
-        <location filename="tools/ui_dtmovesidebyarea.ui" line="22"/>
+        <location filename="tools/ui_dtmovesidebyarea.py" line="87"/>
         <source>Area of the selected polygon:</source>
         <translation>Área do polígono seleccionado:</translation>
     </message>
     <message>
-        <location filename="tools/ui_dtmovesidebyarea.ui" line="59"/>
+        <location filename="tools/ui_dtmovesidebyarea.py" line="88"/>
         <source>Target Area:</source>
         <translation>Área Alvo:</translation>
     </message>
     <message>
-        <location filename="tools/ui_dtmovesidebyarea.ui" line="103"/>
+        <location filename="tools/ui_dtmovesidebyarea.py" line="89"/>
         <source>Move Side</source>
         <translation>Mover Lado</translation>
     </message>
     <message>
-        <location filename="tools/ui_dtmovesidebyarea.ui" line="110"/>
+        <location filename="tools/ui_dtmovesidebyarea.py" line="90"/>
         <source>Close</source>
         <translation>Fechar</translation>
     </message>
     <message>
-        <location filename="tools/ui_dtmovesidebyarea.ui" line="149"/>
+        <location filename="tools/ui_dtmovesidebyarea.py" line="91"/>
         <source>Size of side to be moved:</source>
         <translation>Tamanho do lado a mover:</translation>
     </message>
     <message>
-        <location filename="tools/ui_dtmovesidebyarea.ui" line="156"/>
+        <location filename="tools/ui_dtmovesidebyarea.py" line="92"/>
         <source>Fixed</source>
         <translation>Fixo</translation>
     </message>
     <message>
-        <location filename="tools/ui_dtmovesidebyarea.ui" line="166"/>
+        <location filename="tools/ui_dtmovesidebyarea.py" line="93"/>
         <source>Variable</source>
         <translation>Variável</translation>
     </message>
@@ -103,22 +103,22 @@
 <context>
     <name>DtMoveSideByDistance</name>
     <message>
-        <location filename="tools/ui_dtmovesidebydistance.ui" line="14"/>
+        <location filename="tools/ui_dtmovesidebydistance.py" line="53"/>
         <source>Move Side By Distance</source>
         <translation>Mover Lado por Distância</translation>
     </message>
     <message>
-        <location filename="tools/ui_dtmovesidebydistance.ui" line="22"/>
+        <location filename="tools/ui_dtmovesidebydistance.py" line="54"/>
         <source>Move Distance:</source>
         <translation>Distância do Movimento:</translation>
     </message>
     <message>
-        <location filename="tools/ui_dtmovesidebydistance.ui" line="66"/>
+        <location filename="tools/ui_dtmovesidebydistance.py" line="55"/>
         <source>Move Side</source>
         <translation>Mover Lado</translation>
     </message>
     <message>
-        <location filename="tools/ui_dtmovesidebydistance.ui" line="73"/>
+        <location filename="tools/ui_dtmovesidebydistance.py" line="56"/>
         <source>Close</source>
         <translation>Fechar</translation>
     </message>
@@ -126,12 +126,12 @@
 <context>
     <name>about</name>
     <message>
-        <location filename="ui_about.ui" line="14"/>
+        <location filename="ui_about.py" line="43"/>
         <source>About</source>
         <translation>Sobre</translation>
     </message>
     <message>
-        <location filename="ui_about.ui" line="23"/>
+        <location filename="ui_about.py" line="44"/>
         <source>DigitizingTools</source>
         <translation>Ferramentas de Digitalização</translation>
     </message>
@@ -259,22 +259,22 @@
         <translation>Mover nó do polígono por área</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebyarea.py" line="85"/>
+        <location filename="tools/dtmovenodebyarea.py" line="87"/>
         <source>Please select one polygon to edit.</source>
         <translation>Por favor seleccionar um polígono para editar.</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebyarea.py" line="87"/>
+        <location filename="tools/dtmovenodebyarea.py" line="89"/>
         <source>Please select only one polygon to edit.</source>
         <translation>Por favor seleccionar apenas um polígono para editar.</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebyarea.py" line="146"/>
+        <location filename="tools/dtmovenodebyarea.py" line="163"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebyarea.py" line="138"/>
+        <location filename="tools/dtmovenodebyarea.py" line="137"/>
         <source>Target Area not valid.</source>
         <translation>Área Alvo não válida.</translation>
     </message>
@@ -306,15 +306,15 @@
     <message>
         <location filename="tools/dtmovesidebydistance.py" line="138"/>
         <source>Target Distance not valid.</source>
-        <translation>Distência Alvo não válida.</translation>
+        <translation>Distância Alvo não válida.</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebyarea.py" line="142"/>
+        <location filename="tools/dtmovesidebydistance.py" line="142"/>
         <source>Polygon side not selected.</source>
         <translation>Lado de polígono não seleccionado.</translation>
     </message>
     <message>
-        <location filename="tools/dtmovesidebyarea.py" line="146"/>
+        <location filename="tools/dtmovesidebydistance.py" line="146"/>
         <source>Selected segment should be on the selected polygon.</source>
         <translation>O segmento a seleccionar deve ser no polígono seleccionado.</translation>
     </message>
@@ -329,17 +329,17 @@
         <translation>Mover lado de polígono por área</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="45"/>
+        <location filename="tools/dtfillgap.py" line="47"/>
         <source>Fill gap</source>
         <translation>Preencher lacuna</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="84"/>
+        <location filename="tools/dtfillgap.py" line="86"/>
         <source>There are no gaps between the polygons.</source>
         <translation>Não existem lacuna entre os polígonos.</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="105"/>
+        <location filename="tools/dtfillgap.py" line="109"/>
         <source>The selected gap is not closed.</source>
         <translation>A lacuna seleccionada não está fechada.</translation>
     </message>
@@ -382,6 +382,27 @@
         <location filename="tools/dtfillgap.py" line="29"/>
         <source>Fill all gaps between selected polygons with new features</source>
         <translation>Preencher todas as lacunas do polígono seleccionado com novos elementos</translation>
+    </message>
+    <message>
+        <location filename="tools/dtextractpart.py" line="29"/>
+        <source>Delete part and add it as a new feature</source>
+        <translation>Apagar parte e adiccioná-la como novo elemento</translation>
+    </message>
+    <message>
+        <location filename="tools/dtmedianline.py" line="42"/>
+        <source>Digitize median line between adjacent polygons</source>
+        <translatorcomment>Digitaliza linha média</translatorcomment>
+        <translation>Digitaliza linha média entre polígonos adjacentes</translation>
+    </message>
+    <message>
+        <location filename="tools/dtmedianline.py" line="85"/>
+        <source>Digitize median line</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="tools/dtmedianline.py" line="93"/>
+        <source>Please clear selection.</source>
+        <translation>Por favor limpes a selecção.</translation>
     </message>
 </context>
 <context>
@@ -438,12 +459,12 @@
         <translation>Mover Lado por Distância</translation>
     </message>
     <message>
-        <location filename="tools/dtfillring.py" line="57"/>
+        <location filename="tools/dtfillring.py" line="55"/>
         <source>Fill ring</source>
         <translation>Preencher anel</translation>
     </message>
     <message>
-        <location filename="tools/dtfillring.py" line="78"/>
+        <location filename="tools/dtfillring.py" line="79"/>
         <source>Fill rings</source>
         <translation>Preencher anéis</translation>
     </message>
@@ -453,29 +474,34 @@
         <translation>Mover Lado por Área</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="100"/>
+        <location filename="tools/dtfillgap.py" line="101"/>
         <source>Fill gap</source>
         <translation>Preencher lacuna</translation>
     </message>
     <message>
-        <location filename="tools/dtfillgap.py" line="111"/>
+        <location filename="tools/dtfillgap.py" line="118"/>
         <source>Fill gaps</source>
         <translation>Preencher lacunas</translation>
     </message>
     <message>
-        <location filename="tools/dtflipline.py" line="43"/>
+        <location filename="tools/dtflipline.py" line="44"/>
         <source>Flip lines</source>
         <translation>Virar Linhas</translation>
     </message>
     <message>
-        <location filename="tools/dtflipline.py" line="41"/>
+        <location filename="tools/dtflipline.py" line="42"/>
         <source>Flip line</source>
         <translation>Virar Linha</translation>
     </message>
     <message>
-        <location filename="tools/dtsplitmultipart.py" line="43"/>
+        <location filename="tools/dtsplitmultipart.py" line="44"/>
         <source>Split feature</source>
         <translation>Dividir Elemento</translation>
+    </message>
+    <message>
+        <location filename="tools/dtextractpart.py" line="69"/>
+        <source>Extract part</source>
+        <translation>Extrair parte</translation>
     </message>
 </context>
 </TS>
