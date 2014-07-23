@@ -12,7 +12,7 @@
 name=Digitizing Tools
 qgisMinimumVersion=2.2
 description=Subsumes different tools useful during digitizing sessions
-version=0.4.5
+version=0.5.0
 
 # end of mandatory metadata
 
