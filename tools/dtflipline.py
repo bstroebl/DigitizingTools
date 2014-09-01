@@ -50,23 +50,24 @@ class DtFlipLine(DtDualToolSelectFeature):
         for feat in layer.selectedFeatures():
             geom = feat.geometry()
 
-            if layer.wkbType() == 2:
+            if layer.wkbType() == 2 or layer.wkbType() == -2147483646:
                 nodes = geom.asPolyline()
-                nodes.reverse()
-            elif layer.wkbType() == 5:
-                nodes = []
+                rNodes = self.reverse(nodes)
+                newNodes = rNodes
+            elif layer.wkbType() == 5 or layer.wkbType() ==-2147483643:
+                newNodes = []
 
                 for aLine in geom.asGeometryCollection():
                     aNodes = aLine.asPolyline()
-                    aNodes.reverse()
-                    nodes.append(aNodes)
+                    rNodes = self.reverse(aNodes)
+                    newNodes.append(rNodes)
             else: # should not happen as tool is deactivated in all other cases
-                nodes = []
+                newNodes = []
 
-            if layer.wkbType() == 2:
-                newGeom = QgsGeometry.fromPolyline(nodes)
+            if layer.wkbType() == 2 or layer.wkbType() == -2147483646:
+                newGeom = QgsGeometry.fromPolyline(newNodes)
             else:
-                newGeom = QgsGeometry.fromMultiPolyline(nodes)
+                newGeom = QgsGeometry.fromMultiPolyline(newNodes)
 
             if not layer.changeGeometry(feat.id(),  newGeom):
                 hadError = True
@@ -78,3 +79,12 @@ class DtFlipLine(DtDualToolSelectFeature):
         else:
             layer.endEditCommand()
             self.canvas.refresh()
+
+    def reverse(self,  nodes):
+        '''reverse the order in array nodes
+        nodes.reverse does not work with 25D geometries'''
+        rNodes = []
+        while len(nodes) > 0:
+            rNodes.append(nodes.pop())
+
+        return rNodes

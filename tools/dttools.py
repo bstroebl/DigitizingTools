@@ -26,15 +26,42 @@ class DtTool():
     def __init__(self,  iface,  geometryTypes):
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
-        self.geometryTypes = geometryTypes
+        self.geometryTypes = []
         self.shapeFileGeometryTypes = []
 
         # ESRI shapefile does not distinguish between single and multi geometries
-        for aGeomType in self.geometryTypes:
-            if aGeomType < 4:
-                self.shapeFileGeometryTypes.append(aGeomType)
-            else:
-                self.shapeFileGeometryTypes.append(aGeomType - 3)
+        # source of wkbType numbers: http://cosmicproject.org/OGR/ogr_classes.html
+        for aGeomType in geometryTypes:
+            if aGeomType == 1: # wkbPoint
+                self.geometryTypes.append(1)
+                self.shapeFileGeometryTypes.append(1)
+                self.geometryTypes.append(-2147483647) #wkbPoint25D
+                self.shapeFileGeometryTypes.append(-2147483647)
+            elif aGeomType == 2: # wkbLineString
+                self.geometryTypes.append(2)
+                self.shapeFileGeometryTypes.append(2)
+                self.geometryTypes.append(-2147483646) #wkbLineString25D
+                self.shapeFileGeometryTypes.append(-2147483646)
+            elif aGeomType == 3: # wkbPolygon
+                self.geometryTypes.append(3)
+                self.shapeFileGeometryTypes.append(3)
+                self.geometryTypes.append(-2147483645) #wkbPolygon25D
+                self.shapeFileGeometryTypes.append(-2147483645)
+            elif aGeomType == 4: # wkbMultiPoint
+                self.geometryTypes.append(4)
+                self.shapeFileGeometryTypes.append(1) # wkbPoint
+                self.geometryTypes.append(-2147483644) #wkbMultiPoint25D
+                self.shapeFileGeometryTypes.append(-2147483647) #wkbPoint25D
+            elif aGeomType == 5: # wkbMultiLineString
+                self.geometryTypes.append(5)
+                self.shapeFileGeometryTypes.append(2) # wkbLineString
+                self.geometryTypes.append(-2147483643) #wkbMultiLineString25D
+                self.shapeFileGeometryTypes.append(-2147483646) #wkbLineString25D
+            elif aGeomType == 6: # wkbMultiPolygon
+                self.geometryTypes.append(6)
+                self.shapeFileGeometryTypes.append(3) # wkbPolygon
+                self.geometryTypes.append(-2147483642) #wkbMultiPolygon25D
+                self.shapeFileGeometryTypes.append(-2147483645) #wkbPolygon25D
 
     def allowedGeometry(self,  layer):
         '''check if this layer's geometry type is within the list of allowed types'''
