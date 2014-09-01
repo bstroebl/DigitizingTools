@@ -24,7 +24,7 @@ PLUGIN_UPLOAD = $(CURDIR)/plugin_upload.py
 
 # translation
 SOURCES = digitizingtools.py __init__.py dtDialog.py tools/dtutils.py
-TRANSLATIONS = i18n/digitizingtools_de.ts i18n/digitizingtools_pt_pt.ts
+TRANSLATIONS = i18n/digitizingtools_de.ts i18n/digitizingtools_pt.ts
 
 # global
 
