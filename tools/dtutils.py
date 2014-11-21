@@ -143,7 +143,7 @@ def dtGetManySelMessage(layer):
     manySelMsg = QtCore.QCoreApplication.translate("digitizingtools", "There are ")
     manySelMsg += str(layer.selectedFeatureCount())
     manySelMsg += QtCore.QCoreApplication.translate("digitizingtools", " features selected in layer " )
-    manySelMsg += layer.name()
+    manySelMsg += layer.name() + "."
     return manySelMsg
 
 def dtGetInvalidGeomWarning(layer):

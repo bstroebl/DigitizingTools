@@ -28,7 +28,7 @@ class DtSplitWithLine(DtSingleButton):
     def __init__(self, iface,  toolBar):
         DtSingleButton.__init__(self,  iface,  toolBar,
             QtGui.QIcon(":/splitter.png"),
-            QtCore.QCoreApplication.translate("digitizingtools", "Split selected features with selected line(s) from another layer"),
+            QtCore.QCoreApplication.translate("digitizingtools", "Split selected features with selected line from another layer"),
             geometryTypes = [2, 3, 5, 6],  dtName = "dtSplitWithLine")
 
         self.enable()
@@ -44,23 +44,18 @@ class DtSplitWithLine(DtSingleButton):
             passiveLayer = self.iface.activeLayer()
             msgLst = dtutils.dtGetNoSelMessage()
             noSelMsg1 = msgLst[0]
-            noSelMsg2 = msgLst[1]
 
             if splitterLayer.selectedFeatureCount() == 0:
-
-                reply = QtGui.QMessageBox.question(None,  title,
-                                                   noSelMsg1 + " " + splitterLayer.name() + "\n" + noSelMsg2,
-                                                   QtGui.QMessageBox.Yes | QtGui.QMessageBox.No )
-
-                if reply == QtGui.QMessageBox.Yes:
-                    splitterLayer.invertSelection()
-                else:
-                    return None
-
-            if splitterLayer.selectedFeatureCount() > 0:
+                self.iface.messageBar().pushMessage(title, noSelMsg1 + " " + splitterLayer.name())
+                return None
+            elif splitterLayer.selectedFeatureCount() != 1:
+                numSelSplitMsg = dtutils.dtGetManySelMessage(splitterLayer)
+                self.iface.messageBar().pushMessage(title, numSelSplitMsg  + \
+                    QtCore.QCoreApplication.translate("digitizingtools", " Please select only one feature to split with."))
+            else:
                 if passiveLayer.selectedFeatureCount() == 0:
                     self.iface.messageBar().pushMessage(title,  noSelMsg1  + " " + passiveLayer.name() + ".\n" + \
-                        QtCore.QCoreApplication.translate("digitizingtools", "Please select the features to be splitted."))
+                        QtCore.QCoreApplication.translate("digitizingtools", " Please select the features to be splitted."))
                     return None
 
                # determine srs, we work in the project's srs
