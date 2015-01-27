@@ -57,6 +57,24 @@ class DtCutWithPolygon(DtSingleButton):
                 else:
                     return None
 
+            if passiveLayer.selectedFeatureCount() == 0:
+                msgLst = dtutils.dtGetNoSelMessage()
+                noSelMsg1 = msgLst[0]
+                noSelMsg2 = msgLst[1]
+                reply = QtGui.QMessageBox.question(None,  title,
+                                                   noSelMsg1 + " " + passiveLayer.name() + "\n" + noSelMsg2,
+                                                   QtGui.QMessageBox.Yes | QtGui.QMessageBox.No )
+
+                if reply == QtGui.QMessageBox.Yes:
+                    passiveLayer.invertSelection()
+                else:
+                    return None
+
+            idsToProcess = []
+
+            for aFeat in passiveLayer.selectedFeatures():
+                idsToProcess.append(aFeat.id())
+
             if cutterLayer.selectedFeatureCount() > 0:
                # determine srs, we work in the project's srs
                 cutterCRSSrsid = cutterLayer.crs().srsid()
@@ -77,6 +95,9 @@ class DtCutWithPolygon(DtSingleButton):
                     passiveLayer.select(bbox, False) # make a new selection
 
                     for selFeat in passiveLayer.selectedFeatures():
+                        if idsToProcess.count(selFeat.id()) == 0:
+                            continue
+
                         selGeom = selFeat.geometry()
 
                         if passiveCRSSrsid != projectCRSSrsid:
