@@ -33,6 +33,7 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/tools'))
 #import the tools
 import dtsplitmultipart
 import dtcutter
+import dtclipper
 import dtfillring
 import dtfillgap
 import dtsplitter
@@ -84,6 +85,7 @@ class DigitizingTools:
         self.multiPartSplitter = dtsplitmultipart.DtSplitMultiPartTool(self.iface, self.toolBar)
         self.partExtractor = dtextractpart.DtExtractPartTool(self.iface, self.toolBar)
         self.cutter = dtcutter.DtCutWithPolygon(self.iface, self.toolBar)
+        self.clipper = dtclipper.DtClipWithPolygon(self.iface, self.toolBar)
         self.ringFiller = dtfillring.DtFillRing(self.iface, self.toolBar)
         self.gapFiller = dtfillgap.DtFillGap(self.iface, self.toolBar)
         self.splitter = dtsplitter.DtSplitWithLine(self.iface, self.toolBar)

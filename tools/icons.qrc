@@ -2,6 +2,7 @@
   <qresource prefix="/">
     <file alias="splitter.png">icons/splitter.png</file>
     <file alias="cutter.png">icons/cutter.png</file>
+    <file alias="clipper.png">icons/clipper.png</file>
     <file alias="fillRing.png">icons/fillRing.png</file>
     <file alias="fillRingBatch.png">icons/fillRingBatch.png</file>
     <file alias="fillGap.png">icons/fillGap.png</file>
