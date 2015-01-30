@@ -3,22 +3,22 @@
 <context>
     <name>DigitizingTools</name>
     <message>
-        <location filename="../digitizingtools.py" line="76"/>
+        <location filename="../digitizingtools.py" line="77"/>
         <source>&amp;DigitizingTools</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="77"/>
+        <location filename="../digitizingtools.py" line="78"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="78"/>
+        <location filename="../digitizingtools.py" line="79"/>
         <source>About</source>
         <translation>A propos</translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="80"/>
+        <location filename="../digitizingtools.py" line="81"/>
         <source>Settings</source>
         <translation>Paramètres</translation>
     </message>
@@ -208,7 +208,7 @@
         <translation>coupeur</translation>
     </message>
     <message>
-        <location filename="../tools/dtcutter.py" line="92"/>
+        <location filename="../tools/dtcutter.py" line="113"/>
         <source>A feature would be completely removed by cutting. Delete this feature&apos;s dataset altogether?</source>
         <translation>Un objet pourrait être complètement éliminé par la coupe. Supprimer les données de cet objet en même temps ?</translation>
     </message>
@@ -407,6 +407,31 @@
         <source>Split selected features with selected line from another layer</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../tools/dtclipper.py" line="28"/>
+        <source>Clip with polygon from another layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools/dtclipper.py" line="37"/>
+        <source>Clipper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools/dtclipper.py" line="40"/>
+        <source>clipper layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools/dtclipper.py" line="46"/>
+        <source>Please provide a polygon layer to clip with.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools/dtclipper.py" line="62"/>
+        <source> Please select only one feature to clip with.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>dtAbout</name>
@@ -437,12 +462,12 @@
         <translation>Diviser des géométries</translation>
     </message>
     <message>
-        <location filename="../tools/dtcutter.py" line="67"/>
+        <location filename="../tools/dtcutter.py" line="85"/>
         <source>Cut Features</source>
         <translation>Couper des géométries</translation>
     </message>
     <message>
-        <location filename="../tools/dtcutter.py" line="123"/>
+        <location filename="../tools/dtcutter.py" line="144"/>
         <source>Delete Features</source>
         <translation>Détruire des objets</translation>
     </message>
@@ -504,6 +529,11 @@
     <message>
         <location filename="../tools/dtextractpart.py" line="69"/>
         <source>Extract part</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools/dtclipper.py" line="93"/>
+        <source>Clip Features</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
