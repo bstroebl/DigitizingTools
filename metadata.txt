@@ -27,7 +27,7 @@ tags=digitizing
 homepage=https://github.com/bstroebl/DigitizingTools/wiki
 tracker=http://hub.qgis.org/projects/digitizingtools
 repository=https://github.com/bstroebl/DigitizingTools
-icon=
+icon=digitizingtools.png
 # experimental flag
 experimental=False
 

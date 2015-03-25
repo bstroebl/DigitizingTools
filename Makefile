@@ -41,7 +41,7 @@ TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtcli
 	tools/dtflipline.py tools/dttools.py tools/dtmedianline.py tools/dtmedianlinetool.py \
 	tools/dtextractpart.py
 
-EXTRAS = metadata.txt license.txt
+EXTRAS = metadata.txt license.txt digitizingtools.png
 
 UI_FILES = ui_about.py tools/ui_dtmovenodebyarea.py tools/ui_dtmovesidebydistance.py tools/ui_dtmovesidebyarea.py
 
