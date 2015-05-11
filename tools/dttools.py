@@ -433,29 +433,21 @@ class DtSelectFeatureTool(DtMapTool):
             startingPoint = QtCore.QPoint(x,y)
 
             #we need a snapper, so we use the MapCanvas snapper
-            snapper = QgsMapCanvasSnapper(self.canvas)
-            (hasSnapSettings,  snapEnabled,  snapType,  snapUnits,  snapTolerance, avoidInters) = QgsProject.instance().snapSettingsForLayer(layer.id())
+            snapper = self.canvas.snappingUtils()
+            snapper.setCurrentLayer(layer)
+            snapType, snapTolerance, snapUnits = snapper.defaultSettings()
+            # snapType = 0: no snap, 1 = vertex, 2 = segment, 3 = vertex & segment
+            snapMatch = snapper.snapToCurrentLayer(startingPoint, snapType)
 
-            if not hasSnapSettings:
-                dtutils.showSnapSettingsWarning()
-            elif not snapEnabled:
+            if not snapMatch.isValid():
                 dtutils.showSnapSettingsWarning()
             else:
-                #we snap to the current layer (we don't have exclude points and use the tolerances from the qgis properties)
-                (retval,result) = snapper.snapToCurrentLayer(startingPoint, snapType)
+                #mehrere fids
+                fid = snapMatch.featureId()
 
-                if result == []:
-                    dtutils.showSnapSettingsWarning()
-                else:
-                    #mehrere fids
-                    fids = []
-                    for i in range(len(result)):
-                        fid = result[i].snappedAtGeometry # QgsFeatureId of the snapped geometry
-                        fids.append(fid)
-
-                    layer.removeSelection()
-                    layer.setSelectedFeatures(fids)
-                    self.featureSelected.emit(fids)
+                layer.removeSelection()
+                layer.setSelectedFeatures([fid])
+                self.featureSelected.emit([fid])
 
 class DtSelectVertexTool(DtMapTool):
     '''select and mark numVertices vertices in the active layer'''
@@ -486,21 +478,19 @@ class DtSelectVertexTool(DtMapTool):
                 startingPoint = QtCore.QPoint(x,y)
 
                 #we need a snapper, so we use the MapCanvas snapper
-                snapper = QgsMapCanvasSnapper(self.canvas)
+                snapper = self.canvas.snappingUtils()
+                snapper.setCurrentLayer(layer)
 
-                #we snap to the current layer (we don't have exclude points and use the tolerances from the qgis properties)
-                (retval,result) = snapper.snapToCurrentLayer (startingPoint,QgsSnapper.SnapToVertex)
+                # snapType = 0: no snap, 1 = vertex, 2 = segment, 3 = vertex & segment
+                snapType = 1
+                snapMatch = snapper.snapToCurrentLayer(startingPoint, snapType)
 
-                if result == []:
+                if not snapMatch.isValid():
                     #warn about missing snapping tolerance if appropriate
-                    #self.showSettingsWarning()
-                    pass
-
-                if result <> []:
+                    dtutils.showSnapSettingsWarning()
+                else:
                     #mark the vertex
-                    p = QgsPoint()
-                    p.setX( result[0].snappedVertex.x() )
-                    p.setY( result[0].snappedVertex.y() )
+                    p = snapMatch.point()
                     m = QgsVertexMarker(self.canvas)
                     m.setIconType(1)
 
@@ -514,22 +504,13 @@ class DtSelectVertexTool(DtMapTool):
                     m.setCenter(p)
                     self.points.append(p)
                     self.markers.append(m)
-                    fid = result[0].snappedAtGeometry # QgsFeatureId of the snapped geometry
+                    fid = snapMatch.featureId() # QgsFeatureId of the snapped geometry
                     self.fids.append(fid)
                     self.count += 1
 
                     if self.count == self.numVertices:
                         self.vertexFound.emit([self.points,  self.markers,  self.fids])
                         #self.emit(SIGNAL("vertexFound(PyQt_PyObject)"), [self.points,  self.markers])
-
-    def showSettingsWarning(self):
-        m = QgsMessageViewer()
-        m.setWindowTitle("Snap tolerance")
-        m.setCheckBoxText("Don't show this message again")
-        m.setCheckBoxVisible(True)
-        m.setCheckBoxQSettingsLabel(settingsLabel)
-        m.setMessageAsHtml( "<p>Could not snap vertex.</p><p>Have you set the tolerance in Settings > Project Properties > General?</p>")
-        m.showMessage()
 
     def reset(self,  emitSignal = False):
         for m in self.markers:
@@ -559,13 +540,18 @@ class DtSelectSegmentTool(DtMapTool):
             startingPoint = QtCore.QPoint(x,y)
 
             #we need a snapper, so we use the MapCanvas snapper
-            snapper = QgsMapCanvasSnapper(self.canvas)
+            snapper = self.canvas.snappingUtils()
+            snapper.setCurrentLayer(layer)
 
-            #we snap to the current layer (we don't have exclude points and use the tolerances from the qgis properties)
-            (retval,result) = snapper.snapToCurrentLayer (startingPoint,QgsSnapper.SnapToSegment)
+            # snapType = 0: no snap, 1 = vertex, 2 = segment, 3 = vertex & segment
+            snapType = 2
+            snapMatch = snapper.snapToCurrentLayer(startingPoint, snapType)
 
-            #if we have found a linesegment
-            if result <> []:
+            if not snapMatch.isValid():
+                #warn about missing snapping tolerance if appropriate
+                dtutils.showSnapSettingsWarning()
+            else:
+                #if we have found a linesegment
                 # we like to mark the segment that is choosen, so we need a rubberband
                 self.rb1.reset()
                 color = QtGui.QColor(255,0,0)
@@ -575,17 +561,6 @@ class DtSelectSegmentTool(DtMapTool):
                 self.rb1.addPoint(result[0].afterVertex)
                 self.rb1.show()
                 self.segmentFound.emit([self.rb1.getPoint(0, 0),  self.rb1.getPoint(0, 1),  self.rb1])
-            else:
-                pass
-
-    def showSettingsWarning(self):
-        m = QgsMessageViewer()
-        m.setWindowTitle("Snap tolerance")
-        m.setCheckBoxText("Don't show this message again")
-        m.setCheckBoxVisible(True)
-        m.setCheckBoxQSettingsLabel(settingsLabel)
-        m.setMessageAsHtml( "<p>Could not snap segment.</p><p>Have you set the tolerance in Settings > Project Properties > General?</p>")
-        m.showMessage()
 
     def reset(self,  emitSignal = False):
         self.rb1.reset()
