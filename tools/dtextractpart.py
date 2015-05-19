@@ -31,7 +31,7 @@ class DtExtractPartTool(DtSingleTool):
             QtCore.QCoreApplication.translate("digitizingtools", "Delete part and add it as a new feature"),
             geometryTypes = [4, 5, 6], dtName = "dtExtractPart")
 
-        self.tool = DtSelectVertexTool(self.canvas)
+        self.tool = DtSelectVertexTool(self.canvas, self.iface)
         self.tool.vertexFound.connect(self.vertexSnapped)
         self.enable()
 

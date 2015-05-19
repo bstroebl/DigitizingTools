@@ -53,7 +53,7 @@ class DtMoveNodeByArea():
         toolBar.addAction(self.node_mover)
         self.enable()
 
-        self.tool = DtSelectVertexTool(self.canvas,  2)
+        self.tool = DtSelectVertexTool(self.canvas, self.iface, 2)
 
     def showDialog(self):
         flags = Qt.WindowTitleHint | Qt.WindowSystemMenuHint | Qt.WindowMaximizeButtonHint  # QgisGui.ModalDialogFlags

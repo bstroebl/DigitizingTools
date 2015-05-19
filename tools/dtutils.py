@@ -151,22 +151,15 @@ def dtGetInvalidGeomWarning(layer):
     invalidGeomMsg += layer.name()
     return invalidGeomMsg
 
-def showSnapSettingsWarning():
-    #get the setting for displaySnapWarning
-    settings = QtCore.QSettings()
-    settingsLabel = "/UI/displaySnapWarning"
-    displaySnapWarning = settings.value(settingsLabel,  False,  type = bool)
+def showSnapSettingsWarning(iface):
+    title = QtCore.QCoreApplication.translate("digitizingtools", "Snap Tolerance")
+    msg1 = QtCore.QCoreApplication.translate(
+        "digitizingtools", "Could not snap vertex")
+    msg2 = QtCore.QCoreApplication.translate("digitizingtools",
+        "Have you set the tolerance in Settings > Snapping Options?")
 
-    #only show the warning if the setting is true
-    if displaySnapWarning:
-        m = QgsMessageViewer()
-        m.setWindowTitle(QtCore.QCoreApplication.translate("digitizingtools", "Snap Tolerance"))
-        m.setCheckBoxText(QtCore.QCoreApplication.translate("digitizingtools", "Don't show this message again"))
-        m.setCheckBoxVisible(True)
-        m.setCheckBoxQSettingsLabel(settingsLabel)
-        m.setMessageAsHtml( "<p>" + QtCore.QCoreApplication.translate("digitizingtools", "Could not snap vertex") + "</p><p>" +
-        QtCore.QCoreApplication.translate("digitizingtools", "Have you set the tolerance in Settings > Snapping Options?"))
-        m.showMessage()
+    iface.messageBar().pushMessage(title, msg1 + " " + msg2,
+        level=QgsMessageBar.WARNING, duration = 10)
 
 def dtGetErrorMessage():
     '''Returns the default error message which can be appended'''

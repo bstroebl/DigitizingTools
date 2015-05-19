@@ -29,8 +29,9 @@ class DtProlongLineTool(DtMapTool):
     finishedDigitizing = QtCore.pyqtSignal(QgsGeometry)
     stoppedDigitizing = QtCore.pyqtSignal()
 
-    def __init__(self, canvas):
-        DtMapTool.__init__(self, canvas)
+    def __init__(self, canvas, iface):
+        DtMapTool.__init__(self, canvas, iface)
+        self.iface = iface
         self.marker = None
         self.rubberBand = None
         settings = QtCore.QSettings()
@@ -103,7 +104,7 @@ class DtProlongLineTool(DtMapTool):
                     snappedVertex = snapMatch.point()
 
                     if not snapMatch.isValid():
-                        dtutils.showSnapSettingsWarning()
+                        dtutils.showSnapSettingsWarning(self.iface)
                     else:
                         snappedIdx = snapMatch.vertexIndex()
                         fid = snapMatch.featureId()

@@ -54,7 +54,7 @@ class DtMoveSideByDistance():
         toolBar.addAction(self.side_mover)
         self.enable()
 
-        self.tool = DtSelectSegmentTool(self.canvas)
+        self.tool = DtSelectSegmentTool(self.canvas, self.iface)
 
     def showDialog(self):
         flags = Qt.WindowTitleHint | Qt.WindowSystemMenuHint | Qt.WindowMaximizeButtonHint  # QgisGui.ModalDialogFlags

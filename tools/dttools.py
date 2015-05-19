@@ -326,7 +326,7 @@ class DtDualToolSelectFeature(DtDualTool):
 
     def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [1, 2, 3],  dtName = None):
         DtDualTool.__init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes,  dtName)
-        self.tool = DtSelectFeatureTool(self.canvas)
+        self.tool = DtSelectFeatureTool(self.canvas, self.iface)
 
     def featureSelectedSlot(self,  fids):
         if len(fids) >0:
@@ -351,7 +351,7 @@ class DtDualToolSelectVertex(DtDualTool):
 
     def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [1, 2, 3],  numVertices = 1,  dtName = None):
         DtDualTool.__init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes,  dtName)
-        self.tool = DtSelectVertexTool(self.canvas,  numVertices)
+        self.tool = DtSelectVertexTool(self.canvas, self.iface, numVertices)
 
     def hasBeenToggled(self,  isChecked):
         try:
@@ -371,9 +371,10 @@ class DtDualToolSelectVertex(DtDualTool):
 
 class DtMapTool(QgsMapTool):
     '''abstract subclass of QgsMapTool'''
-    def __init__(self, canvas):
-        QgsMapTool.__init__(self,canvas)
-        self.canvas=canvas
+    def __init__(self, canvas, iface):
+        QgsMapTool.__init__(self, canvas)
+        self.canvas = canvas
+        self.iface = iface
 
         #custom cursor
         self.cursor = QtGui.QCursor(QtGui.QPixmap(["16 16 3 1",
@@ -418,8 +419,8 @@ class DtMapTool(QgsMapTool):
 class DtSelectFeatureTool(DtMapTool):
     featureSelected = QtCore.pyqtSignal(list)
 
-    def __init__(self, canvas):
-        DtMapTool.__init__(self, canvas)
+    def __init__(self, canvas, iface):
+        DtMapTool.__init__(self, canvas, iface)
 
     def canvasReleaseEvent(self,event):
         #Get the click
@@ -440,7 +441,7 @@ class DtSelectFeatureTool(DtMapTool):
             snapMatch = snapper.snapToCurrentLayer(startingPoint, snapType)
 
             if not snapMatch.isValid():
-                dtutils.showSnapSettingsWarning()
+                dtutils.showSnapSettingsWarning(self.iface)
             else:
                 #mehrere fids
                 fid = snapMatch.featureId()
@@ -453,8 +454,8 @@ class DtSelectVertexTool(DtMapTool):
     '''select and mark numVertices vertices in the active layer'''
     vertexFound = QtCore.pyqtSignal(list)
 
-    def __init__(self, canvas,  numVertices = 1):
-        DtMapTool.__init__(self,canvas)
+    def __init__(self, canvas, iface, numVertices = 1):
+        DtMapTool.__init__(self, canvas, iface)
 
         # desired number of marked vertex until signal
         self.numVertices = numVertices
@@ -487,7 +488,7 @@ class DtSelectVertexTool(DtMapTool):
 
                 if not snapMatch.isValid():
                     #warn about missing snapping tolerance if appropriate
-                    dtutils.showSnapSettingsWarning()
+                    dtutils.showSnapSettingsWarning(self.iface)
                 else:
                     #mark the vertex
                     p = snapMatch.point()
@@ -524,8 +525,8 @@ class DtSelectVertexTool(DtMapTool):
 class DtSelectSegmentTool(DtMapTool):
     segmentFound = QtCore.pyqtSignal(list)
 
-    def __init__(self, canvas):
-        DtMapTool.__init__(self,canvas)
+    def __init__(self, canvas, iface):
+        DtMapTool.__init__(self, canvas, iface)
         self.rb1 = QgsRubberBand(self.canvas,  False)
 
     def canvasReleaseEvent(self,event):
@@ -549,7 +550,7 @@ class DtSelectSegmentTool(DtMapTool):
 
             if not snapMatch.isValid():
                 #warn about missing snapping tolerance if appropriate
-                dtutils.showSnapSettingsWarning()
+                dtutils.showSnapSettingsWarning(self.iface)
             else:
                 #if we have found a linesegment
                 # we like to mark the segment that is choosen, so we need a rubberband

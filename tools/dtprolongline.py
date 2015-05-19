@@ -31,7 +31,7 @@ class DtProlongLine(DtSingleEditTool):
             QtCore.QCoreApplication.translate("digitizingtools", "Prolong Line"),
             geometryTypes = [2, 5],  dtName = "dtProlongLine")
 
-        self.tool = DtProlongLineTool(self.canvas)
+        self.tool = DtProlongLineTool(self.canvas, self.iface)
         self.tool.startedDigitizing.connect(self.digitizingStarted)
         self.tool.finishedDigitizing.connect(self.digitizingFinished)
         self.tool.stoppedDigitizing.connect(self.digitizingStopped)
