@@ -72,6 +72,17 @@ class DtTool():
 
         return result
 
+    def isPolygonLayer(self, layer):
+        ''' check if this layer is a polygon layer'''
+        polygonTypes = [3, 6, -2147483645, -2147483642]
+        result = layer.wkbType() in polygonTypes
+
+        return result
+
+    def debug(self, str):
+        title = "DigitizingTools Debugger"
+        QgsMessageLog.logMessage(title + "\n" + str)
+
 class DtSingleButton(DtTool):
     '''Abstract class for a single button
     icon [QtGui.QIcon]
@@ -397,12 +408,12 @@ class DtDualToolSelectRing(DtDualTool):
     def ringFound(self, selectRingResult):
         raise NotImplementedError("Should have implemented ringFound")
 
-class DtMapTool(QgsMapTool):
+class DtMapTool(QgsMapTool, DtTool):
     '''abstract subclass of QgsMapTool'''
     def __init__(self, canvas, iface):
         QgsMapTool.__init__(self, canvas)
+        DtTool.__init__(self, iface, [])
         self.canvas = canvas
-        self.iface = iface
 
         #custom cursor
         self.cursor = QtGui.QCursor(QtGui.QPixmap(["16 16 3 1",
@@ -444,7 +455,82 @@ class DtMapTool(QgsMapTool):
     def isEditTool(self):
         return True
 
+class DtSelectFeatureTool(DtMapTool):
+    featureSelected = QtCore.pyqtSignal(list)
+
+    def __init__(self, canvas, iface):
+        DtMapTool.__init__(self, canvas, iface)
+
+    def getFeatureForPoint(self, layer, startingPoint):
+        '''
+        return the feature this QPoint is in (polygon layer)
+        or this QPoint snaps to (point or line layer)
+        '''
+        result = []
+
+        if self.isPolygonLayer(layer):
+            mapToPixel = self.canvas.getCoordinateTransform()
+            thisQgsPoint = mapToPixel.toMapCoordinates(startingPoint)
+            spatialIndex = dtutils.dtSpatialindex(layer)
+            neighborCount = 0
+            featureIds = spatialIndex.nearestNeighbor(thisQgsPoint, neighborCount)
+
+            for fid in featureIds:
+                feat = dtutils.dtGetFeatureForId(layer, fid)
+
+                if feat != None:
+                    aGeom = feat.geometry()
+
+                    if aGeom.contains(thisQgsPoint):
+                        result.append(feat)
+                        result.append(None)
+                        return result
+                        break
+        else:
+            #we need a snapper, so we use the MapCanvas snapper
+            snapper = self.canvas.snappingUtils()
+            snapper.setCurrentLayer(layer)
+            snapType, snapTolerance, snapUnits = snapper.defaultSettings()
+            # snapType = 0: no snap, 1 = vertex, 2 = segment, 3 = vertex & segment
+            snapMatch = snapper.snapToCurrentLayer(startingPoint, snapType)
+
+            if not snapMatch.isValid():
+                dtutils.showSnapSettingsWarning(self.iface)
+            else:
+                feat = dtutils.dtGetFeatureForId(layer, snapMatch.featureId())
+
+                if feat != None:
+                    result.append(feat)
+                    result.append(snapMatch.point())
+                    return result
+
+        return result
+
+    def canvasReleaseEvent(self,event):
+        #Get the click
+        x = event.pos().x()
+        y = event.pos().y()
+
+        layer = self.canvas.currentLayer()
+
+        if layer <> None:
+            #the clicked point is our starting point
+            startingPoint = QtCore.QPoint(x,y)
+            found = self.getFeatureForPoint(layer, startingPoint)
+
+            if len(found) > 0:
+                feat = found[0]
+                layer.removeSelection()
+                layer.setSelectedFeatures([feat.id()])
+                self.featureSelected.emit([feat.id()])
+
 class DtSelectRingTool(DtMapTool):
+    '''
+    a map tool to select a ring in a polygon
+    subclass of DtMapTool and not DtSelectFeatureTool because
+    we cannot use getFeatureForPoint here; the point is supposed
+    to be located in the ring and not in the polygon
+    '''
     ringSelected = QtCore.pyqtSignal(list)
 
     def __init__(self, canvas, iface):
@@ -459,17 +545,17 @@ class DtSelectRingTool(DtMapTool):
 
         if layer <> None:
             #the clicked point is our starting point
-            thisPoint = QtCore.QPoint(x,y)
+            startingPoint = QtCore.QPoint(x,y)
             mapToPixel = self.canvas.getCoordinateTransform()
-            thisQgsPoint = mapToPixel.toMapCoordinates(thisPoint)
+            thisQgsPoint = mapToPixel.toMapCoordinates(startingPoint)
             spatialIndex = dtutils.dtSpatialindex(layer)
             neighborCount = 0
             featureIds = spatialIndex.nearestNeighbor(thisQgsPoint, neighborCount)
 
-            for anId in featureIds:
-                feat = QgsFeature()
+            for fid in featureIds:
+                feat = dtutils.dtGetFeatureForId(layer, fid)
 
-                if layer.getFeatures(QgsFeatureRequest().setFilterFid(anId)).nextFeature(feat):
+                if feat != None:
                     aGeom = feat.geometry()
                     rings = dtutils.dtExtractRings(aGeom)
 
@@ -482,11 +568,12 @@ class DtSelectRingTool(DtMapTool):
     def reset(self, emitSignal = False):
         pass
 
-class DtSelectFeatureTool(DtMapTool):
-    featureSelected = QtCore.pyqtSignal(list)
+class DtSelectPartTool(DtSelectFeatureTool):
+    '''signal sends featureId of clickedd feature, number of part selected and geometry of part'''
+    partSelected = QtCore.pyqtSignal(list)
 
     def __init__(self, canvas, iface):
-        DtMapTool.__init__(self, canvas, iface)
+        DtSelectFeatureTool.__init__(self, canvas, iface)
 
     def canvasReleaseEvent(self,event):
         #Get the click
@@ -498,23 +585,37 @@ class DtSelectFeatureTool(DtMapTool):
         if layer <> None:
             #the clicked point is our starting point
             startingPoint = QtCore.QPoint(x,y)
+            found = self.getFeatureForPoint(layer, startingPoint)
 
-            #we need a snapper, so we use the MapCanvas snapper
-            snapper = self.canvas.snappingUtils()
-            snapper.setCurrentLayer(layer)
-            snapType, snapTolerance, snapUnits = snapper.defaultSettings()
-            # snapType = 0: no snap, 1 = vertex, 2 = segment, 3 = vertex & segment
-            snapMatch = snapper.snapToCurrentLayer(startingPoint, snapType)
+            if len(found) > 0:
+                feat = found[0]
+                snappedVertex = found[1]
+                geom = feat.geometry()
+                # if feature geometry is multipart start split processing
+                if geom.isMultipart():
+                    # Get parts from original feature
+                    parts = geom.asGeometryCollection()
+                    thisQgsPoint = mapToPixel.toMapCoordinates(startingPoint)
+                    foundPart = False
 
-            if not snapMatch.isValid():
-                dtutils.showSnapSettingsWarning(self.iface)
-            else:
-                #mehrere fids
-                fid = snapMatch.featureId()
+                    for i in range(len(parts)):
+                        # find the part that was snapped
+                        aPart = parts[i]
 
-                layer.removeSelection()
-                layer.setSelectedFeatures([fid])
-                self.featureSelected.emit([fid])
+                        if self.isPolygonLayer(layer):
+                            if aPart.contains(thisQgsPoint):
+                                foundPart = True
+                                break
+                        else:
+                            points = dtutils.dtExtractPoints(aPart)
+
+                            for aPoint in points:
+                                if aPoint.x() == snappedVertex.x() and aPoint.y() == snappedVertex.y():
+                                    foundPart = True
+                                    break
+
+                        if foundPart:
+                            self.partSelected.emit([feat.id(), i, aPart])
 
 class DtSelectVertexTool(DtMapTool):
     '''select and mark numVertices vertices in the active layer'''

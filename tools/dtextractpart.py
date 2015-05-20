@@ -22,7 +22,7 @@ from PyQt4 import QtCore,  QtGui
 from qgis.core import *
 import dtutils
 import icons_rc
-from dttools import DtSingleTool,  DtSelectVertexTool
+from dttools import DtSingleTool,  DtSelectPartTool
 
 class DtExtractPartTool(DtSingleTool):
     def __init__(self, iface,  toolBar):
@@ -31,48 +31,30 @@ class DtExtractPartTool(DtSingleTool):
             QtCore.QCoreApplication.translate("digitizingtools", "Delete part and add it as a new feature"),
             geometryTypes = [4, 5, 6], dtName = "dtExtractPart")
 
-        self.tool = DtSelectVertexTool(self.canvas, self.iface)
-        self.tool.vertexFound.connect(self.vertexSnapped)
+        self.tool = DtSelectPartTool(self.canvas, self.iface)
+        self.tool.partSelected.connect(self.partSelected)
         self.enable()
 
     def process(self):
         self.canvas.setMapTool(self.tool)
         self.act.setChecked(True)
 
-    def vertexSnapped(self,  snapResult):
-        snappedVertex = snapResult[0][0]
-        fid = snapResult[2][0]
+    def partSelected(self, part):
+        fid = part[0]
+        partNumber = part[1]
+        aPart = part[2]
         layer = self.iface.mapCanvas().currentLayer()
         feature = dtutils.dtGetFeatureForId(layer,  fid)
         geom = feature.geometry()
-        # if feature geometry is multipart start split processing
-        if geom.isMultipart():
-            # Get parts from original feature
-            parts = geom.asGeometryCollection ()
-            foundPart = False
 
-            for i in range(len(parts)):
-                # find the part that was snapped
-                aPart = parts[i]
-                points = dtutils.dtExtractPoints(aPart)
-
-                for aPoint in points:
-                    if aPoint.x() == snappedVertex.x() and aPoint.y() == snappedVertex.y():
-                        foundPart = True
-                        break
-
-                if foundPart:
-                    break
-
-            if foundPart:
-                if geom.deletePart(i):
-                    layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Extract part"))
-                    aFeat = dtutils.dtCopyFeature(layer,  feature)
-                    aFeat.setGeometry(aPart)
-                    layer.addFeature(aFeat)
-                    feature.setGeometry(geom)
-                    layer.updateFeature(feature)
-                    layer.endEditCommand()
-                    self.canvas.refresh()
+        if geom.deletePart(partNumber):
+            layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Extract part"))
+            aFeat = dtutils.dtCopyFeature(layer,  feature)
+            aFeat.setGeometry(aPart)
+            layer.addFeature(aFeat)
+            feature.setGeometry(geom)
+            layer.updateFeature(feature)
+            layer.endEditCommand()
+            self.canvas.refresh()
 
         self.tool.reset()
