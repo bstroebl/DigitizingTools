@@ -214,6 +214,14 @@ def dtExtractRings(geom):
 
     return rings
 
+def dtSpatialindex(layer):
+    """Creates a spatial index for the passed vector layer.
+    """
+    idx = QgsSpatialIndex()
+    for ft in layer.getFeatures():
+        idx.insertFeature(ft)
+    return idx
+
 def dtDeleteRings(poly):
     outGeom = QgsGeometry.fromPolygon(poly)
 

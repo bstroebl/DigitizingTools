@@ -369,6 +369,33 @@ class DtDualToolSelectVertex(DtDualTool):
     def vertexSnapped(self,  snapResult):
         raise NotImplementedError("Should have implemented vertexSnapped")
 
+class DtDualToolSelectRing(DtDualTool):
+    '''
+    Abstract class for a DtDualTool which uses the DtSelectRingTool for interactive mode
+    '''
+
+    def __init__(self, iface, toolBar, icon, tooltip, iconBatch,
+        tooltipBatch, geometryTypes = [1, 2, 3], dtName = None):
+        DtDualTool.__init__(self, iface, toolBar, icon, tooltip,
+            iconBatch, tooltipBatch, geometryTypes, dtName)
+        self.tool = DtSelectRingTool(self.canvas, self.iface)
+
+    def hasBeenToggled(self,  isChecked):
+        try:
+            self.tool.ringSelected.disconnect(self.ringFound)
+            # disconnect if it was already connected, so slot gets called only once!
+        except:
+            pass
+
+        if isChecked:
+            self.canvas.setMapTool(self.tool)
+            self.tool.ringSelected.connect(self.ringFound)
+        else:
+            self.canvas.unsetMapTool(self.tool)
+
+    def ringFound(self, selectRingResult):
+        raise NotImplementedError("Should have implemented ringFound")
+
 class DtMapTool(QgsMapTool):
     '''abstract subclass of QgsMapTool'''
     def __init__(self, canvas, iface):
@@ -415,6 +442,44 @@ class DtMapTool(QgsMapTool):
 
     def isEditTool(self):
         return True
+
+class DtSelectRingTool(DtMapTool):
+    ringSelected = QtCore.pyqtSignal(list)
+
+    def __init__(self, canvas, iface):
+        DtMapTool.__init__(self, canvas, iface)
+
+    def canvasReleaseEvent(self,event):
+        #Get the click
+        x = event.pos().x()
+        y = event.pos().y()
+
+        layer = self.canvas.currentLayer()
+
+        if layer <> None:
+            #the clicked point is our starting point
+            thisPoint = QtCore.QPoint(x,y)
+            mapToPixel = self.canvas.getCoordinateTransform()
+            thisQgsPoint = mapToPixel.toMapCoordinates(thisPoint)
+            spatialIndex = dtutils.dtSpatialindex(layer)
+            neighborCount = 0
+            featureIds = spatialIndex.nearestNeighbor(thisQgsPoint, neighborCount)
+
+            for anId in featureIds:
+                feat = QgsFeature()
+
+                if layer.getFeatures(QgsFeatureRequest().setFilterFid(anId)).nextFeature(feat):
+                    aGeom = feat.geometry()
+                    rings = dtutils.dtExtractRings(aGeom)
+
+                    if len(rings) > 0:
+                        for aRing in rings:
+                            if aRing.contains(thisQgsPoint):
+                                self.ringSelected.emit([aRing])
+                                break
+
+    def reset(self, emitSignal = False):
+        pass
 
 class DtSelectFeatureTool(DtMapTool):
     featureSelected = QtCore.pyqtSignal(list)

@@ -20,12 +20,12 @@ from PyQt4 import QtCore,  QtGui
 from qgis.core import *
 import icons_rc
 import dtutils
-from dttools import DtDualToolSelectVertex
+from dttools import DtDualToolSelectRing
 
-class DtFillRing(DtDualToolSelectVertex):
+class DtFillRing(DtDualToolSelectRing):
     '''Fill selected ring/all rings in selected feature in active polygon layer'''
     def __init__(self, iface,  toolBar):
-        DtDualToolSelectVertex.__init__(self,  iface,  toolBar,
+        DtDualToolSelectRing.__init__(self,  iface,  toolBar,
             QtGui.QIcon(":/fillRing.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Fill ring with a new feature (interactive mode)"),
             QtGui.QIcon(":/fillRingBatch.png"),
@@ -33,32 +33,20 @@ class DtFillRing(DtDualToolSelectVertex):
             geometryTypes = [3, 6],  dtName = "dtFillRing")
         self.newFid = None
 
-    def vertexSnapped(self,  snapResult):
-        snappedVertex = snapResult[0][0]
-        snappedFid = snapResult[2][0]
+    def ringFound(self, selectRingResult):
         layer = self.iface.activeLayer()
-        feat = dtutils.dtGetFeatureForId(layer,  snappedFid)
+        thisRing = selectRingResult[0]
+        defaultAttributeMap = dtutils.dtGetDefaultAttributeMap(layer)
+        layer.beginEditCommand(QtCore.QCoreApplication.translate(
+            "editcommand", "Fill ring"))
 
-        if feat != None:
-            geom = feat.geometry()
-            rings = dtutils.dtExtractRings(geom)
-            thisRing = None
-
-            for aRing in rings:
-                for aPoint in dtutils.dtExtractPoints(aRing):
-                    if aPoint.x() == snappedVertex.x() and aPoint.y() == snappedVertex.y():
-                        thisRing = aRing
-                        break
-
-            if thisRing != None:
-                defaultAttributeMap = dtutils.dtGetDefaultAttributeMap(layer)
-                layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Fill ring"))
-
-                if self.iface.vectorLayerTools().addFeature(layer, defaultValues = defaultAttributeMap, defaultGeometry = thisRing):
-                    layer.endEditCommand()
-                    self.canvas.refresh()
-                else:
-                    layer.destroyEditCommand()
+        if self.iface.vectorLayerTools().addFeature(layer,
+                defaultValues = defaultAttributeMap,
+                defaultGeometry = thisRing):
+            layer.endEditCommand()
+            self.canvas.refresh()
+        else:
+            layer.destroyEditCommand()
 
         self.tool.reset()
 
