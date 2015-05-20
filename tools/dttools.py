@@ -192,8 +192,9 @@ class DtSingleEditTool(DtSingleTool):
 
             if layerCRSSrsid != projectCRSSrsid:
                 self.iface.messageBar().pushMessage("DigitizingTools",  self.act.toolTip() + " " +
-                    QtGui.QApplication.translate("DigitizingTools", "is disabled because layer CRS and project CRS do not match!" ),
-                    level=QgsMessageBar.WARNING)
+                    QtGui.QApplication.translate("DigitizingTools",
+                    "is disabled because layer CRS and project CRS do not match!"),
+                    level=QgsMessageBar.WARNING, duration = 10)
                 doEnable = False
 
         self.act.setEnabled(doEnable)
