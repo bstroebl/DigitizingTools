@@ -214,6 +214,48 @@ def dtExtractRings(geom):
 
     return rings
 
+def dtCombineSelectedPolygons(layer, multiGeom = None, fillRings = True):
+    '''
+    make one polygon from selected polygons in layer, optionally fill
+    all rings contained in the input polygons
+    '''
+    for aFeat in layer.selectedFeatures():
+        aGeom = aFeat.geometry()
+
+        if not aGeom.isGeosValid():
+            self.iface.messageBar().pushMessage(self.title,
+                dtutils.dtGetInvalidGeomWarning(layer),
+                level=QgsMessageBar.CRITICAL)
+            return None
+
+        # fill rings contained in the polygon
+        if aGeom.isMultipart():
+            tempGeom = None
+
+            for poly in aGeom.asMultiPolygon():
+                if fillRings:
+                    noRingGeom = dtDeleteRings(poly)
+                else:
+                    noRingGeom = poly
+
+                if tempGeom == None:
+                    tempGeom = noRingGeom
+                else:
+                    tempGeom = tempGeom.combine(noRingGeom)
+        else:
+            if fillRings:
+                tempGeom = dtDeleteRings(aGeom.asPolygon())
+            else:
+                tempGeom = aGeom
+
+        # make a large polygon from all selected
+        if multiGeom == None:
+            multiGeom = tempGeom
+        else:
+            multiGeom = multiGeom.combine(tempGeom)
+
+    return multiGeom
+
 def dtSpatialindex(layer):
     """Creates a spatial index for the passed vector layer.
     """

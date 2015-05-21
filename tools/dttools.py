@@ -408,6 +408,34 @@ class DtDualToolSelectRing(DtDualTool):
     def ringFound(self, selectRingResult):
         raise NotImplementedError("Should have implemented ringFound")
 
+class DtDualToolSelectGap(DtDualTool):
+    '''
+    Abstract class for a DtDualTool which uses the DtSelectGapTool for interactive mode
+    '''
+
+    def __init__(self, iface, toolBar, icon, tooltip, iconBatch,
+            tooltipBatch, geometryTypes = [1, 2, 3], dtName = None,
+            allLayers = False):
+        DtDualTool.__init__(self, iface, toolBar, icon, tooltip,
+            iconBatch, tooltipBatch, geometryTypes, dtName)
+        self.tool = DtSelectGapTool(self.canvas, self.iface, allLayers)
+
+    def hasBeenToggled(self, isChecked):
+        try:
+            self.tool.gapSelected.disconnect(self.gapFound)
+            # disconnect if it was already connected, so slot gets called only once!
+        except:
+            pass
+
+        if isChecked:
+            self.canvas.setMapTool(self.tool)
+            self.tool.gapSelected.connect(self.gapFound)
+        else:
+            self.canvas.unsetMapTool(self.tool)
+
+    def gapFound(self, selectGapResult):
+        raise NotImplementedError("Should have implemented gapFound")
+
 class DtMapTool(QgsMapTool, DtTool):
     '''abstract subclass of QgsMapTool'''
     def __init__(self, canvas, iface):
@@ -472,20 +500,18 @@ class DtSelectFeatureTool(DtMapTool):
             mapToPixel = self.canvas.getCoordinateTransform()
             thisQgsPoint = mapToPixel.toMapCoordinates(startingPoint)
             spatialIndex = dtutils.dtSpatialindex(layer)
-            neighborCount = 0
-            featureIds = spatialIndex.nearestNeighbor(thisQgsPoint, neighborCount)
+            featureIds = spatialIndex.nearestNeighbor(thisQgsPoint, 0)
+            # if we use 0 as neighborCount then only features that contain the point
+            # are included
 
             for fid in featureIds:
                 feat = dtutils.dtGetFeatureForId(layer, fid)
 
                 if feat != None:
-                    aGeom = feat.geometry()
-
-                    if aGeom.contains(thisQgsPoint):
-                        result.append(feat)
-                        result.append(None)
-                        return result
-                        break
+                    result.append(feat)
+                    result.append(None)
+                    return result
+                    break
         else:
             #we need a snapper, so we use the MapCanvas snapper
             snapper = self.canvas.snappingUtils()
@@ -524,17 +550,14 @@ class DtSelectFeatureTool(DtMapTool):
                 layer.setSelectedFeatures([feat.id()])
                 self.featureSelected.emit([feat.id()])
 
-class DtSelectRingTool(DtMapTool):
+class DtSelectRingTool(DtSelectFeatureTool):
     '''
     a map tool to select a ring in a polygon
-    subclass of DtMapTool and not DtSelectFeatureTool because
-    we cannot use getFeatureForPoint here; the point is supposed
-    to be located in the ring and not in the polygon
     '''
     ringSelected = QtCore.pyqtSignal(list)
 
     def __init__(self, canvas, iface):
-        DtMapTool.__init__(self, canvas, iface)
+        DtSelectFeatureTool.__init__(self, canvas, iface)
 
     def canvasReleaseEvent(self,event):
         #Get the click
@@ -548,22 +571,88 @@ class DtSelectRingTool(DtMapTool):
             startingPoint = QtCore.QPoint(x,y)
             mapToPixel = self.canvas.getCoordinateTransform()
             thisQgsPoint = mapToPixel.toMapCoordinates(startingPoint)
-            spatialIndex = dtutils.dtSpatialindex(layer)
-            neighborCount = 0
-            featureIds = spatialIndex.nearestNeighbor(thisQgsPoint, neighborCount)
+            found = self.getFeatureForPoint(layer, startingPoint)
 
-            for fid in featureIds:
-                feat = dtutils.dtGetFeatureForId(layer, fid)
+            if len(found) > 0:
+                feat = found[0]
+                aGeom = feat.geometry()
+                rings = dtutils.dtExtractRings(aGeom)
 
-                if feat != None:
-                    aGeom = feat.geometry()
-                    rings = dtutils.dtExtractRings(aGeom)
+                if len(rings) > 0:
+                    for aRing in rings:
+                        if aRing.contains(thisQgsPoint):
+                            self.ringSelected.emit([aRing])
+                            break
 
-                    if len(rings) > 0:
-                        for aRing in rings:
-                            if aRing.contains(thisQgsPoint):
-                                self.ringSelected.emit([aRing])
-                                break
+    def reset(self, emitSignal = False):
+        pass
+
+class DtSelectGapTool(DtMapTool):
+    '''
+    a map tool to select a gap between polygons, if allLayers
+    is True then the gap is searched between polygons of
+    all currently visible polygon layers
+    '''
+    gapSelected = QtCore.pyqtSignal(list)
+
+    def __init__(self, canvas, iface, allLayers):
+        DtMapTool.__init__(self, canvas, iface)
+        self.allLayers = allLayers
+
+    def canvasReleaseEvent(self,event):
+        #Get the click
+        x = event.pos().x()
+        y = event.pos().y()
+
+        layer = self.canvas.currentLayer()
+        visibleLayers = []
+
+        if self.allLayers:
+            legendIface = self.iface.legendInterface()
+
+            for aLayer in legendIface.layers():
+                if 0 == aLayer.type():
+                    if legendIface.isLayerVisible(aLayer) and \
+                            self.isPolygonLayer(aLayer):
+                        visibleLayers.append(aLayer)
+        else:
+            if layer <> None:
+                visibleLayers.append(layer)
+
+        if len(visibleLayers) > 0:
+            #the clicked point is our starting point
+            startingPoint = QtCore.QPoint(x,y)
+            mapToPixel = self.canvas.getCoordinateTransform()
+            thisQgsPoint = mapToPixel.toMapCoordinates(startingPoint)
+            multiGeom = None
+
+            for aLayer in visibleLayers:
+                if not self.allLayers and aLayer.selectedFeatureCount() > 0:
+                    #we assume, that the gap is between the selected polyons
+                    hadSelection = True
+                else:
+                    hadSelection = False
+                    spatialIndex = dtutils.dtSpatialindex(aLayer)
+                    # get the 100 closest Features
+                    featureIds = spatialIndex.nearestNeighbor(thisQgsPoint, 100)
+                    aLayer.setSelectedFeatures(featureIds)
+
+                multiGeom = dtutils.dtCombineSelectedPolygons(aLayer, multiGeom)
+
+                if self.allLayers or not hadSelection:
+                    aLayer.removeSelection()
+
+                if multiGeom == None:
+                    return None
+
+            if multiGeom != None:
+                rings = dtutils.dtExtractRings(multiGeom)
+
+                if len(rings) > 0:
+                    for aRing in rings:
+                        if aRing.contains(thisQgsPoint):
+                            self.gapSelected.emit([aRing])
+                            break
 
     def reset(self, emitSignal = False):
         pass
