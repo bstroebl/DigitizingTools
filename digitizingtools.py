@@ -88,6 +88,7 @@ class DigitizingTools:
         self.clipper = dtclipper.DtClipWithPolygon(self.iface, self.toolBar)
         self.ringFiller = dtfillring.DtFillRing(self.iface, self.toolBar)
         self.gapFiller = dtfillgap.DtFillGap(self.iface, self.toolBar)
+        self.gapFillerAll = dtfillgap.DtFillGapAllLayers(self.iface, self.toolBar)
         self.splitter = dtsplitter.DtSplitWithLine(self.iface, self.toolBar)
         self.flipLine = dtflipline.DtFlipLine(self.iface,  self.toolBar)
         self.prolongLine = dtprolongline.DtProlongLine(self.iface, self.toolBar)

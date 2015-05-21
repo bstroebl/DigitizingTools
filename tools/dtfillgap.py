@@ -21,7 +21,7 @@ from qgis.core import *
 from qgis.gui import *
 import icons_rc
 import dtutils
-from dttools import DtDualToolSelectGap
+from dttools import DtDualToolSelectGap, DtSingleTool, DtSelectGapTool
 
 class DtFillGap(DtDualToolSelectGap):
     '''Fill gaps between selected features of the active layer with new features'''
@@ -101,3 +101,36 @@ class DtFillGap(DtDualToolSelectGap):
 
     def featureAdded(self,  newFid):
         self.newFid = newFid
+
+class DtFillGapAllLayers(DtSingleTool):
+    '''Fill gaps between the polygons of all visible layers with new features'''
+    def __init__(self, iface, toolBar):
+        DtSingleTool.__init__(self, iface, toolBar,
+            QtGui.QIcon(":/fillGapAll.png"),
+            QtCore.QCoreApplication.translate("digitizingtools",
+                "Fill gap between polygons of all visible layers with a new feature"),
+            geometryTypes = [3, 6], dtName = "dtFillGapAll")
+
+        self.tool = DtSelectGapTool(self.canvas, self.iface, True)
+        self.tool.gapSelected.connect(self.gapFound)
+        self.enable()
+
+    def process(self):
+        self.canvas.setMapTool(self.tool)
+        self.act.setChecked(True)
+
+    def gapFound(self, result):
+        layer = self.iface.activeLayer()
+        gap = result[0]
+        defaultAttributeMap = dtutils.dtGetDefaultAttributeMap(layer)
+        layer.beginEditCommand(QtCore.QCoreApplication.translate(
+            "editcommand", "Fill gap"))
+
+        if self.iface.vectorLayerTools().addFeature(layer,
+                defaultValues = defaultAttributeMap, defaultGeometry = gap):
+            layer.endEditCommand()
+            self.canvas.refresh()
+        else:
+            layer.destroyEditCommand()
+
+        self.tool.reset()

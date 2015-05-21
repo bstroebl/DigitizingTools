@@ -7,6 +7,7 @@
     <file alias="fillRingBatch.png">icons/fillRingBatch.png</file>
     <file alias="fillGap.png">icons/fillGap.png</file>
     <file alias="fillGapBatch.png">icons/fillGapBatch.png</file>
+    <file alias="fillGapAll.png">icons/fillGapAll.png</file>
     <file alias="MultiToSingle.png">icons/MultiToSingle.png</file>
     <file alias="MultiToSingleBatch.png">icons/MultiToSingleBatch.png</file>
     <file alias="flipLine.png">icons/flipLine.png</file>
