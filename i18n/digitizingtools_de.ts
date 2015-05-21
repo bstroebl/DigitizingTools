@@ -24,7 +24,7 @@
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../tools/dttools.py" line="194"/>
+        <location filename="../tools/dttools.py" line="205"/>
         <source>is disabled because layer CRS and project CRS do not match!</source>
         <translation>wird deaktiviert weil das KBS des Layers und das KBS des Projektes nicht übereinstimmen!</translation>
     </message>
@@ -179,27 +179,22 @@
         <translation>Es gibt ungültige Geometrien im Layer </translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="164"/>
+        <location filename="../tools/dtutils.py" line="156"/>
         <source>Snap Tolerance</source>
         <translation>Fangtoleranz</translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="165"/>
-        <source>Don&apos;t show this message again</source>
-        <translation>Diese Nachricht nicht mehr anzeigen</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtutils.py" line="168"/>
+        <location filename="../tools/dtutils.py" line="157"/>
         <source>Could not snap vertex</source>
         <translation>Konnte keinen Stützpunkt fangen</translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="168"/>
+        <location filename="../tools/dtutils.py" line="159"/>
         <source>Have you set the tolerance in Settings &gt; Snapping Options?</source>
         <translation>Haben Sie die Toleranz in Einstellungen &gt; Fangoptionen eingetragen?</translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="174"/>
+        <location filename="../tools/dtutils.py" line="167"/>
         <source>Error occured during</source>
         <translation>Während dieses Prozesses trat ein Fehler auf</translation>
     </message>
@@ -319,19 +314,14 @@
         <translation>Verschieben einer Seite durch Festlegen einer Zielfläche</translation>
     </message>
     <message>
-        <location filename="../tools/dtfillgap.py" line="47"/>
+        <location filename="../tools/dtfillgap.py" line="39"/>
         <source>Fill gap</source>
         <translation>Riss fluten</translation>
     </message>
     <message>
-        <location filename="../tools/dtfillgap.py" line="86"/>
+        <location filename="../tools/dtfillgap.py" line="66"/>
         <source>There are no gaps between the polygons.</source>
         <translation>Zwischen den ausgewählten Objekten gibt es keine Risse.</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtfillgap.py" line="109"/>
-        <source>The selected gap is not closed.</source>
-        <translation>Der ausgewählte Riss ist nicht geschlossen.</translation>
     </message>
     <message>
         <location filename="../tools/dtsplitmultipart.py" line="32"/>
@@ -433,6 +423,11 @@
         <source> Please select only one feature to clip with.</source>
         <translation> Bitte wählen Sie nur ein Objekt aus, mit dem ausgeschnitten werden soll.</translation>
     </message>
+    <message>
+        <location filename="../tools/dtfillgap.py" line="108"/>
+        <source>Fill gap between polygons of all visible layers with a new feature</source>
+        <translation>Riss zwischen Polygonen aller sichtbaren Layer mit einem neuen Objekt fluten</translation>
+    </message>
 </context>
 <context>
     <name>dtAbout</name>
@@ -488,12 +483,12 @@
         <translation>Seite durch Festlegen einer Entfernung verschoben</translation>
     </message>
     <message>
-        <location filename="../tools/dtfillring.py" line="55"/>
+        <location filename="../tools/dtfillring.py" line="40"/>
         <source>Fill ring</source>
         <translation>Ring gefüllt</translation>
     </message>
     <message>
-        <location filename="../tools/dtfillring.py" line="79"/>
+        <location filename="../tools/dtfillring.py" line="67"/>
         <source>Fill rings</source>
         <translation>Ringe gefüllt</translation>
     </message>
@@ -503,12 +498,12 @@
         <translation>Seite durch Festlegen einer Zielfläche verschoben</translation>
     </message>
     <message>
-        <location filename="../tools/dtfillgap.py" line="101"/>
+        <location filename="../tools/dtfillgap.py" line="126"/>
         <source>Fill gap</source>
         <translation>Riss geflutet</translation>
     </message>
     <message>
-        <location filename="../tools/dtfillgap.py" line="118"/>
+        <location filename="../tools/dtfillgap.py" line="78"/>
         <source>Fill gaps</source>
         <translation>Risse geflutet</translation>
     </message>
@@ -528,7 +523,7 @@
         <translation>Geometrie aufgeteilt</translation>
     </message>
     <message>
-        <location filename="../tools/dtextractpart.py" line="69"/>
+        <location filename="../tools/dtextractpart.py" line="51"/>
         <source>Extract part</source>
         <translation>Teil extrahiert</translation>
     </message>
