@@ -25,7 +25,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from qgis.core import *
 from qgis.gui import *
-
+import dtutils
 
 class DtMedianLineTool(QgsMapTool):
     finishedDigitizing = QtCore.pyqtSignal()
@@ -78,27 +78,18 @@ class DtMedianLineTool(QgsMapTool):
             #the clicked point is our starting point
             startingPoint = QPoint(x, y)
 
-            #we need a snapper, so we use the MapCanvas snapper
-            snapper = QgsMapCanvasSnapper(self.canvas)
-
-            #we snap to the current layer (we don't have exclude points and use
-            #the tolerances from the qgis properties)
-            (retval, result) = snapper.snapToCurrentLayer(startingPoint,
-                QgsSnapper.SnapToVertex)
-
-            #if we don't have found a linesegment we try to find one on the
-            #backgroundlayer
-            if result == []:
-                #(retval, result) = snapper.snapToBackgroundLayers(
-                #    startingPoint)
-                pass
+            #we need a snapper, so we use the MapCanvas snappingUtils (new in 2.8.x)
+            snapper = self.canvas.snappingUtils()
+            snapper.setCurrentLayer(layer)
+            #snapType, snapTolerance, snapUnits = snapper.defaultSettings()
+            # snapType = 0: no snap, 1 = vertex, 2 = segment, 3 = vertex & segment
+            snapType = 1
+            snapMatch = snapper.snapToCurrentLayer(startingPoint, snapType)
 
             #if we have found a vertex
-            if result != []:
+            if snapMatch.isValid():
                 # we like to mark the vertex that is choosen
-                p = QgsPoint()
-                p.setX(result[0].snappedVertex.x())
-                p.setY(result[0].snappedVertex.y())
+                p = snapMatch.point()
                 m = QgsVertexMarker(self.canvas)
                 m.setIconType(1)
                 modulo = self.parent.selected_points % 2
@@ -112,7 +103,7 @@ class DtMedianLineTool(QgsMapTool):
                 self.markers.append(m)
                 self.emit(SIGNAL("vertexFound(PyQt_PyObject)"), [p])
             else:
-                pass
+                dtutils.showSnapSettingsWarning(self.iface)
 
     def showSettingsWarning(self):
         m = QgsMessageViewer()
