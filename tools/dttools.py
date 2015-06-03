@@ -809,13 +809,16 @@ class DtSelectSegmentTool(DtMapTool):
                 dtutils.showSnapSettingsWarning(self.iface)
             else:
                 #if we have found a linesegment
+                edge = snapMatch.edgePoints()
+                p1 = edge[0]
+                p2 = edge[1]
                 # we like to mark the segment that is choosen, so we need a rubberband
                 self.rb1.reset()
                 color = QtGui.QColor(255,0,0)
                 self.rb1.setColor(color)
                 self.rb1.setWidth(2)
-                self.rb1.addPoint(result[0].beforeVertex)
-                self.rb1.addPoint(result[0].afterVertex)
+                self.rb1.addPoint(p1)
+                self.rb1.addPoint(p2)
                 self.rb1.show()
                 self.segmentFound.emit([self.rb1.getPoint(0, 0),  self.rb1.getPoint(0, 1),  self.rb1])
 
