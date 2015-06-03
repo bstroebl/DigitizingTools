@@ -25,7 +25,6 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from qgis.core import *
 from qgis.gui import *
-import dtutils
 
 class DtMedianLineTool(QgsMapTool):
     finishedDigitizing = QtCore.pyqtSignal()
@@ -103,7 +102,7 @@ class DtMedianLineTool(QgsMapTool):
                 self.markers.append(m)
                 self.emit(SIGNAL("vertexFound(PyQt_PyObject)"), [p])
             else:
-                dtutils.showSnapSettingsWarning(self.iface)
+                pass
 
     def showSettingsWarning(self):
         m = QgsMessageViewer()
