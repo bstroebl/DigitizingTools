@@ -215,7 +215,7 @@ def addGeometryToCadLayer(g):
         feat.setGeometry(g)
         pr.addFeatures([feat])
         vl.updateExtents()
-        QgsMapLayerRegistry().instance().addMapLayer(vl, True)
+        QgsMapLayerRegistry.instance().addMapLayer(vl, True)
     else:
         layer = getCadLayerByName(theName)
         pr = layer.dataProvider()
