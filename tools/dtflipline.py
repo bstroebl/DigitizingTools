@@ -50,6 +50,11 @@ class DtFlipLine(DtDualToolSelectFeature):
         for feat in layer.selectedFeatures():
             geom = feat.geometry()
 
+            if not geom.isGeosValid():
+                thisWarning = dtutils.dtGetInvalidGeomWarning(layer)
+                dtutils.dtShowWarning(self.iface, thisWarning)
+                continue
+
             if layer.wkbType() == 2 or layer.wkbType() == -2147483646:
                 nodes = geom.asPolyline()
                 rNodes = self.reverse(nodes)

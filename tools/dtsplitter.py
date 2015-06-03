@@ -71,11 +71,21 @@ class DtSplitWithLine(DtSingleButton):
                 for feat in splitterLayer.selectedFeatures():
                     splitterGeom = feat.geometry()
 
+                    if not splitterGeom.isGeosValid():
+                        thisWarning = dtutils.dtGetInvalidGeomWarning(splitterLayer)
+                        dtutils.dtShowWarning(self.iface, thisWarning)
+                        continue
+
                     if splitterCRSSrsid != projectCRSSrsid:
                         splitterGeom.transform(QgsCoordinateTransform(splitterCRSSrsid,  projectCRSSrsid))
 
                     for selFeat in passiveLayer.selectedFeatures():
                         selGeom = selFeat.geometry()
+
+                        if not selGeom.isGeosValid():
+                            thisWarning = dtutils.dtGetInvalidGeomWarning(passiveLayer)
+                            dtutils.dtShowWarning(self.iface, thisWarning)
+                            continue
 
                         if passiveCRSSrsid != projectCRSSrsid:
                             selGeom.transform(QgsCoordinateTransform(passiveCRSSrsid,  projectCRSSrsid))

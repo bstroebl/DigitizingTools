@@ -57,7 +57,7 @@ class DtFillGap(DtDualToolSelectGap):
     def process(self):
         # DtDualTool makes sure a selection exists
         layer = self.iface.activeLayer()
-        multiGeom = dtutils.dtCombineSelectedPolygons(layer)
+        multiGeom = dtutils.dtCombineSelectedPolygons(layer, self.iface)
 
         if multiGeom != None:
             rings = dtutils.dtExtractRings(multiGeom)

@@ -58,6 +58,12 @@ class DtFillRing(DtDualToolSelectRing):
 
         for featureToFill in layer.selectedFeatures():
             geom = featureToFill.geometry()
+
+            if not geom.isGeosValid():
+                thisWarning = dtutils.dtGetInvalidGeomWarning(layer)
+                dtutils.dtShowWarning(self.iface, thisWarning)
+                continue
+
             rings = dtutils.dtExtractRings(geom)
 
             for aRing in rings:

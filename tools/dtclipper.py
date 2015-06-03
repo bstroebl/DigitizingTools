@@ -99,6 +99,11 @@ class DtClipWithPolygon(DtSingleButton):
                     for feat in clipperLayer.selectedFeatures():
                         clipperGeom = feat.geometry()
 
+                        if not clipperGeom.isGeosValid():
+                            thisWarning = dtutils.dtGetInvalidGeomWarning(clipperLayer)
+                            dtutils.dtShowWarning(self.iface, thisWarning)
+                            continue
+
                         if clipperCRSSrsid != projectCRSSrsid:
                             clipperGeom.transform(QgsCoordinateTransform(
                                 clipperCRSSrsid, projectCRSSrsid
@@ -112,6 +117,11 @@ class DtClipWithPolygon(DtSingleButton):
                                 continue
 
                             selGeom = selFeat.geometry()
+
+                            if not selGeom.isGeosValid():
+                                thisWarning = dtutils.dtGetInvalidGeomWarning(passiveLayer)
+                                dtutils.dtShowWarning(self.iface, thisWarning)
+                                continue
 
                             if passiveCRSSrsid != projectCRSSrsid:
                                 selGeom.transform(

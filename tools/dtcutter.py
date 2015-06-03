@@ -88,6 +88,11 @@ class DtCutWithPolygon(DtSingleButton):
                 for feat in cutterLayer.selectedFeatures():
                     cutterGeom = feat.geometry()
 
+                    if not cutterGeom.isGeosValid():
+                        thisWarning = dtutils.dtGetInvalidGeomWarning(cutterLayer)
+                        dtutils.dtShowWarning(self.iface, thisWarning)
+                        continue
+
                     if cutterCRSSrsid != projectCRSSrsid:
                         cutterGeom.transform(QgsCoordinateTransform(cutterCRSSrsid,  projectCRSSrsid))
 
@@ -99,6 +104,11 @@ class DtCutWithPolygon(DtSingleButton):
                             continue
 
                         selGeom = selFeat.geometry()
+
+                        if not selGeom.isGeosValid():
+                            thisWarning = dtutils.dtGetInvalidGeomWarning(passiveLayer)
+                            dtutils.dtShowWarning(self.iface, thisWarning)
+                            continue
 
                         if passiveCRSSrsid != projectCRSSrsid:
                             selGeom.transform(QgsCoordinateTransform(passiveCRSSrsid,  projectCRSSrsid))

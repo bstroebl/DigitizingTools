@@ -47,6 +47,12 @@ class DtSplitMultiPartTool(DtDualToolSelectFeature):
 
         for feature in layer.selectedFeatures():
             geom = feature.geometry()
+
+            if not geom.isGeosValid():
+                thisWarning = dtutils.dtGetInvalidGeomWarning(layer)
+                dtutils.dtShowWarning(self.iface, thisWarning)
+                continue
+
             # if feature geometry is multipart starts split processing
             if geom.isMultipart():
                 if len(newFeatures) == 0:

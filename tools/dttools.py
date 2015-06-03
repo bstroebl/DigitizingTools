@@ -637,7 +637,7 @@ class DtSelectGapTool(DtMapTool):
                     featureIds = spatialIndex.nearestNeighbor(thisQgsPoint, 100)
                     aLayer.setSelectedFeatures(featureIds)
 
-                multiGeom = dtutils.dtCombineSelectedPolygons(aLayer, multiGeom)
+                multiGeom = dtutils.dtCombineSelectedPolygons(aLayer, self.iface, multiGeom)
 
                 if self.allLayers or not hadSelection:
                     aLayer.removeSelection()

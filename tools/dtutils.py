@@ -161,6 +161,10 @@ def showSnapSettingsWarning(iface):
     iface.messageBar().pushMessage(title, msg1 + " " + msg2,
         level=QgsMessageBar.WARNING, duration = 10)
 
+def dtShowWarning(iface, msg):
+    iface.messageBar().pushMessage(msg,
+        level=QgsMessageBar.WARNING, duration = 10)
+
 def dtGetErrorMessage():
     '''Returns the default error message which can be appended'''
     return QtCore.QCoreApplication.translate("digitizingtools", "Error occured during")
@@ -214,7 +218,7 @@ def dtExtractRings(geom):
 
     return rings
 
-def dtCombineSelectedPolygons(layer, multiGeom = None, fillRings = True):
+def dtCombineSelectedPolygons(layer, iface, multiGeom = None, fillRings = True):
     '''
     make one polygon from selected polygons in layer, optionally fill
     all rings contained in the input polygons
@@ -223,9 +227,8 @@ def dtCombineSelectedPolygons(layer, multiGeom = None, fillRings = True):
         aGeom = aFeat.geometry()
 
         if not aGeom.isGeosValid():
-            self.iface.messageBar().pushMessage(self.title,
-                dtutils.dtGetInvalidGeomWarning(layer),
-                level=QgsMessageBar.CRITICAL)
+            thisWarning = dtGetInvalidGeomWarning(layer)
+            dtShowWarning(iface, thisWarning)
             return None
 
         # fill rings contained in the polygon
