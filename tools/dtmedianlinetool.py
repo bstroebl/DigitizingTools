@@ -28,6 +28,7 @@ from qgis.gui import *
 
 class DtMedianLineTool(QgsMapTool):
     finishedDigitizing = QtCore.pyqtSignal()
+    vertexFound = QtCore.pyqtSignal()
 
     def __init__(self, parent):
         QgsMapTool.__init__(self, parent.canvas)
