@@ -527,7 +527,13 @@ class DtSelectFeatureTool(DtMapTool):
 
                 if feat != None:
                     result.append(feat)
-                    result.append(snapMatch.point())
+
+                    if snapMatch.hasVertex():
+                        result.append([snapMatch.point(), None])
+
+                    if snapMatch.hasEdge():
+                        result.append(snapMatch.edgePoints())
+
                     return result
 
         return result
@@ -678,16 +684,21 @@ class DtSelectPartTool(DtSelectFeatureTool):
 
             if len(found) > 0:
                 feat = found[0]
-                snappedVertex = found[1]
+                snappedPoints = found[1]
+
+                if snappedPoints[1] == None:
+                    snappedVertex = snappedPoints[0]
+                else:
+                    snappedVertex = None
+
                 geom = feat.geometry()
-                
+
                 # if feature geometry is multipart start split processing
                 if geom.isMultipart():
                     # Get parts from original feature
                     parts = geom.asGeometryCollection()
                     mapToPixel = self.canvas.getCoordinateTransform()
                     thisQgsPoint = mapToPixel.toMapCoordinates(startingPoint)
-                    foundPart = False
 
                     for i in range(len(parts)):
                         # find the part that was snapped
@@ -700,10 +711,26 @@ class DtSelectPartTool(DtSelectFeatureTool):
                         else:
                             points = dtutils.dtExtractPoints(aPart)
 
-                            for aPoint in points:
-                                if aPoint.x() == snappedVertex.x() and aPoint.y() == snappedVertex.y():
-                                    self.partSelected.emit([feat.id(), i, aPart])
-                                    break
+                            for j in range(len(points)):
+                                aPoint = points[j]
+
+                                if snappedVertex != None:
+                                    if aPoint.x() == snappedVertex.x() and \
+                                            aPoint.y() == snappedVertex.y():
+                                        self.partSelected.emit([feat.id(), i, aPart])
+                                        break
+                                else:
+                                    try:
+                                        nextPoint = points[j + 1]
+                                    except:
+                                        break
+
+                                    if aPoint.x() == snappedPoints[0].x() and \
+                                            aPoint.y() == snappedPoints[0].y() and \
+                                            nextPoint.x() == snappedPoints[1].x() and \
+                                            nextPoint.y() == snappedPoints[1].y():
+                                        self.partSelected.emit([feat.id(), i, aPart])
+                                        break
 
 
 class DtSelectVertexTool(DtMapTool):
