@@ -680,10 +680,12 @@ class DtSelectPartTool(DtSelectFeatureTool):
                 feat = found[0]
                 snappedVertex = found[1]
                 geom = feat.geometry()
+                
                 # if feature geometry is multipart start split processing
                 if geom.isMultipart():
                     # Get parts from original feature
                     parts = geom.asGeometryCollection()
+                    mapToPixel = self.canvas.getCoordinateTransform()
                     thisQgsPoint = mapToPixel.toMapCoordinates(startingPoint)
                     foundPart = False
 
@@ -693,18 +695,16 @@ class DtSelectPartTool(DtSelectFeatureTool):
 
                         if self.isPolygonLayer(layer):
                             if aPart.contains(thisQgsPoint):
-                                foundPart = True
+                                self.partSelected.emit([feat.id(), i, aPart])
                                 break
                         else:
                             points = dtutils.dtExtractPoints(aPart)
 
                             for aPoint in points:
                                 if aPoint.x() == snappedVertex.x() and aPoint.y() == snappedVertex.y():
-                                    foundPart = True
+                                    self.partSelected.emit([feat.id(), i, aPart])
                                     break
 
-                        if foundPart:
-                            self.partSelected.emit([feat.id(), i, aPart])
 
 class DtSelectVertexTool(DtMapTool):
     '''select and mark numVertices vertices in the active layer'''
