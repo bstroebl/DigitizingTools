@@ -509,7 +509,7 @@ class DtSelectFeatureTool(DtMapTool):
 
                 if feat != None:
                     result.append(feat)
-                    result.append(None)
+                    result.append([None, None])
                     return result
                     break
         else:
