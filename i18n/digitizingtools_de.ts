@@ -194,7 +194,7 @@
         <translation>Haben Sie die Toleranz in Einstellungen &gt; Fangoptionen eingetragen?</translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="167"/>
+        <location filename="../tools/dtutils.py" line="171"/>
         <source>Error occured during</source>
         <translation>Während dieses Prozesses trat ein Fehler auf</translation>
     </message>
@@ -204,7 +204,7 @@
         <translation>Stanze</translation>
     </message>
     <message>
-        <location filename="../tools/dtcutter.py" line="113"/>
+        <location filename="../tools/dtcutter.py" line="123"/>
         <source>A feature would be completely removed by cutting. Delete this feature&apos;s dataset altogether?</source>
         <translation>Durch das Ausstanzen würde ein Objekt komplett entfernt werden. Soll der Datensatz dieses Objektes gelöscht werden?</translation>
     </message>
@@ -224,14 +224,9 @@
         <translation>Bitte stellen Sie einen Linienlayer zum Aufteilen bereit.</translation>
     </message>
     <message>
-        <location filename="../tools/dtsplitter.py" line="89"/>
+        <location filename="../tools/dtsplitter.py" line="99"/>
         <source>splitting of feature</source>
         <translation>Objekt aufteilen</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtprolongline.py" line="29"/>
-        <source>Prolong Line</source>
-        <translation>Linie verlängern</translation>
     </message>
     <message>
         <location filename="../tools/dtmovenodebyarea.py" line="48"/>
@@ -379,11 +374,6 @@
         <translation>Bitte löschen Sie die Auswahl.</translation>
     </message>
     <message>
-        <location filename="../tools/dtextractpart.py" line="29"/>
-        <source>Delete part and add it as a new feature</source>
-        <translation>Teil einer Multigeometrie löschen und als neues Objekt einfügen</translation>
-    </message>
-    <message>
         <location filename="../tools/dtsplitter.py" line="53"/>
         <source> Please select only one feature to split with.</source>
         <translation> Bitte wählen Sie nur ein Objekt aus, mit dem aufgeteilt werden soll.</translation>
@@ -428,6 +418,16 @@
         <source>Fill gap between polygons of all visible layers with a new feature</source>
         <translation>Riss zwischen Polygonen aller sichtbaren Layer mit einem neuen Objekt fluten</translation>
     </message>
+    <message>
+        <location filename="../tools/dtprolongline.py" line="29"/>
+        <source>Amend Line</source>
+        <translation>Linie ergänzen</translation>
+    </message>
+    <message>
+        <location filename="../tools/dtextractpart.py" line="29"/>
+        <source>Split off one part and add it as a new feature</source>
+        <translation>Teil abspalten und als neues Objekt einfügen</translation>
+    </message>
 </context>
 <context>
     <name>dtAbout</name>
@@ -463,7 +463,7 @@
         <translation>Objekte ausgestanzt</translation>
     </message>
     <message>
-        <location filename="../tools/dtcutter.py" line="144"/>
+        <location filename="../tools/dtcutter.py" line="154"/>
         <source>Delete Features</source>
         <translation>Objekte gelöscht</translation>
     </message>
@@ -488,7 +488,7 @@
         <translation>Ring gefüllt</translation>
     </message>
     <message>
-        <location filename="../tools/dtfillring.py" line="67"/>
+        <location filename="../tools/dtfillring.py" line="73"/>
         <source>Fill rings</source>
         <translation>Ringe gefüllt</translation>
     </message>
@@ -523,7 +523,7 @@
         <translation>Geometrie aufgeteilt</translation>
     </message>
     <message>
-        <location filename="../tools/dtextractpart.py" line="51"/>
+        <location filename="../tools/dtextractpart.py" line="52"/>
         <source>Extract part</source>
         <translation>Teil extrahiert</translation>
     </message>
