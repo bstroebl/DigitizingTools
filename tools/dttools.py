@@ -30,7 +30,7 @@ class DtTool():
         self.shapeFileGeometryTypes = []
 
         # ESRI shapefile does not distinguish between single and multi geometries
-        # source of wkbType numbers: http://gdal.org/java/constant-values.html
+        # source of wkbType numbers: http://cosmicproject.org/OGR/ogr_classes.html
         for aGeomType in geometryTypes:
             if aGeomType == 1: # wkbPoint
                 self.geometryTypes.append(1)
