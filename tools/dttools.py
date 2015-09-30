@@ -508,10 +508,13 @@ class DtSelectFeatureTool(DtMapTool):
                 feat = dtutils.dtGetFeatureForId(layer, fid)
 
                 if feat != None:
-                    result.append(feat)
-                    result.append([None, None])
-                    return result
-                    break
+                    geom = QgsGeometry(feat.geometry())
+
+                    if geom.contains(thisQgsPoint):
+                        result.append(feat)
+                        result.append([])
+                        return result
+                        break
         else:
             #we need a snapper, so we use the MapCanvas snapper
             snapper = self.canvas.snappingUtils()
@@ -686,7 +689,7 @@ class DtSelectPartTool(DtSelectFeatureTool):
                 feat = found[0]
                 snappedPoints = found[1]
 
-                if snappedPoints[1] == None:
+                if len(snappedPoints) > 0:
                     snappedVertex = snappedPoints[0]
                 else:
                     snappedVertex = None
