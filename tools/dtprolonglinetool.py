@@ -116,7 +116,7 @@ class DtProlongLineTool(DtMapTool):
                         if featureFound:
                             #check if this is the start/end vertex of the line
                             if snappedIdx == 0 or \
-                                self.lineFeature.geometry().vertexAt(snappedIdx + 1) == QgsPoint(0, 0):
+                                QgsGeometry(self.lineFeature.geometry()).vertexAt(snappedIdx + 1) == QgsPoint(0, 0):
 
                                 #mark the vertex
                                 startPoint = QgsPoint()

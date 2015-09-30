@@ -69,7 +69,7 @@ class DtSplitWithLine(DtSingleButton):
                 featuresToAdd = []
 
                 for feat in splitterLayer.selectedFeatures():
-                    splitterGeom = feat.geometry()
+                    splitterGeom = QgsGeometry(feat.geometry())
 
                     if not splitterGeom.isGeosValid():
                         thisWarning = dtutils.dtGetInvalidGeomWarning(splitterLayer)
@@ -80,7 +80,7 @@ class DtSplitWithLine(DtSingleButton):
                         splitterGeom.transform(QgsCoordinateTransform(splitterCRSSrsid,  projectCRSSrsid))
 
                     for selFeat in passiveLayer.selectedFeatures():
-                        selGeom = selFeat.geometry()
+                        selGeom = QgsGeometry(selFeat.geometry())
 
                         if not selGeom.isGeosValid():
                             thisWarning = dtutils.dtGetInvalidGeomWarning(passiveLayer)
@@ -110,8 +110,7 @@ class DtSplitWithLine(DtSingleButton):
                                     newFeatures = dtutils.dtMakeFeaturesFromGeometries(passiveLayer,  selFeat,  newGeometries)
 
                                     for newFeat in newFeatures:
-                                        newGeom = newFeat.geometry()
-
+                                        newGeom = QgsGeometry(newFeat.geometry())
                                         if passiveCRSSrsid != projectCRSSrsid:
                                             newGeom.transform(QgsCoordinateTransform( projectCRSSrsid,  passiveCRSSrsid))
                                             newFeat.setGeometry(newGeom)

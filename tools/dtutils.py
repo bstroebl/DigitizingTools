@@ -224,7 +224,7 @@ def dtCombineSelectedPolygons(layer, iface, multiGeom = None, fillRings = True):
     all rings contained in the input polygons
     '''
     for aFeat in layer.selectedFeatures():
-        aGeom = aFeat.geometry()
+        aGeom = QgsGeometry(aFeat.geometry())
 
         if not aGeom.isGeosValid():
             thisWarning = dtGetInvalidGeomWarning(layer)

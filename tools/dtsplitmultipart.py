@@ -46,7 +46,7 @@ class DtSplitMultiPartTool(DtDualToolSelectFeature):
             editCommand = QtCore.QCoreApplication.translate("editcommand", "Split features")
 
         for feature in layer.selectedFeatures():
-            geom = feature.geometry()
+            geom = QgsGeometry(feature.geometry())
 
             if not geom.isGeosValid():
                 thisWarning = dtutils.dtGetInvalidGeomWarning(layer)

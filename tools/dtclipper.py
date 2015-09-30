@@ -97,7 +97,7 @@ class DtClipWithPolygon(DtSingleButton):
                     featuresBeingClipped = 0
 
                     for feat in clipperLayer.selectedFeatures():
-                        clipperGeom = feat.geometry()
+                        clipperGeom = QgsGeometry(feat.geometry())
 
                         if not clipperGeom.isGeosValid():
                             thisWarning = dtutils.dtGetInvalidGeomWarning(clipperLayer)
@@ -116,7 +116,7 @@ class DtClipWithPolygon(DtSingleButton):
                             if idsToProcess.count(selFeat.id()) == 0:
                                 continue
 
-                            selGeom = selFeat.geometry()
+                            selGeom = QgsGeometry(selFeat.geometry())
 
                             if not selGeom.isGeosValid():
                                 thisWarning = dtutils.dtGetInvalidGeomWarning(passiveLayer)

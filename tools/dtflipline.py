@@ -48,7 +48,7 @@ class DtFlipLine(DtDualToolSelectFeature):
         hadError = False
 
         for feat in layer.selectedFeatures():
-            geom = feat.geometry()
+            geom = QgsGeometry(feat.geometry())
 
             if not geom.isGeosValid():
                 thisWarning = dtutils.dtGetInvalidGeomWarning(layer)

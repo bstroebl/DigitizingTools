@@ -57,7 +57,7 @@ class DtFillRing(DtDualToolSelectRing):
         aborted = False
 
         for featureToFill in layer.selectedFeatures():
-            geom = featureToFill.geometry()
+            geom = QgsGeometry(featureToFill.geometry())
 
             if not geom.isGeosValid():
                 thisWarning = dtutils.dtGetInvalidGeomWarning(layer)

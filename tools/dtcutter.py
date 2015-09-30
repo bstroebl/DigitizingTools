@@ -86,7 +86,7 @@ class DtCutWithPolygon(DtSingleButton):
                 featuresBeingCut = 0
 
                 for feat in cutterLayer.selectedFeatures():
-                    cutterGeom = feat.geometry()
+                    cutterGeom = QgsGeometry(feat.geometry())
 
                     if not cutterGeom.isGeosValid():
                         thisWarning = dtutils.dtGetInvalidGeomWarning(cutterLayer)
@@ -103,7 +103,7 @@ class DtCutWithPolygon(DtSingleButton):
                         if idsToProcess.count(selFeat.id()) == 0:
                             continue
 
-                        selGeom = selFeat.geometry()
+                        selGeom = QgsGeometry(selFeat.geometry())
 
                         if not selGeom.isGeosValid():
                             thisWarning = dtutils.dtGetInvalidGeomWarning(passiveLayer)

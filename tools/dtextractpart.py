@@ -45,7 +45,7 @@ class DtExtractPartTool(DtSingleTool):
         aPart = part[2]
         layer = self.iface.mapCanvas().currentLayer()
         feature = dtutils.dtGetFeatureForId(layer,  fid)
-        geom = feature.geometry()
+        geom = QgsGeometry(feature.geometry())
 
         if geom.deletePart(partNumber):
             layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Extract part"))

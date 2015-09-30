@@ -584,7 +584,7 @@ class DtSelectRingTool(DtSelectFeatureTool):
 
             if len(found) > 0:
                 feat = found[0]
-                aGeom = feat.geometry()
+                aGeom = QgsGeometry(feat.geometry())
                 rings = dtutils.dtExtractRings(aGeom)
 
                 if len(rings) > 0:
@@ -694,7 +694,7 @@ class DtSelectPartTool(DtSelectFeatureTool):
                 else:
                     snappedVertex = None
 
-                geom = feat.geometry()
+                geom = QgsGeometry(feat.geometry())
 
                 # if feature geometry is multipart start split processing
                 if geom.isMultipart():
