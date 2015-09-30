@@ -489,7 +489,7 @@ class DtSelectFeatureTool(DtMapTool):
     def __init__(self, canvas, iface):
         DtMapTool.__init__(self, canvas, iface)
 
-    def getFeatureForPoint(self, layer, startingPoint):
+    def getFeatureForPoint(self, layer, startingPoint, inRing = False):
         '''
         return the feature this QPoint is in (polygon layer)
         or this QPoint snaps to (point or line layer)
@@ -515,6 +515,18 @@ class DtSelectFeatureTool(DtMapTool):
                         result.append([])
                         return result
                         break
+                    else:
+                        if inRing:
+                            rings = dtutils.dtExtractRings(geom)
+
+                            if len(rings) > 0:
+                                for aRing in rings:
+                                    if aRing.contains(thisQgsPoint):
+                                        result.append(feat)
+                                        result.append([])
+                                        result.append(aRing)
+                                        return result
+                                        break
         else:
             #we need a snapper, so we use the MapCanvas snapper
             snapper = self.canvas.snappingUtils()
@@ -578,20 +590,11 @@ class DtSelectRingTool(DtSelectFeatureTool):
         if layer <> None:
             #the clicked point is our starting point
             startingPoint = QtCore.QPoint(x,y)
-            mapToPixel = self.canvas.getCoordinateTransform()
-            thisQgsPoint = mapToPixel.toMapCoordinates(startingPoint)
-            found = self.getFeatureForPoint(layer, startingPoint)
+            found = self.getFeatureForPoint(layer, startingPoint, inRing = True)
 
-            if len(found) > 0:
-                feat = found[0]
-                aGeom = QgsGeometry(feat.geometry())
-                rings = dtutils.dtExtractRings(aGeom)
-
-                if len(rings) > 0:
-                    for aRing in rings:
-                        if aRing.contains(thisQgsPoint):
-                            self.ringSelected.emit([aRing])
-                            break
+            if len(found) == 3:
+                aRing = found[2]
+                self.ringSelected.emit([aRing])
 
     def reset(self, emitSignal = False):
         pass
