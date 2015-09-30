@@ -6,11 +6,13 @@ All notable changes to this project since Version 0.8.0 will be documented in th
 
 ## 0.8.0 - 2015-09-30
 ### Added
--
+- DtSelectFeatureTool.getFeatureForPoint: optional parameter inRing (default = False), returns (polygon) feature if point is located in a ring, returns the ring as third value
 
 ### Changed
--
+- DtSelectFeatureTool.getFeatureForPoint: optional parameter inRing
+- Tooltips improved
 
 ### Fixed
--
+- Selection of parts and rings
+
 
