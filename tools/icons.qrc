@@ -18,5 +18,6 @@
     <file alias="ParallelMovePolygonSideByDistance.png">icons/ParallelMovePolygonSideByDistance.png</file>
     <file alias="medianLine.png">icons/medianLine.png</file>
     <file alias="ExtractPart.png">icons/ExtractPart.png</file>
+    <file alias="Merge.png">icons/Merge.png</file>
   </qresource>
 </RCC>
