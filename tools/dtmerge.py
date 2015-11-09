@@ -50,13 +50,13 @@ class DtMerge(DtSingleButton):
 
         pkValueToKeep, ok = QtGui.QInputDialog.getItem(
             None, title, QtCore.QCoreApplication.translate(
-                "digitizingtools", "Choose which feature to update"),
+                "digitizingtools", "Choose which feature should remain"),
                 pkValues)
 
         if ok:
             processLayer.beginEditCommand(
                 QtCore.QCoreApplication.translate("editcommand",
-                "Merge Features"))
+                "Merged Features"))
 
             outFeat = featDict.pop(pkValueToKeep)
             outFid = outFeat.id()
