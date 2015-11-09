@@ -72,6 +72,17 @@ class DtTool():
 
         return result
 
+    def geometryTypeMatchesLayer(self, layer, geom):
+        '''check if the passed geom's geometry type matches the layer's type'''
+        match = layer.wkbType() == geom.wkbType()
+
+        if not match:
+            if layer.dataProvider().storageType() == u'ESRI Shapefile':
+                # does not distinguish between single and multi
+                match = layer.wkbType() == geom.wkbType() / 2
+
+        return match
+
     def isPolygonLayer(self, layer):
         ''' check if this layer is a polygon layer'''
         polygonTypes = [3, 6, -2147483645, -2147483642]
