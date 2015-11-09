@@ -3,29 +3,34 @@
 <context>
     <name>DigitizingTools</name>
     <message>
-        <location filename="../digitizingtools.py" line="77"/>
+        <location filename="../digitizingtools.py" line="78"/>
         <source>&amp;DigitizingTools</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="78"/>
+        <location filename="../digitizingtools.py" line="79"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="79"/>
+        <location filename="../digitizingtools.py" line="80"/>
         <source>About</source>
         <translation>A propos</translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="81"/>
+        <location filename="../digitizingtools.py" line="82"/>
         <source>Settings</source>
         <translation>Paramètres</translation>
     </message>
     <message>
-        <location filename="../tools/dttools.py" line="205"/>
+        <location filename="../tools/dttools.py" line="216"/>
         <source>is disabled because layer CRS and project CRS do not match!</source>
         <translation>Désactivé du fait que le SCR du projet et de la couche diffèrent !</translation>
+    </message>
+    <message>
+        <location filename="../tools/dtmerge.py" line="70"/>
+        <source>The geometry type of the result is not valid in this layer!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -193,7 +198,7 @@
         <translation>Avez-vous entré la tolérance dans Paramètres&gt; Options d&apos;accrochage ?</translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="167"/>
+        <location filename="../tools/dtutils.py" line="171"/>
         <source>Error occured during</source>
         <translation>Au cours de ce processus une erreur s&apos;est produite</translation>
     </message>
@@ -203,7 +208,7 @@
         <translation>coupeur</translation>
     </message>
     <message>
-        <location filename="../tools/dtcutter.py" line="113"/>
+        <location filename="../tools/dtcutter.py" line="123"/>
         <source>A feature would be completely removed by cutting. Delete this feature&apos;s dataset altogether?</source>
         <translation>Un objet pourrait être complètement éliminé par la coupe. Supprimer les données de cet objet en même temps ?</translation>
     </message>
@@ -223,14 +228,9 @@
         <translation>S&apos;il vous plaît fournir une couche de ligne de découpage.</translation>
     </message>
     <message>
-        <location filename="../tools/dtsplitter.py" line="89"/>
+        <location filename="../tools/dtsplitter.py" line="99"/>
         <source>splitting of feature</source>
         <translation>Découpage de l&apos;objet</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtprolongline.py" line="29"/>
-        <source>Prolong Line</source>
-        <translation>Prolongement de la ligne</translation>
     </message>
     <message>
         <location filename="../tools/dtmovenodebyarea.py" line="48"/>
@@ -388,11 +388,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tools/dtextractpart.py" line="29"/>
-        <source>Delete part and add it as a new feature</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../tools/dtsplitter.py" line="29"/>
         <source>Split selected features with selected line from another layer</source>
         <translation type="unfinished"></translation>
@@ -425,6 +420,31 @@
     <message>
         <location filename="../tools/dtfillgap.py" line="108"/>
         <source>Fill gap between polygons of all visible layers with a new feature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools/dtprolongline.py" line="29"/>
+        <source>Amend Line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools/dtextractpart.py" line="29"/>
+        <source>Split off one part and add it as a new feature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools/dtmerge.py" line="30"/>
+        <source>Merge selected features</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools/dtmerge.py" line="39"/>
+        <source>Merge</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools/dtmerge.py" line="51"/>
+        <source>Choose which feature to update</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -462,7 +482,7 @@
         <translation>Couper des géométries</translation>
     </message>
     <message>
-        <location filename="../tools/dtcutter.py" line="144"/>
+        <location filename="../tools/dtcutter.py" line="154"/>
         <source>Delete Features</source>
         <translation>Détruire des objets</translation>
     </message>
@@ -487,7 +507,7 @@
         <translation>Remplir un trou</translation>
     </message>
     <message>
-        <location filename="../tools/dtfillring.py" line="67"/>
+        <location filename="../tools/dtfillring.py" line="73"/>
         <source>Fill rings</source>
         <translation>Remplir les trous</translation>
     </message>
@@ -522,13 +542,18 @@
         <translation>Diviser un objet</translation>
     </message>
     <message>
-        <location filename="../tools/dtextractpart.py" line="51"/>
+        <location filename="../tools/dtextractpart.py" line="52"/>
         <source>Extract part</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../tools/dtclipper.py" line="93"/>
         <source>Clip Features</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools/dtmerge.py" line="57"/>
+        <source>Merge Features</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

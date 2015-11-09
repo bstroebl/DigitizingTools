@@ -4,29 +4,34 @@
 <context>
     <name>DigitizingTools</name>
     <message>
-        <location filename="../digitizingtools.py" line="77"/>
+        <location filename="../digitizingtools.py" line="78"/>
         <source>&amp;DigitizingTools</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="78"/>
+        <location filename="../digitizingtools.py" line="79"/>
         <source>Help</source>
         <translation>Hilfe</translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="79"/>
+        <location filename="../digitizingtools.py" line="80"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="81"/>
+        <location filename="../digitizingtools.py" line="82"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../tools/dttools.py" line="205"/>
+        <location filename="../tools/dttools.py" line="216"/>
         <source>is disabled because layer CRS and project CRS do not match!</source>
         <translation>wird deaktiviert weil das KBS des Layers und das KBS des Projektes nicht übereinstimmen!</translation>
+    </message>
+    <message>
+        <location filename="../tools/dtmerge.py" line="70"/>
+        <source>The geometry type of the result is not valid in this layer!</source>
+        <translation>Der Geometrietyp des Ergebnissses ist in diesem Layer ungültig!</translation>
     </message>
 </context>
 <context>
@@ -428,6 +433,21 @@
         <source>Split off one part and add it as a new feature</source>
         <translation>Teil abspalten und als neues Objekt einfügen</translation>
     </message>
+    <message>
+        <location filename="../tools/dtmerge.py" line="30"/>
+        <source>Merge selected features</source>
+        <translation>Gewählte Objekte verschmelzen</translation>
+    </message>
+    <message>
+        <location filename="../tools/dtmerge.py" line="39"/>
+        <source>Merge</source>
+        <translation>Verschmelzen</translation>
+    </message>
+    <message>
+        <location filename="../tools/dtmerge.py" line="51"/>
+        <source>Choose which feature should remain</source>
+        <translation>Wählen Sie das Objekt, das übrigbleiben soll</translation>
+    </message>
 </context>
 <context>
     <name>dtAbout</name>
@@ -531,6 +551,11 @@
         <location filename="../tools/dtclipper.py" line="93"/>
         <source>Clip Features</source>
         <translation>Objekte ausgeschnitten</translation>
+    </message>
+    <message>
+        <location filename="../tools/dtmerge.py" line="57"/>
+        <source>Merged Features</source>
+        <translation>Objekte verschmolzen</translation>
     </message>
 </context>
 </TS>
