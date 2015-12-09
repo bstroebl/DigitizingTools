@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="de_DE" sourcelanguage="en_GB">
+<!DOCTYPE TS>
+<TS version="2.0" language="de_DE" sourcelanguage="en_GB">
 <context>
     <name>DigitizingTools</name>
     <message>
@@ -564,7 +565,7 @@
     <message>
         <location filename="../tools/dtmerge.py" line="57"/>
         <source>Merge Features</source>
-        <translation type="unfinished"></translation>
+        <translation>Objekte verschmolzen</translation>
     </message>
 </context>
 </TS>
