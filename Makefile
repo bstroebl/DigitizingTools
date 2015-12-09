@@ -39,7 +39,7 @@ TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtcli
 	tools/dtmovenodebyarea_dialog.py tools/dtmovesidebydistance_dialog.py \
 	tools/dtmovesidebyarea.py tools/ui_dtmovesidebyarea.py tools/dtmovesidebyarea_dialog.py \
 	tools/dtflipline.py tools/dttools.py tools/dtmedianline.py tools/dtmedianlinetool.py \
-	tools/dtextractpart.py tools/dtmerge.py
+	tools/dtextractpart.py tools/dtmerge.py tools/dtexchangegeometry.py
 
 EXTRAS = metadata.txt license.txt digitizingtools.png
 

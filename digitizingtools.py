@@ -45,6 +45,7 @@ import dtmovesidebyarea
 import dtmedianline
 import dtextractpart
 import dtmerge
+import dtexchangegeometry
 
 class DigitizingTools:
     """Main class for the plugin"""
@@ -86,6 +87,7 @@ class DigitizingTools:
         self.multiPartSplitter = dtsplitmultipart.DtSplitMultiPartTool(self.iface, self.toolBar)
         self.partExtractor = dtextractpart.DtExtractPartTool(self.iface, self.toolBar)
         self.merger = dtmerge.DtMerge(self.iface, self.toolBar)
+        self.exchangeGeometry = dtexchangegeometry.DtExchangeGeometry(self.iface, self.toolBar)
         self.cutter = dtcutter.DtCutWithPolygon(self.iface, self.toolBar)
         self.clipper = dtclipper.DtClipWithPolygon(self.iface, self.toolBar)
         self.ringFiller = dtfillring.DtFillRing(self.iface, self.toolBar)

@@ -19,5 +19,6 @@
     <file alias="medianLine.png">icons/medianLine.png</file>
     <file alias="ExtractPart.png">icons/ExtractPart.png</file>
     <file alias="Merge.png">icons/Merge.png</file>
+    <file alias="exchangeGeometry.png">icons/exchangeGeometry.png</file>
   </qresource>
 </RCC>
