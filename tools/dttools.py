@@ -209,8 +209,8 @@ class DtSingleEditTool(DtSingleTool):
 
         if doEnable and self.crsWarning:
             layerCRSSrsid = layer.crs().srsid()
-            renderer = self.canvas.mapRenderer()
-            projectCRSSrsid = renderer.destinationCrs().srsid()
+            mapSet = self.canvas.mapSettings()
+            projectCRSSrsid = mapSet.destinationCrs().srsid()
 
             if layerCRSSrsid != projectCRSSrsid:
                 self.iface.messageBar().pushMessage("DigitizingTools",  self.act.toolTip() + " " +
