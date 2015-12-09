@@ -29,7 +29,7 @@ class DtExchangeGeometry(DtSingleButton):
         DtSingleButton.__init__(self, iface, toolBar,
             QtGui.QIcon(":/exchangeGeometry.png"),
             QtCore.QCoreApplication.translate("digitizingtools",
-                "Exchange the geomteries between two features"),
+                "Exchange the geomteries between selected features"),
             geometryTypes = [1, 2, 3, 4, 5, 6], dtName = "dtExchangeGeometry")
 
         self.enable()

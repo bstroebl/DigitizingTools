@@ -56,7 +56,7 @@ class DtMerge(DtSingleButton):
         if ok:
             processLayer.beginEditCommand(
                 QtCore.QCoreApplication.translate("editcommand",
-                "Merged Features"))
+                "Merge Features"))
 
             outFeat = featDict.pop(pkValueToKeep)
             outFid = outFeat.id()
