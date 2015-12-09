@@ -88,15 +88,16 @@ class DtMerge(DtSingleButton):
         DtSingleButton.enable(self) # call parent's method
 
         if self.act.isEnabled():
+            layer = self.iface.activeLayer()
             try:
                 layer.selectionChanged.disconnect(self.enable) # disconnect, will be reconnected
             except:
                 pass
-            layer = self.iface.activeLayer()
+
             doEnable = len(layer.pendingPkAttributesList()) == 1
 
             if doEnable:
-                doEnable = layer.selectedFeatureCount() > 0
+                doEnable = layer.selectedFeatureCount() > 1
 
             self.act.setEnabled(doEnable)
             layer.selectionChanged.connect(self.enable)
