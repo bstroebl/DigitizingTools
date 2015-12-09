@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="de_DE" sourcelanguage="en_GB">
+<!DOCTYPE TS><TS version="2.0" language="de_DE" sourcelanguage="en_GB">
 <context>
     <name>DigitizingTools</name>
     <message>
-        <location filename="../digitizingtools.py" line="78"/>
+        <location filename="../digitizingtools.py" line="79"/>
         <source>&amp;DigitizingTools</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="79"/>
+        <location filename="../digitizingtools.py" line="80"/>
         <source>Help</source>
         <translation>Hilfe</translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="80"/>
+        <location filename="../digitizingtools.py" line="81"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="82"/>
+        <location filename="../digitizingtools.py" line="83"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
@@ -448,6 +447,11 @@
         <source>Choose which feature should remain</source>
         <translation>Wählen Sie das Objekt, das übrigbleiben soll</translation>
     </message>
+    <message>
+        <location filename="../tools/dtexchangegeometry.py" line="29"/>
+        <source>Exchange the geomteries between selected features</source>
+        <translation>Geometrien zwischen gewählten Objekten vertauschen</translation>
+    </message>
 </context>
 <context>
     <name>dtAbout</name>
@@ -553,9 +557,14 @@
         <translation>Objekte ausgeschnitten</translation>
     </message>
     <message>
+        <location filename="../tools/dtexchangegeometry.py" line="44"/>
+        <source>Exchange geometries</source>
+        <translation>Geometrien vertauscht</translation>
+    </message>
+    <message>
         <location filename="../tools/dtmerge.py" line="57"/>
-        <source>Merged Features</source>
-        <translation>Objekte verschmolzen</translation>
+        <source>Merge Features</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

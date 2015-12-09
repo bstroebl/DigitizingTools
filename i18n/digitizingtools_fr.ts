@@ -3,22 +3,22 @@
 <context>
     <name>DigitizingTools</name>
     <message>
-        <location filename="../digitizingtools.py" line="78"/>
+        <location filename="../digitizingtools.py" line="79"/>
         <source>&amp;DigitizingTools</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="79"/>
+        <location filename="../digitizingtools.py" line="80"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="80"/>
+        <location filename="../digitizingtools.py" line="81"/>
         <source>About</source>
         <translation>A propos</translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="82"/>
+        <location filename="../digitizingtools.py" line="83"/>
         <source>Settings</source>
         <translation>Paramètres</translation>
     </message>
@@ -444,7 +444,12 @@
     </message>
     <message>
         <location filename="../tools/dtmerge.py" line="51"/>
-        <source>Choose which feature to update</source>
+        <source>Choose which feature should remain</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools/dtexchangegeometry.py" line="29"/>
+        <source>Exchange the geomteries between selected features</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -549,6 +554,11 @@
     <message>
         <location filename="../tools/dtclipper.py" line="93"/>
         <source>Clip Features</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools/dtexchangegeometry.py" line="44"/>
+        <source>Exchange geometries</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
