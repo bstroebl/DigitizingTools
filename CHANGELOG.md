@@ -1,7 +1,11 @@
 # Change Log
 All notable changes to this project since Version 0.8.0 will be documented in this file.
 
-## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v0.10.0...develop)
+## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v0.10.1...develop)
+
+## [0.10.1](https://github.com/bstroebl/DigitizingTools/compare/v0.10.0...v0.10.1) - 2016-03-09
+### Fixed
+- Merge Tool: Single-geometry features are now allowed in multi-geometry layers
 
 ## [0.10.0](https://github.com/bstroebl/DigitizingTools/compare/v0.9.0...v0.10.0) - 2016-01-04
 ### Added
