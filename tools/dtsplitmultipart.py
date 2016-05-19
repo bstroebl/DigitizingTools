@@ -24,7 +24,7 @@
 from PyQt4 import QtCore,  QtGui
 from qgis.core import *
 import dtutils
-import icons_rc
+import dt_icons_rc
 from dttools import DtDualToolSelectFeature
 
 class DtSplitMultiPartTool(DtDualToolSelectFeature):

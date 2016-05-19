@@ -22,7 +22,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from qgis.core import *
 
-import icons_rc
+import dt_icons_rc
 import math
 from dttools import DtSelectVertexTool
 from ui_dtmovenodebyarea import Ui_DtMoveNodeByArea

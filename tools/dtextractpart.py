@@ -21,7 +21,7 @@ the Free Software Foundation; either version 2 of the License, or
 from PyQt4 import QtCore,  QtGui
 from qgis.core import *
 import dtutils
-import icons_rc
+import dt_icons_rc
 from dttools import DtSingleTool,  DtSelectPartTool
 
 class DtExtractPartTool(DtSingleTool):

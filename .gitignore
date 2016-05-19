@@ -5,5 +5,5 @@ DigitizingTools.zip
 help/build/
 ui*.py
 *.pyc
-tools/icons_rc.py
+tools/dt_icons_rc.py
 

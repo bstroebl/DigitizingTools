@@ -23,7 +23,7 @@ from PyQt4.QtGui import *
 from qgis.core import *
 from qgis.gui import *
 
-import icons_rc
+import dt_icons_rc
 from dttools import DtSelectSegmentTool
 from ui_dtmovesidebydistance import Ui_DtMoveSideByDistance
 from dtmovesidebydistance_dialog import DtMoveSideByDistance_Dialog

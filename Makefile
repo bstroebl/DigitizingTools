@@ -45,7 +45,7 @@ EXTRAS = metadata.txt license.txt digitizingtools.png
 
 UI_FILES = ui_about.py tools/ui_dtmovenodebyarea.py tools/ui_dtmovesidebydistance.py tools/ui_dtmovesidebyarea.py
 
-RESOURCE_FILES = tools/icons_rc.py
+RESOURCE_FILES = tools/dt_icons_rc.py
 
 HELP = help/build/html
 
