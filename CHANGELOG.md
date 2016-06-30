@@ -20,7 +20,7 @@ the user can thus control which feature is going to keep the primary key value (
 - get project crs through QgMapSettings instead of deprecated QgsMapRenderer
 
 ### Fixed
-- crash when selecting features during an editing session (fixes [#13827]((http://hub.qgis.org/issues/13827)
+- crash when selecting features during an editing session (fixes [#13827](http://hub.qgis.org/issues/13827)
 
 ## [0.9.0](https://github.com/bstroebl/DigitizingTools/compare/v0.8.0...v0.9.0) - 2015-11-09
 ### Added
