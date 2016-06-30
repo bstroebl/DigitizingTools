@@ -5,7 +5,7 @@ All notable changes to this project since Version 0.8.0 will be documented in th
 
 ## [0.10.2](https://github.com/bstroebl/DigitizingTools/compare/v0.10.1...v0.10.2) - 2016-06-30
 ### Fixed
-- Renamed icons file so icons do not dissappear
+- Renamed icons file so icons do not dissappear, fixes [#14825](http://hub.qgis.org/issues/14825)
 
 ## [0.10.1](https://github.com/bstroebl/DigitizingTools/compare/v0.10.0...v0.10.1) - 2016-03-09
 ### Fixed
