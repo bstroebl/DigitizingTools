@@ -27,7 +27,7 @@ version=0.10.2
 tags=digitizing
 
 homepage=https://github.com/bstroebl/DigitizingTools/wiki
-tracker=http://hub.qgis.org/projects/digitizingtools
+tracker=https://github.com/bstroebl/DigitizingTools/issues
 repository=https://github.com/bstroebl/DigitizingTools
 icon=digitizingtools.png
 # experimental flag
