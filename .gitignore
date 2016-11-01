@@ -1,6 +1,7 @@
 DigitizingTools.e4p
 DigitizingTools.zip
 .eric5project/
+.eric6project/
 .ropeproject/
 help/build/
 ui*.py
