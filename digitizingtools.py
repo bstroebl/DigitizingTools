@@ -38,7 +38,6 @@ import dtfillring
 import dtfillgap
 import dtsplitter
 import dtflipline
-import dtprolongline
 import dtmovenodebyarea
 import dtmovesidebydistance
 import dtmovesidebyarea
@@ -95,7 +94,6 @@ class DigitizingTools:
         self.gapFillerAll = dtfillgap.DtFillGapAllLayers(self.iface, self.toolBar)
         self.splitter = dtsplitter.DtSplitWithLine(self.iface, self.toolBar)
         self.flipLine = dtflipline.DtFlipLine(self.iface,  self.toolBar)
-        self.prolongLine = dtprolongline.DtProlongLine(self.iface, self.toolBar)
         self.moveNodeByArea = dtmovenodebyarea.DtMoveNodeByArea(self.iface, self.toolBar)
         self.moveSideByDistance = dtmovesidebydistance.DtMoveSideByDistance(self.iface, self.toolBar)
         self.moveSideByArea = dtmovesidebyarea.DtMoveSideByArea(self.iface, self.toolBar)
