@@ -68,6 +68,18 @@ compile:
 # the Python plugin directory is located at:
 # $HOME/.qgis/python/plugins
 deploy: compile transcompile
+	mkdir -p $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
+	mkdir -p $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)/tools
+	cp -vf $(PY_FILES) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
+	cp -vf $(TOOLS) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)/tools
+	cp -vf $(UI_FILES) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
+	cp -vf $(RESOURCE_FILES) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)/tools
+	cp -vf $(EXTRAS) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
+	cp -vfr i18n $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
+#	cp -vfr icons $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)
+	cp -vfr $(HELP) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)/help
+	
+deploy3: compile transcompile
 	mkdir -p $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)
 	mkdir -p $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)/tools
 	cp -vf $(PY_FILES) $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)
