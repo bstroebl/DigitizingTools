@@ -19,5 +19,6 @@
     <file alias="ExtractPart.png">icons/ExtractPart.png</file>
     <file alias="Merge.png">icons/Merge.png</file>
     <file alias="exchangeGeometry.png">icons/exchangeGeometry.png</file>
+    <file alias="splitfeature.png">icons/splitfeature.png</file>
   </qresource>
 </RCC>
