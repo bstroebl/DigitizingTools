@@ -1,7 +1,12 @@
 # Change Log
 All notable changes to this project since Version 0.8.0 will be documented in this file.
 
-## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v0.10.2...develop)
+## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v0.11.0...develop)
+
+## [0.11.0](https://github.com/bstroebl/DigitizingTools/compare/v0.10.0...v0.11.0) - 2017-06-15
+### Added
+- Split features tool that replaces core's split features and makes core's split part unnecessary (see #19)
+
 ### Removed
 - Prolong line has been removed because functionality is contained in core since QGIS 2.16
 
