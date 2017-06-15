@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="de_DE" sourcelanguage="en_GB">
+<TS version="2.1" language="de_DE" sourcelanguage="en_GB">
 <context>
     <name>DigitizingTools</name>
     <message>
@@ -24,7 +24,7 @@
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../tools/dttools.py" line="216"/>
+        <location filename="../tools/dttools.py" line="223"/>
         <source>is disabled because layer CRS and project CRS do not match!</source>
         <translation>wird deaktiviert weil das KBS des Layers und das KBS des Projektes nicht übereinstimmen!</translation>
     </message>
@@ -229,7 +229,7 @@
         <translation>Bitte stellen Sie einen Linienlayer zum Aufteilen bereit.</translation>
     </message>
     <message>
-        <location filename="../tools/dtsplitter.py" line="99"/>
+        <location filename="../tools/dtsplitfeature.py" line="91"/>
         <source>splitting of feature</source>
         <translation>Objekt aufteilen</translation>
     </message>
@@ -424,11 +424,6 @@
         <translation>Riss zwischen Polygonen aller sichtbaren Layer mit einem neuen Objekt fluten</translation>
     </message>
     <message>
-        <location filename="../tools/dtprolongline.py" line="29"/>
-        <source>Amend Line</source>
-        <translation>Linie ergänzen</translation>
-    </message>
-    <message>
         <location filename="../tools/dtextractpart.py" line="29"/>
         <source>Split off one part and add it as a new feature</source>
         <translation>Teil abspalten und als neues Objekt einfügen</translation>
@@ -452,6 +447,21 @@
         <location filename="../tools/dtexchangegeometry.py" line="29"/>
         <source>Exchange the geomteries between selected features</source>
         <translation>Geometrien zwischen gewählten Objekten vertauschen</translation>
+    </message>
+    <message>
+        <location filename="../tools/dtsplitfeature.py" line="46"/>
+        <source>Split Features</source>
+        <translation>Objekte zerteilen</translation>
+    </message>
+    <message>
+        <location filename="../tools/dtsplitfeature.py" line="112"/>
+        <source>Split Multipart Feature</source>
+        <translation>Multiobjekt zerteilen</translation>
+    </message>
+    <message>
+        <location filename="../tools/dtsplitfeature.py" line="112"/>
+        <source>Create new feature from this part?</source>
+        <translation>Diesen Teil als neues Objekt erzeugen?</translation>
     </message>
 </context>
 <context>
@@ -491,11 +501,6 @@
         <location filename="../tools/dtcutter.py" line="154"/>
         <source>Delete Features</source>
         <translation>Objekte gelöscht</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtprolongline.py" line="54"/>
-        <source>Prolong Line</source>
-        <translation>Linie verlängert</translation>
     </message>
     <message>
         <location filename="../tools/dtmovenodebyarea.py" line="153"/>
@@ -566,6 +571,11 @@
         <location filename="../tools/dtmerge.py" line="57"/>
         <source>Merge Features</source>
         <translation>Objekte verschmolzen</translation>
+    </message>
+    <message>
+        <location filename="../tools/dtsplitfeature.py" line="65"/>
+        <source>Features split</source>
+        <translation>Objekte geteilt</translation>
     </message>
 </context>
 </TS>
