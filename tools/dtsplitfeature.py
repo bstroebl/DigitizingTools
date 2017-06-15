@@ -29,7 +29,7 @@ class DtSplitFeature(DtSingleEditTool):
     def __init__(self, iface,  toolBar):
         DtSingleEditTool.__init__(self,  iface,  toolBar,
             QtGui.QIcon(":/splitfeature.png"),
-            QtCore.QCoreApplication.translate("digitizingtools", "Split Feature"),
+            QtCore.QCoreApplication.translate("digitizingtools", "Split Features"),
             geometryTypes = [2, 3, 5, 6],  dtName = "dtSplitFeature")
 
         self.tool = DtSplitFeatureTool(self.canvas, self.iface)
@@ -43,14 +43,13 @@ class DtSplitFeature(DtSingleEditTool):
         self.rubberBand = None
 
     def digitizingFinished(self, splitGeom):
-        title = QtCore.QCoreApplication.translate("digitizingtools", "Split Feature")
+        title = QtCore.QCoreApplication.translate("digitizingtools", "Split Features")
         selIds = self.editLayer.selectedFeaturesIds()
         self.editLayer.removeSelection()
         splitterPList = dtutils.dtExtractPoints(splitGeom)
         featuresToAdd = [] # store new features in this array
         featuresToKeep = {} # store geoms that will stay with their id as key
         featuresToSplit = {}
-        self.editLayer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Split feature"))
 
         for aFeat in self.editLayer.getFeatures(QgsFeatureRequest(splitGeom.boundingBox())):
             anId = aFeat.id()
@@ -61,6 +60,9 @@ class DtSplitFeature(DtSingleEditTool):
 
                 if splitGeom.intersects(aGeom):
                     featuresToSplit[anId] = aFeat
+
+        if len(featuresToSplit) > 0:
+            self.editLayer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Features split"))
 
         for anId, aFeat in featuresToSplit.iteritems():
             aGeom = aFeat.geometry()
