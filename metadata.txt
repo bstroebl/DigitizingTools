@@ -10,11 +10,11 @@
 
 [general]
 name=Digitizing Tools
-qgisMinimumVersion=2.8
+qgisMinimumVersion=2.14
 description=Subsumes different tools useful during digitizing sessions
 about=DigitizingTools is meant to be a compilation of tools missing in basic QGIS, especially when digitizing on existing features. It is a collaborative effort and does not contain CAD like functions meant for construction.
 category=Vector
-version=0.10.2
+version=0.11.0
 
 # end of mandatory metadata
 
