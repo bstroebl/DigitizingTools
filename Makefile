@@ -33,8 +33,8 @@ PLUGINNAME = DigitizingTools
 PY_FILES = digitizingtools.py __init__.py dtDialog.py
 
 TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtclipper.py \
-	tools/dtfillring.py tools/dtfillgap.py tools/dtsplitter.py tools/dtprolongline.py \
-	tools/dtprolonglinetool.py tools/dtmovenodebyarea.py tools/dtmovesidebydistance.py \
+	tools/dtfillring.py tools/dtfillgap.py tools/dtsplitter.py tools/dtsplitfeature.py \
+	tools/dtsplitfeaturetool.py tools/dtmovenodebyarea.py tools/dtmovesidebydistance.py \
 	tools/ui_dtmovenodebyarea.py tools/ui_dtmovesidebydistance.py \
 	tools/dtmovenodebyarea_dialog.py tools/dtmovesidebydistance_dialog.py \
 	tools/dtmovesidebyarea.py tools/ui_dtmovesidebyarea.py tools/dtmovesidebyarea_dialog.py \
@@ -53,7 +53,19 @@ default: compile
 
 compile: $(UI_FILES) $(RESOURCE_FILES)
 #compile: $(UI_FILES)
-compile:
+
+%_rc.py : %.qrc
+	pyrcc4 -o $*_rc.py  $<
+
+%.py : %.ui
+	pyuic4 -o $@ $<
+
+%.qm : %.ts
+	lrelease $<
+	
+#compile: $(UI_FILES) $(RESOURCE_FILES)
+#compile: $(UI_FILES)
+compile3:
 
 %_rc.py : %.qrc
 	pyrcc5 -o $*_rc.py -py2 $<
@@ -79,7 +91,7 @@ deploy: compile transcompile
 #	cp -vfr icons $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)
 	cp -vfr $(HELP) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)/help
 	
-deploy3: compile transcompile
+deploy3: compile3 transcompile
 	mkdir -p $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)
 	mkdir -p $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)/tools
 	cp -vf $(PY_FILES) $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)

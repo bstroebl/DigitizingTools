@@ -38,6 +38,7 @@ import dtfillring
 import dtfillgap
 import dtsplitter
 import dtflipline
+import dtsplitfeature
 import dtmovenodebyarea
 import dtmovesidebydistance
 import dtmovesidebyarea
@@ -85,6 +86,7 @@ class DigitizingTools:
         #. Add the tools
         self.multiPartSplitter = dtsplitmultipart.DtSplitMultiPartTool(self.iface, self.toolBar)
         self.partExtractor = dtextractpart.DtExtractPartTool(self.iface, self.toolBar)
+        self.splitfeature = dtsplitfeature.DtSplitFeature(self.iface, self.toolBar)
         self.merger = dtmerge.DtMerge(self.iface, self.toolBar)
         self.exchangeGeometry = dtexchangegeometry.DtExchangeGeometry(self.iface, self.toolBar)
         self.cutter = dtcutter.DtCutWithPolygon(self.iface, self.toolBar)
