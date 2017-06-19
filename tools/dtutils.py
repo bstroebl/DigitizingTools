@@ -286,3 +286,21 @@ def dtGetDefaultAttributeMap(layer):
         attributeMap[i] = dp.defaultValue(i)
 
     return attributeMap
+
+def dtGetHighlightSettings():
+    '''highlight a geom in a layer with highlight color from settings'''
+    s = QtCore.QSettings()
+    s.beginGroup("Map/highlight")
+    buffer = s.value("buffer",  "0.5")
+    hexColor = s.value("color",  "#ff0000")
+    colorAlpha = s.value("colorAlpha", "128")
+    minWidth = s.value("minWidth", "1")
+    s.endGroup()
+    color = QtGui.QColor()
+    color.setNamedColor(hexColor)
+    fillColor = QtGui.QColor()
+    r, g, b, a = color.getRgb()
+    fillColor.setRgb(r, g, b, int(colorAlpha))
+
+    return [color, fillColor, float(buffer), float(minWidth)]
+

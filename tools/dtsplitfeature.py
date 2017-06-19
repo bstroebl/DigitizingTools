@@ -44,6 +44,7 @@ class DtSplitFeature(DtSingleEditTool):
 
     def digitizingFinished(self, splitGeom):
         title = QtCore.QCoreApplication.translate("digitizingtools", "Split Features")
+        hlColor, hlFillColor, hlBuffer,  hlMinWidth = dtutils.dtGetHighlightSettings()
         selIds = self.editLayer.selectedFeaturesIds()
         self.editLayer.removeSelection()
         splitterPList = dtutils.dtExtractPoints(splitGeom)
@@ -108,7 +109,10 @@ class DtSplitFeature(DtSingleEditTool):
                         for i in range(len(splitResult)):
                             aNewGeom = splitResult[i]
                             hl = QgsHighlight(self.iface.mapCanvas(), aNewGeom, self.editLayer)
-                            hl.setWidth(3)
+                            hl.setColor(hlColor)
+                            hl.setFillColor(hlFillColor)
+                            hl.setBuffer(hlBuffer)
+                            hl.setWidth(hlMinWidth)
                             answer = QtGui.QMessageBox.question(
                                 None, QtCore.QCoreApplication.translate("digitizingtools", "Split Multipart Feature"),
                                 QtCore.QCoreApplication.translate("digitizingtools", "Create new feature from this part?"),
