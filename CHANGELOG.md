@@ -2,6 +2,11 @@
 All notable changes to this project since Version 0.8.0 will be documented in this file.
 
 ## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v0.11.0...develop)
+### Changed
+- Use Highlight color from settings in split feature
+
+### Fixed
+- Remove  run-time error if user chooses "No to All" in split feature
 
 ## [0.11.0](https://github.com/bstroebl/DigitizingTools/compare/v0.10.0...v0.11.0) - 2017-06-15
 ### Added
