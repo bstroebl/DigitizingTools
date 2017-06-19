@@ -118,12 +118,16 @@ class DtSplitFeature(DtSingleEditTool):
                                 takeThisOne = i
                                 break
                             elif answer == QtGui.QMessageBox.NoToAll:
+                                keepGeom = aGeom
+                                newGeoms = []
                                 takeThisOne = -2
                                 break
                             elif answer == QtGui.QMessageBox.Cancel:
                                 return None
 
-                    if takeThisOne >= 0:
+                    if takeThisOne == -2:
+                        break
+                    elif takeThisOne >= 0:
                         newGeoms = [splitResult.pop(takeThisOne)]
 
                         if len(splitResult) > 0: #should be
