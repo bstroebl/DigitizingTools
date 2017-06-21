@@ -102,7 +102,7 @@ class DtSplitFeature(DtSingleEditTool):
                         if wasMultipart:
                             splitResult.append(thisGeom)
 
-                if wasMultipart:
+                if wasMultipart and len(splitResult) > 1:
                     takeThisOne = -1
 
                     while takeThisOne == -1:
