@@ -229,7 +229,7 @@
         <translation>Bitte stellen Sie einen Linienlayer zum Aufteilen bereit.</translation>
     </message>
     <message>
-        <location filename="../tools/dtsplitfeature.py" line="91"/>
+        <location filename="../tools/dtsplitfeature.py" line="92"/>
         <source>splitting of feature</source>
         <translation>Objekt aufteilen</translation>
     </message>
@@ -445,8 +445,8 @@
     </message>
     <message>
         <location filename="../tools/dtexchangegeometry.py" line="29"/>
-        <source>Exchange the geomteries between selected features</source>
-        <translation>Geometrien zwischen gewählten Objekten vertauschen</translation>
+        <source>Exchange attributes between selected features</source>
+        <translation>Attribute zwischen gewählten Objekten vertauschen</translation>
     </message>
     <message>
         <location filename="../tools/dtsplitfeature.py" line="46"/>
@@ -454,12 +454,12 @@
         <translation>Objekte zerteilen</translation>
     </message>
     <message>
-        <location filename="../tools/dtsplitfeature.py" line="112"/>
+        <location filename="../tools/dtsplitfeature.py" line="116"/>
         <source>Split Multipart Feature</source>
         <translation>Multiobjekt zerteilen</translation>
     </message>
     <message>
-        <location filename="../tools/dtsplitfeature.py" line="112"/>
+        <location filename="../tools/dtsplitfeature.py" line="116"/>
         <source>Create new feature from this part?</source>
         <translation>Diesen Teil als neues Objekt erzeugen?</translation>
     </message>
@@ -564,8 +564,8 @@
     </message>
     <message>
         <location filename="../tools/dtexchangegeometry.py" line="44"/>
-        <source>Exchange geometries</source>
-        <translation>Geometrien vertauscht</translation>
+        <source>Exchange attributes</source>
+        <translation>Attribute vertauscht</translation>
     </message>
     <message>
         <location filename="../tools/dtmerge.py" line="57"/>
@@ -573,7 +573,7 @@
         <translation>Objekte verschmolzen</translation>
     </message>
     <message>
-        <location filename="../tools/dtsplitfeature.py" line="65"/>
+        <location filename="../tools/dtsplitfeature.py" line="66"/>
         <source>Features split</source>
         <translation>Objekte geteilt</translation>
     </message>

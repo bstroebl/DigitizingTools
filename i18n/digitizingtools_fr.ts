@@ -23,7 +23,7 @@
         <translation>Paramètres</translation>
     </message>
     <message>
-        <location filename="../tools/dttools.py" line="216"/>
+        <location filename="../tools/dttools.py" line="223"/>
         <source>is disabled because layer CRS and project CRS do not match!</source>
         <translation>Désactivé du fait que le SCR du projet et de la couche diffèrent !</translation>
     </message>
@@ -228,7 +228,7 @@
         <translation>S&apos;il vous plaît fournir une couche de ligne de découpage.</translation>
     </message>
     <message>
-        <location filename="../tools/dtsplitter.py" line="99"/>
+        <location filename="../tools/dtsplitfeature.py" line="92"/>
         <source>splitting of feature</source>
         <translation>Découpage de l&apos;objet</translation>
     </message>
@@ -423,11 +423,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../tools/dtprolongline.py" line="29"/>
-        <source>Amend Line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../tools/dtextractpart.py" line="29"/>
         <source>Split off one part and add it as a new feature</source>
         <translation type="unfinished"></translation>
@@ -449,7 +444,22 @@
     </message>
     <message>
         <location filename="../tools/dtexchangegeometry.py" line="29"/>
-        <source>Exchange the geomteries between selected features</source>
+        <source>Exchange attributes between selected features</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools/dtsplitfeature.py" line="46"/>
+        <source>Split Features</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools/dtsplitfeature.py" line="116"/>
+        <source>Split Multipart Feature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools/dtsplitfeature.py" line="116"/>
+        <source>Create new feature from this part?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -490,11 +500,6 @@
         <location filename="../tools/dtcutter.py" line="154"/>
         <source>Delete Features</source>
         <translation>Détruire des objets</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtprolongline.py" line="54"/>
-        <source>Prolong Line</source>
-        <translation>Prolonger une ligne</translation>
     </message>
     <message>
         <location filename="../tools/dtmovenodebyarea.py" line="153"/>
@@ -558,12 +563,17 @@
     </message>
     <message>
         <location filename="../tools/dtexchangegeometry.py" line="44"/>
-        <source>Exchange geometries</source>
+        <source>Exchange attributes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../tools/dtmerge.py" line="57"/>
         <source>Merge Features</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tools/dtsplitfeature.py" line="66"/>
+        <source>Features split</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
