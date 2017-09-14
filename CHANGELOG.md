@@ -1,11 +1,14 @@
 # Change Log
 All notable changes to this project since Version 0.8.0 will be documented in this file.
 
-## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v0.11.0...develop)
-### Changed
-- Use Highlight color from settings in split feature
+## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v0.11.3...develop)
 
-### Fixed
+## [0.11.3] (https://github.com/bstroebl/DigitizingTools/compare/v0.11.0...v0.11.3) - 2017-09-14
+### Changed since 0.11.0
+- Use Highlight color from settings in split feature
+- Rename function "Exchange geometries" into "Exchange Attributes" to make it more in line with the naming of QGIS' standard tools
+
+### Fixed since 0.11.0
 - Remove run-time error if user chooses "No to All" in split feature
 - Prevent endless loop if no splitting occures in multi-geometry feature
 
