@@ -29,7 +29,7 @@ class DtExchangeGeometry(DtSingleButton):
         DtSingleButton.__init__(self, iface, toolBar,
             QtGui.QIcon(":/exchangeGeometry.png"),
             QtCore.QCoreApplication.translate("digitizingtools",
-                "Exchange the geomteries between selected features"),
+                "Exchange attributes between selected features"),
             geometryTypes = [1, 2, 3, 4, 5, 6], dtName = "dtExchangeGeometry")
 
         self.enable()
@@ -42,7 +42,7 @@ class DtExchangeGeometry(DtSingleButton):
         feature2 = feats[1]
         geom2 = QgsGeometry(feature2.geometry())
         layer.beginEditCommand(QtCore.QCoreApplication.translate(
-            "editcommand", "Exchange geometries"))
+            "editcommand", "Exchange attributes"))
         feature1.setGeometry(geom2)
         layer.updateFeature(feature1)
         feature2.setGeometry(geom1)
