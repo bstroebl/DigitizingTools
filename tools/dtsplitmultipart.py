@@ -34,7 +34,7 @@ class DtSplitMultiPartTool(DtDualToolSelectFeature):
             QtCore.QCoreApplication.translate("digitizingtools", "Split multi-part feature to single part (interactive mode)"),
             QtGui.QIcon(":/MultiToSingleBatch.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Split selected multi-part features to single part"),
-             geometryTypes = [4, 5, 6], dtName = "dtSplitMultiPart")
+             geometryTypes = [1, 2, 3, 4, 5, 6], dtName = "dtSplitMultiPart")
 
     def process(self):
         layer = self.iface.mapCanvas().currentLayer()

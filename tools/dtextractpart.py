@@ -30,7 +30,7 @@ class DtExtractPartTool(DtSingleTool):
             QtGui.QIcon(":/ExtractPart.png"),
             QtCore.QCoreApplication.translate("digitizingtools",
                 "Split off one part and add it as a new feature"),
-            geometryTypes = [4, 5, 6], dtName = "dtExtractPart")
+            geometryTypes = [1, 2, 3, 4, 5, 6], dtName = "dtExtractPart")
 
         self.tool = DtSelectPartTool(self.canvas, self.iface)
         self.tool.partSelected.connect(self.partSelected)
