@@ -23,6 +23,7 @@ from qgis.core import *
 from qgis.gui import QgsMessageBar
 import dt_icons_rc
 from dttools import DtSingleButton
+from dtToolsDialog import DigitizingToolsChooseRemaining
 
 class DtMerge(DtSingleButton):
     '''Merge selected features of active layer'''
@@ -48,12 +49,11 @@ class DtMerge(DtSingleButton):
             pkValues.append(str(aPkValue))
             featDict[str(aPkValue)] = aFeat
 
-        pkValueToKeep, ok = QtGui.QInputDialog.getItem(
-            None, title, QtCore.QCoreApplication.translate(
-                "digitizingtools", "Choose which feature should remain"),
-                pkValues)
+        dlg = DigitizingToolsChooseRemaining(self.iface, processLayer, pkValues, featDict, title)
+        doContinue = dlg.exec_()
 
-        if ok:
+        if doContinue == 1:
+            pkValueToKeep = dlg.pkValueToKeep
             processLayer.beginEditCommand(
                 QtCore.QCoreApplication.translate("editcommand",
                 "Merge Features"))

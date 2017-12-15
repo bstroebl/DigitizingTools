@@ -24,11 +24,11 @@
 # Import the PyQt and QGIS libraries
 from PyQt4 import QtCore,  QtGui
 from qgis.core import *
-from dtDialog import DigitizingToolsAbout
 import os.path,  sys
 # Set up current path.
 currentPath = os.path.dirname( __file__ )
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/tools'))
+from dtDialog import DigitizingToolsAbout
 
 #import the tools
 import dtsplitmultipart

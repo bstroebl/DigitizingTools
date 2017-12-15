@@ -39,11 +39,12 @@ TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtcli
 	tools/dtmovenodebyarea_dialog.py tools/dtmovesidebydistance_dialog.py \
 	tools/dtmovesidebyarea.py tools/ui_dtmovesidebyarea.py tools/dtmovesidebyarea_dialog.py \
 	tools/dtflipline.py tools/dttools.py tools/dtmedianline.py tools/dtmedianlinetool.py \
-	tools/dtextractpart.py tools/dtmerge.py tools/dtexchangegeometry.py
+	tools/dtextractpart.py tools/dtmerge.py tools/dtexchangegeometry.py tools/dtToolsDialog.py \
+	tools/ui_dtchooseremaining.py
 
 EXTRAS = metadata.txt license.txt digitizingtools.png
 
-UI_FILES = ui_about.py tools/ui_dtmovenodebyarea.py tools/ui_dtmovesidebydistance.py tools/ui_dtmovesidebyarea.py
+UI_FILES = ui_about.py tools/ui_dtmovenodebyarea.py tools/ui_dtmovesidebydistance.py tools/ui_dtmovesidebyarea.py tools/ui_dtchooseremaining.py
 
 RESOURCE_FILES = tools/dt_icons_rc.py
 
@@ -62,7 +63,7 @@ compile: $(UI_FILES) $(RESOURCE_FILES)
 
 %.qm : %.ts
 	lrelease $<
-	
+
 #compile: $(UI_FILES) $(RESOURCE_FILES)
 #compile: $(UI_FILES)
 compile3:
@@ -90,7 +91,7 @@ deploy: compile transcompile
 	cp -vfr i18n $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
 #	cp -vfr icons $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)
 	cp -vfr $(HELP) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)/help
-	
+
 deploy3: compile3 transcompile
 	mkdir -p $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)
 	mkdir -p $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)/tools

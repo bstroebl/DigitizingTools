@@ -53,10 +53,3 @@ class DigitizingToolsAbout(QtGui.QDialog):
         aboutText += " either version 2 of the License, or (at your option) any later version."
         #QtGui.QMessageBox.information(None, "", aboutText)
         self.ui.textArea.setPlainText(aboutText)
-
-
-
-
-
-
-
