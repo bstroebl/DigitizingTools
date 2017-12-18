@@ -25,7 +25,6 @@ from qgis.gui import *
 
 import dt_icons_rc
 from dttools import DtSelectSegmentTool
-from ui_dtmovesidebydistance import Ui_DtMoveSideByDistance
 from dtmovesidebydistance_dialog import DtMoveSideByDistance_Dialog
 
 class DtMoveSideByDistance():

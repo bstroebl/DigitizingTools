@@ -35,16 +35,15 @@ PY_FILES = digitizingtools.py __init__.py dtDialog.py
 TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtclipper.py \
 	tools/dtfillring.py tools/dtfillgap.py tools/dtsplitter.py tools/dtsplitfeature.py \
 	tools/dtsplitfeaturetool.py tools/dtmovenodebyarea.py tools/dtmovesidebydistance.py \
-	tools/ui_dtmovenodebyarea.py tools/ui_dtmovesidebydistance.py \
 	tools/dtmovenodebyarea_dialog.py tools/dtmovesidebydistance_dialog.py \
-	tools/dtmovesidebyarea.py tools/ui_dtmovesidebyarea.py tools/dtmovesidebyarea_dialog.py \
+	tools/dtmovesidebyarea.py tools/dtmovesidebyarea_dialog.py \
 	tools/dtflipline.py tools/dttools.py tools/dtmedianline.py tools/dtmedianlinetool.py \
-	tools/dtextractpart.py tools/dtmerge.py tools/dtexchangegeometry.py tools/dtToolsDialog.py \
-	tools/ui_dtchooseremaining.py
+	tools/dtextractpart.py tools/dtmerge.py tools/dtexchangegeometry.py tools/dtToolsDialog.py
 
 EXTRAS = metadata.txt license.txt digitizingtools.png
 
-UI_FILES = ui_about.py tools/ui_dtmovenodebyarea.py tools/ui_dtmovesidebydistance.py tools/ui_dtmovesidebyarea.py tools/ui_dtchooseremaining.py
+UI_FILES = ui_about.ui
+UI_FILES_TOOLS = tools/ui_dtmovenodebyarea.ui tools/ui_dtmovesidebydistance.ui tools/ui_dtmovesidebyarea.ui tools/ui_dtchooseremaining.ui
 
 RESOURCE_FILES = tools/dt_icons_rc.py
 
@@ -52,30 +51,27 @@ HELP = help/build/html
 
 default: compile
 
-compile: $(UI_FILES) $(RESOURCE_FILES)
+compile: $(RESOURCE_FILES)
 #compile: $(UI_FILES)
 
 %_rc.py : %.qrc
 	pyrcc4 -o $*_rc.py  $<
-
-%.py : %.ui
-	pyuic4 -o $@ $<
 
 %.qm : %.ts
 	lrelease $<
 
 #compile: $(UI_FILES) $(RESOURCE_FILES)
 #compile: $(UI_FILES)
-compile3:
+#compile3:
 
-%_rc.py : %.qrc
-	pyrcc5 -o $*_rc.py -py2 $<
+#%_rc.py : %.qrc
+#	pyrcc5 -o $*_rc.py -py2 $<
 
-%.py : %.ui
-	pyuic5 -o $@ $<
+#%.py : %.ui
+#	pyuic5 -o $@ $<
 
-%.qm : %.ts
-	lrelease $<
+#%.qm : %.ts
+#	lrelease $<
 
 # The deploy target only works on unix like operating system where
 # the Python plugin directory is located at:
@@ -86,6 +82,7 @@ deploy: compile transcompile
 	cp -vf $(PY_FILES) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
 	cp -vf $(TOOLS) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)/tools
 	cp -vf $(UI_FILES) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
+	cp -vf $(UI_FILES_TOOLS) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)/tools
 	cp -vf $(RESOURCE_FILES) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)/tools
 	cp -vf $(EXTRAS) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
 	cp -vfr i18n $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)

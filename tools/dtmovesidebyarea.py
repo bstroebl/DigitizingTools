@@ -26,7 +26,6 @@ from qgis.gui import *
 import dt_icons_rc
 import math
 from dttools import DtSelectSegmentTool
-from ui_dtmovesidebyarea import Ui_DtMoveSideByArea
 from dtmovesidebyarea_dialog import DtMoveSideByArea_Dialog
 
 class DtMoveSideByArea():

@@ -20,31 +20,33 @@
  ***************************************************************************/
 """
 
-from PyQt4 import QtGui,  QtCore
-from ui_dtchooseremaining import Ui_dtchooseremaining
+from qgis.PyQt import QtWidgets, QtCore, uic
 from dtutils import dtGetHighlightSettings
 from qgis.core import *
 from qgis.gui import QgsHighlight
+import os
 
-class DigitizingToolsChooseRemaining(QtGui.QDialog):
+FORM_CLASS, _ = uic.loadUiType(os.path.join(
+    os.path.dirname(__file__), 'ui_dtchooseremaining.ui'))
+
+class DigitizingToolsChooseRemaining(QtWidgets.QDialog, FORM_CLASS):
     def __init__(self, iface, editLayer, pkValues, featDict, title):
-        QtGui.QDialog.__init__(self)
-        self.ui = Ui_dtchooseremaining()
-        self.ui.setupUi(self)
+        QtWidgets.QDialog.__init__(self)
+        self.setupUi(self)
         self.iface = iface
         self.editLayer = editLayer
         self.pkValues = pkValues
         self.featDict = featDict
-        self.ui.chooseId.addItems(self.pkValues)
+        self.chooseId.addItems(self.pkValues)
         self.setWindowTitle(title)
-        self.ui.label.setText(QtCore.QCoreApplication.translate(
+        self.label.setText(QtCore.QCoreApplication.translate(
             "digitizingtools", "Choose which feature should remain"))
-        self.ui.buttonBox.rejected.connect(self.reject)
-        self.ui.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+        self.buttonBox.accepted.connect(self.accept)
 
     @QtCore.pyqtSlot(int)
     def on_chooseId_currentIndexChanged(self, thisIndex):
-        aPkValue = self.ui.chooseId.currentText()
+        aPkValue = self.chooseId.currentText()
         aGeom = self.featDict[aPkValue].geometry()
         hlColor, hlFillColor, hlBuffer,  hlMinWidth = dtGetHighlightSettings()
         self.hl = QgsHighlight(self.iface.mapCanvas(), aGeom, self.editLayer)
@@ -59,5 +61,5 @@ class DigitizingToolsChooseRemaining(QtGui.QDialog):
 
     @QtCore.pyqtSlot()
     def accept(self):
-        self.pkValueToKeep = self.ui.chooseId.currentText()
+        self.pkValueToKeep = self.chooseId.currentText()
         self.done(1)

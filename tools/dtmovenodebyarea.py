@@ -25,7 +25,6 @@ from qgis.core import *
 import dt_icons_rc
 import math
 from dttools import DtSelectVertexTool
-from ui_dtmovenodebyarea import Ui_DtMoveNodeByArea
 from dtmovenodebyarea_dialog import DtMoveNodeByArea_Dialog
 
 class DtMoveNodeByArea():

@@ -19,28 +19,30 @@ the Free Software Foundation; either version 2 of the License, or
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from qgis.core import *
+from PyQt4 import uic
+import os
 
-from ui_dtmovenodebyarea import Ui_DtMoveNodeByArea
+FORM_CLASS, _ = uic.loadUiType(os.path.join(
+    os.path.dirname(__file__), 'ui_dtmovenodebyarea.ui'))
 
-class DtMoveNodeByArea_Dialog(QDialog, QObject, Ui_DtMoveNodeByArea):
-    
+class DtMoveNodeByArea_Dialog(QDialog, FORM_CLASS):
+
     def __init__(self, parent, flags):
         QDialog.__init__(self, parent,  flags)
         self.setupUi(self)
-    
+
     def initGui(self):
         pass
-      
+
     def writeArea(self, area):
         self.area_label.setText(str(area))
         self.targetArea.setText(str(area))
-        
-    @pyqtSignature("on_buttonClose_clicked()")    
+
+    @pyqtSignature("on_buttonClose_clicked()")
     def on_buttonClose_clicked(self):
-        self.emit(SIGNAL("unsetTool()"))         
+        self.emit(SIGNAL("unsetTool()"))
         self.close()
-        
+
     @pyqtSignature("on_moveButton_clicked()")
     def on_moveButton_clicked(self):
         self.emit(SIGNAL("moveNode()"))

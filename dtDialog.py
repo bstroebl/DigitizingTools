@@ -20,15 +20,16 @@
  ***************************************************************************/
 """
 
-from PyQt4 import QtGui,  QtCore
-from ui_about import Ui_about
+from qgis.PyQt import QtWidgets, QtCore, uic
+import os
 
-class DigitizingToolsAbout(QtGui.QDialog):
+FORM_CLASS, _ = uic.loadUiType(os.path.join(
+    os.path.dirname(__file__), 'ui_about.ui'))
+
+class DigitizingToolsAbout(QtWidgets.QDialog, FORM_CLASS):
     def __init__(self, iface):
-        QtGui.QDialog.__init__(self)
-        # Set up the user interface from Designer.
-        self.ui = Ui_about()
-        self.ui.setupUi(self)
+        QtWidgets.QDialog.__init__(self)
+        self.setupUi(self)
         # keep reference to QGIS interface
         self.iface = iface
 
@@ -52,4 +53,4 @@ class DigitizingToolsAbout(QtGui.QDialog):
         aboutText += " terms of the GNU General Public License as published by the Free Software Foundation;"
         aboutText += " either version 2 of the License, or (at your option) any later version."
         #QtGui.QMessageBox.information(None, "", aboutText)
-        self.ui.textArea.setPlainText(aboutText)
+        self.textArea.setPlainText(aboutText)

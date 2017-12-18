@@ -17,27 +17,27 @@ the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 """
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-from qgis.core import *
+from qgis.PyQt import QtWidgets, QtCore, uic
+import os
 
-from ui_dtmovesidebydistance import Ui_DtMoveSideByDistance
+FORM_CLASS, _ = uic.loadUiType(os.path.join(
+    os.path.dirname(__file__), 'ui_dtmovesidebydistance.ui'))
 
-class DtMoveSideByDistance_Dialog(QDialog, QObject, Ui_DtMoveSideByDistance):
-    
+class DtMoveSideByDistance_Dialog(QtWidgets.QDialog, FORM_CLASS):
+
     def __init__(self, parent, flags):
-        QDialog.__init__(self, parent,  flags)
+        super(DtMoveSideByDistance_Dialog, self).__init__(parent, flags)
         self.setupUi(self)
-    
+
     def initGui(self):
         pass
-      
-    @pyqtSignature("on_buttonClose_clicked()")    
+
+    @QtCore.pyqtSlot()
     def on_buttonClose_clicked(self):
-        self.emit(SIGNAL("unsetTool()"))         
+        self.emit(QtCore.SIGNAL("unsetTool()"))
         self.close()
-        
-    @pyqtSignature("on_moveButton_clicked()")
+
+    @QtCore.pyqtSlot()
     def on_moveButton_clicked(self):
-        self.emit(SIGNAL("moveSide()"))
+        self.emit(QtCore.SIGNAL("moveSide()"))
         pass
