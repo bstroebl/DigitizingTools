@@ -21,14 +21,16 @@
  *                                                                         *
  ***************************************************************************/
 """
+from __future__ import absolute_import
+from builtins import object
 # Import the PyQt and QGIS libraries
-from PyQt4 import QtCore,  QtGui
+from qgis.PyQt import QtCore,  QtGui
 from qgis.core import *
 import os.path,  sys
 # Set up current path.
 currentPath = os.path.dirname( __file__ )
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/tools'))
-from dtDialog import DigitizingToolsAbout
+from .dtDialog import DigitizingToolsAbout
 
 #import the tools
 import dtsplitmultipart
@@ -47,7 +49,7 @@ import dtextractpart
 import dtmerge
 import dtexchangegeometry
 
-class DigitizingTools:
+class DigitizingTools(object):
     """Main class for the plugin"""
     def __init__(self, iface):
         # Save reference to the QGIS interface

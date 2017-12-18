@@ -21,8 +21,10 @@
  This script initializes the plugin, making it known to QGIS.
 """
 
+from __future__ import absolute_import
+
 def classFactory(iface):
     # load RectOvalDigit class from file RectOvalDigit
-    from digitizingtools import DigitizingTools
+    from .digitizingtools import DigitizingTools
     return DigitizingTools(iface)
 
