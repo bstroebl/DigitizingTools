@@ -21,7 +21,7 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4 import QtCore,  QtGui
+from qgis.PyQt import QtCore,  QtGui
 from qgis.core import *
 import dtutils
 import dt_icons_rc

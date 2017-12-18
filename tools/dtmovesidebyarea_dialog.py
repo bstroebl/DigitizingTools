@@ -17,18 +17,16 @@ the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 """
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-from PyQt4 import uic
+from qgis.PyQt import QtCore, QtWidgets, uic
 import os
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'ui_dtmovesidebyarea.ui'))
 
-class DtMoveSideByArea_Dialog(QDialog, FORM_CLASS):
+class DtMoveSideByArea_Dialog(QtWidgets.QDialog, FORM_CLASS):
 
     def __init__(self, parent, flags):
-        QDialog.__init__(self, parent,  flags)
+        QtWidgets.QDialog.__init__(self, parent,  flags)
         self.setupUi(self)
         self.method = "fixed"
 
@@ -41,20 +39,20 @@ class DtMoveSideByArea_Dialog(QDialog, FORM_CLASS):
         self.area_label.setText(str(area))
         self.targetArea.setText(str(area))
 
-    @pyqtSignature("on_radioFixed_clicked()")
+    @QtCore.pyqtSlot()
     def on_radioFixed_clicked(self):
         self.method = "fixed"
 
-    @pyqtSignature("on_radioVariable_clicked()")
+    @QtCore.pyqtSlot()
     def on_radioVariable_clicked(self):
         self.method = "variable"
 
-    @pyqtSignature("on_buttonClose_clicked()")
+    @QtCore.pyqtSlot()
     def on_buttonClose_clicked(self):
-        self.emit(SIGNAL("unsetTool()"))
+        self.emit(QtCore.SIGNAL("unsetTool()"))
         self.close()
 
-    @pyqtSignature("on_moveButton_clicked()")
+    @QtCore.pyqtSlot()
     def on_moveButton_clicked(self):
-        self.emit(SIGNAL("moveSide()"))
+        self.emit(QtCore.SIGNAL("moveSide()"))
         pass
