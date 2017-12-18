@@ -22,9 +22,20 @@ PLUGIN_UPLOAD = $(CURDIR)/plugin_upload.py
 
 # Makefile for a PyQGIS plugin
 
+#Add iso code for any locales you want to support here (space separated)
+# default is no locales
+# LOCALES = af
+LOCALES = digitizingtools_de digitizingtools_fr
+
+# If locales are enabled, set the name of the lrelease binary on your system. If
+# you have trouble compiling the translations, you may have to specify the full path to
+# lrelease
+LRELEASE = lrelease
+#LRELEASE = lrelease-qt4
+
 # translation
 SOURCES = digitizingtools.py __init__.py dtDialog.py tools/dtutils.py
-TRANSLATIONS = i18n/digitizingtools_de.ts i18n/digitizingtools_pt.ts
+#TRANSLATIONS = i18n/digitizingtools_de.ts i18n/digitizingtools_pt.ts
 
 # global
 
@@ -38,27 +49,30 @@ TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtcli
 	tools/dtmovenodebyarea_dialog.py tools/dtmovesidebydistance_dialog.py \
 	tools/dtmovesidebyarea.py tools/dtmovesidebyarea_dialog.py \
 	tools/dtflipline.py tools/dttools.py tools/dtmedianline.py tools/dtmedianlinetool.py \
-	tools/dtextractpart.py tools/dtmerge.py tools/dtexchangegeometry.py tools/dtToolsDialog.py
+	tools/dtextractpart.py tools/dtmerge.py tools/dtexchangegeometry.py tools/dtToolsDialog.py \
+	tools/ui_dtmovenodebyarea.ui tools/ui_dtmovesidebydistance.ui tools/ui_dtmovesidebyarea.ui \
+	tools/ui_dtchooseremaining.ui
 
 EXTRAS = metadata.txt license.txt digitizingtools.png
 
 UI_FILES = ui_about.ui
-UI_FILES_TOOLS = tools/ui_dtmovenodebyarea.ui tools/ui_dtmovesidebydistance.ui tools/ui_dtmovesidebyarea.ui tools/ui_dtchooseremaining.ui
 
-RESOURCE_FILES = tools/dt_icons_rc.py
+RESOURCE_SRC=$(shell grep '^ *<file' dt_icons_rc.qrc | sed 's@</file>@@g;s/.*>//g' | tr '\n' ' ')
+COMPILED_RESOURCE_FILES = dt_icons_rc.py
 
 HELP = help/build/html
 
+QGISDIR=.local/share/QGIS/QGIS3/profiles/default
+
 default: compile
 
-compile: $(RESOURCE_FILES)
-#compile: $(UI_FILES)
+compile: $(COMPILED_RESOURCE_FILES)
 
-%_rc.py : %.qrc
-	pyrcc4 -o $*_rc.py  $<
+%.py : %.qrc $(RESOURCES_SRC)
+	pyrcc5 -o $*.py  $<
 
 %.qm : %.ts
-	lrelease $<
+	$(LRELEASE) $<
 
 #compile: $(UI_FILES) $(RESOURCE_FILES)
 #compile: $(UI_FILES)
@@ -70,52 +84,57 @@ compile: $(RESOURCE_FILES)
 #%.py : %.ui
 #	pyuic5 -o $@ $<
 
-#%.qm : %.ts
-#	lrelease $<
+%.qm : %.ts
+	lrelease $<
 
 # The deploy target only works on unix like operating system where
-# the Python plugin directory is located at:
-# $HOME/.qgis/python/plugins
 deploy: compile transcompile
-	mkdir -p $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
-	mkdir -p $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)/tools
-	cp -vf $(PY_FILES) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
-	cp -vf $(TOOLS) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)/tools
-	cp -vf $(UI_FILES) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
-	cp -vf $(UI_FILES_TOOLS) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)/tools
-	cp -vf $(RESOURCE_FILES) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)/tools
-	cp -vf $(EXTRAS) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
-	cp -vfr i18n $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
-#	cp -vfr icons $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)
-	cp -vfr $(HELP) $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)/help
-
-deploy3: compile3 transcompile
-	mkdir -p $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)
-	mkdir -p $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)/tools
-	cp -vf $(PY_FILES) $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)
-	cp -vf $(TOOLS) $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)/tools
-	cp -vf $(UI_FILES) $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)
-	cp -vf $(RESOURCE_FILES) $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)/tools
-	cp -vf $(EXTRAS) $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)
-	cp -vfr i18n $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)
-#	cp -vfr icons $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)
-	cp -vfr $(HELP) $(HOME)/.qgis3/python/plugins/$(PLUGINNAME)/help
+	@echo
+	@echo "------------------------------------------"
+	@echo "Deploying plugin to your .qgis3 directory."
+	@echo "------------------------------------------"
+	# The deploy  target only works on unix like operating system where
+	# the Python plugin directory is located at:
+	# $HOME/$(QGISDIR)/python/plugins
+	mkdir -p $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
+	mkdir -p $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/tools
+	cp -vf $(PY_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
+	cp -vf $(UI_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
+	cp -vf $(TOOLS) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/tools
+	cp -vf $(COMPILED_RESOURCE_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
+	cp -vf $(EXTRAS) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
+	cp -vfr i18n $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
+	#cp -vfr $(HELP) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/help
 
 # The dclean target removes compiled python files from plugin directory
 # also delets any .svn entry
 dclean:
-	find $(HOME)/.qgis2/python/plugins/$(PLUGINNAME) -iname "*.pyc" -delete
-	find $(HOME)/.qgis2/python/plugins/$(PLUGINNAME) -iname ".svn" -prune -exec rm -Rf {} \;
+	@echo
+	@echo "-----------------------------------"
+	@echo "Removing any compiled python files."
+	@echo "-----------------------------------"
+	find $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME) -iname "*.pyc" -delete
+	find $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME) -iname ".git" -prune -exec rm -Rf {} \;
 
 # The derase deletes deployed plugin
 derase:
-	rm -Rf $(HOME)/.qgis2/python/plugins/$(PLUGINNAME)
+	@echo
+	@echo "-------------------------"
+	@echo "Removing deployed plugin."
+	@echo "-------------------------"
+	rm -Rf $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 
 # The zip target deploys the plugin and creates a zip file with the deployed
 # content. You can then upload the zip file on http://plugins.qgis.org
 zip: deploy dclean
+	@echo
+	@echo "---------------------------"
+	@echo "Creating plugin zip bundle."
+	@echo "---------------------------"
+	# The zip target deploys the plugin and creates a zip file with the deployed
+	# content. You can then upload the zip file on http://plugins.qgis.org
 	rm -f $(PLUGINNAME).zip
-	cd $(HOME)/.qgis2/python/plugins; zip -9r $(CURDIR)/$(PLUGINNAME).zip $(PLUGINNAME)
+	cd $(HOME)/$(QGISDIR)/python/plugins; zip -9r $(CURDIR)/$(PLUGINNAME).zip $(PLUGINNAME)
 
 # Create a zip package of the plugin named $(PLUGINNAME).zip.
 # This requires use of git (your plugin development directory must be a
@@ -123,30 +142,59 @@ zip: deploy dclean
 # To use, pass a valid commit or tag as follows:
 #   make package VERSION=Version_0.3.2
 package: compile
-		rm -f $(PLUGINNAME).zip
-		git archive --prefix=$(PLUGINNAME)/ -o $(PLUGINNAME).zip $(VERSION)
-		echo "Created package: $(PLUGINNAME).zip"
+	# Create a zip package of the plugin named $(PLUGINNAME).zip.
+	# This requires use of git (your plugin development directory must be a
+	# git repository).
+	# To use, pass a valid commit or tag as follows:
+	#   make package VERSION=Version_0.3.2
+	@echo
+	@echo "------------------------------------"
+	@echo "Exporting plugin to zip package.	"
+	@echo "------------------------------------"
+	rm -f $(PLUGINNAME).zip
+	git archive --prefix=$(PLUGINNAME)/ -o $(PLUGINNAME).zip $(VERSION)
+	echo "Created package: $(PLUGINNAME).zip"
 
 upload: zip
+	@echo
+	@echo "-------------------------------------"
+	@echo "Uploading plugin to QGIS Plugin repo."
+	@echo "-------------------------------------"
 	$(PLUGIN_UPLOAD) $(PLUGINNAME).zip
 
-# transup
-# update .ts translation files
 transup:
-	pylupdate4 Makefile
+	@echo
+	@echo "------------------------------------------------"
+	@echo "Updating translation files with any new strings."
+	@echo "------------------------------------------------"
+	@chmod +x scripts/update-strings.sh
+	@scripts/update-strings.sh $(LOCALES)
 
-# transcompile
-# compile translation files into .qm binary format
-transcompile: $(TRANSLATIONS:.ts=.qm)
+transcompile:
+	@echo
+	@echo "----------------------------------------"
+	@echo "Compiled translation files to .qm files."
+	@echo "----------------------------------------"
+	@chmod +x scripts/compile-strings.sh
+	@scripts/compile-strings.sh $(LRELEASE) $(LOCALES)
 
-# transclean
-# deletes all .qm files
 transclean:
+	@echo
+	@echo "------------------------------------"
+	@echo "Removing compiled translation files."
+	@echo "------------------------------------"
 	rm -f i18n/*.qm
 
 clean:
-	rm $(UI_FILES) $(RESOURCE_FILES)
+	@echo
+	@echo "------------------------------------"
+	@echo "Removing uic and rcc generated files"
+	@echo "------------------------------------"
+	rm $(COMPILED_UI_FILES) $(COMPILED_RESOURCE_FILES)
 
-# build documentation with sphinx
 doc:
+	@echo
+	@echo "------------------------------------"
+	@echo "Building documentation using sphinx."
+	@echo "------------------------------------"
 	cd help; make html

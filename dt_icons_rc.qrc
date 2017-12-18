@@ -1,0 +1,24 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="splitter.png">tools/icons/splitter.png</file>
+    <file alias="cutter.png">tools/icons/cutter.png</file>
+    <file alias="clipper.png">tools/icons/clipper.png</file>
+    <file alias="fillRing.png">tools/icons/fillRing.png</file>
+    <file alias="fillRingBatch.png">tools/icons/fillRingBatch.png</file>
+    <file alias="fillGap.png">tools/icons/fillGap.png</file>
+    <file alias="fillGapBatch.png">tools/icons/fillGapBatch.png</file>
+    <file alias="fillGapAll.png">tools/icons/fillGapAll.png</file>
+    <file alias="MultiToSingle.png">tools/icons/MultiToSingle.png</file>
+    <file alias="MultiToSingleBatch.png">tools/icons/MultiToSingleBatch.png</file>
+    <file alias="flipLine.png">tools/icons/flipLine.png</file>
+    <file alias="flipLineBatch.png">tools/icons/flipLineBatch.png</file>
+    <file alias="MovePolygonNodeByArea.png">tools/icons/MovePolygonNodeByArea.png</file>
+    <file alias="ParallelMovePolygonSideByArea.png">tools/icons/ParallelMovePolygonSideByArea.png</file>
+    <file alias="ParallelMovePolygonSideByDistance.png">tools/icons/ParallelMovePolygonSideByDistance.png</file>
+    <file alias="medianLine.png">tools/icons/medianLine.png</file>
+    <file alias="ExtractPart.png">tools/icons/ExtractPart.png</file>
+    <file alias="Merge.png">tools/icons/Merge.png</file>
+    <file alias="exchangeGeometry.png">tools/icons/exchangeGeometry.png</file>
+    <file alias="splitfeature.png">tools/icons/splitfeature.png</file>
+  </qresource>
+</RCC>
