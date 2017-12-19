@@ -18,6 +18,8 @@ it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 """
+
+from builtins import str
 from qgis.PyQt import QtCore,  QtGui
 from qgis.core import *
 from qgis.gui import QgsMessageBar
@@ -62,7 +64,7 @@ class DtMerge(DtSingleButton):
             outFid = outFeat.id()
             outGeom = QgsGeometry(outFeat.geometry())
 
-            for aFeatVal in featDict.itervalues():
+            for aFeatVal in list(featDict.values()):
                 fidsToDelete.append(aFeatVal.id())
                 outGeom = outGeom.combine(QgsGeometry(aFeatVal.geometry()))
 

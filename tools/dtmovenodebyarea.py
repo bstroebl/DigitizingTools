@@ -17,15 +17,15 @@ the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 """
 
+from builtins import object
 from qgis.PyQt import QtCore,  QtGui
 from qgis.core import *
 
 import dt_icons_rc
-import math
 from dttools import DtSelectVertexTool
 from dtmovenodebyarea_dialog import DtMoveNodeByArea_Dialog
 
-class DtMoveNodeByArea():
+class DtMoveNodeByArea(object):
     '''Automatically move polygon node (along a given side of polygon) in order to achieve a desired polygon area'''
     def __init__(self, iface,  toolBar):
         # Save reference to the QGIS interface
@@ -57,13 +57,13 @@ class DtMoveNodeByArea():
         self.gui = DtMoveNodeByArea_Dialog(self.iface.mainWindow(),  flags)
         self.gui.initGui()
         self.gui.show()
-        QObject.connect(self.gui, SIGNAL("unsetTool()"), self.unsetTool)
-        QObject.connect(self.gui, SIGNAL("moveNode()"), self.moveNode)
+        self.gui.unsetTool.connect(self.unsetTool)
+        self.gui.moveNode.connect(self.moveNode)
 
     def enableVertexTool(self):
         self.canvas.setMapTool(self.tool)
         #Connect to the DtSelectVertexTool
-        QObject.connect(self.tool, SIGNAL("vertexFound(PyQt_PyObject)"), self.storeVertexPointsAndMarkers)
+        self.tool.vertexFound.connect(self.storeVertexPointsAndMarkers)
 
     def unsetTool(self):
         self.m1 = None
@@ -83,7 +83,7 @@ class DtMoveNodeByArea():
         if layer.selectedFeatureCount() == 0:
             QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select one polygon to edit."))
         elif layer.selectedFeatureCount() > 1:
-	    QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select only one polygon to edit."))
+            QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select only one polygon to edit."))
         else:
             #One selected feature
             self.selected_feature = layer.selectedFeatures()[0]
@@ -104,7 +104,7 @@ class DtMoveNodeByArea():
         self.node_mover.setEnabled(False)
         layer = self.iface.activeLayer()
 
-        if layer <> None:
+        if layer != None:
             #Only for vector layers.
             if layer.type() == QgsMapLayer.VectorLayer:
                 # only for polygon layers

@@ -16,13 +16,16 @@ it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 """
+
+from builtins import range
+from builtins import object
 from qgis.PyQt import QtCore, QtGui
 from qgis.core import *
 from qgis.gui import *
 from dtmedianlinetool import DtMedianLineTool
 
 
-class DtMedianLine():
+class DtMedianLine(object):
     '''Digitize median line by selecting vertices on adjacent polygons'''
 
     def __init__(self, iface, toolBar):
@@ -180,7 +183,7 @@ class DtMedianLine():
 
 def getCadLayerByName(cadname):
     layermap = QgsMapLayerRegistry.instance().mapLayers()
-    for name, layer in layermap.iteritems():
+    for name, layer in list(layermap.items()):
         if layer.name() == cadname:
             if layer.isValid():
                 return layer

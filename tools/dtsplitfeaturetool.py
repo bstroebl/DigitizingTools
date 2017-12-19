@@ -92,7 +92,7 @@ class DtSplitFeatureTool(DtMapTool):
     def canvasReleaseEvent(self, event):
         layer = self.canvas.currentLayer()
 
-        if layer <> None:
+        if layer != None:
             #Get the click
             x = event.pos().x()
             y = event.pos().y()

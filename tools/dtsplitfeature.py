@@ -16,6 +16,9 @@ it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 """
+
+from builtins import str
+from builtins import range
 from qgis.PyQt import QtCore,  QtGui
 from qgis.core import *
 from qgis.gui import *
@@ -65,7 +68,7 @@ class DtSplitFeature(DtSingleEditTool):
         if len(featuresToSplit) > 0:
             self.editLayer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Features split"))
 
-        for anId, aFeat in featuresToSplit.iteritems():
+        for anId, aFeat in list(featuresToSplit.items()):
             aGeom = aFeat.geometry()
             wasMultipart = aGeom.isMultipart()
             splitResult = []
@@ -150,7 +153,7 @@ class DtSplitFeature(DtSingleEditTool):
             aFeat.setGeometry(keepGeom)
             featuresToKeep[anId] = aFeat
 
-        for anId,  aFeat in featuresToKeep.iteritems():
+        for anId,  aFeat in list(featuresToKeep.items()):
             aGeom = aFeat.geometry()
             self.editLayer.updateFeature(aFeat)
 

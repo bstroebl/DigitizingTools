@@ -99,7 +99,7 @@ class DtMedianLineTool(QgsMapTool):
                 m.setPenWidth(3)
                 m.setCenter(p)
                 self.markers.append(m)
-                self.emit(SIGNAL("vertexFound(PyQt_PyObject)"), [p])
+                self.vertexFound.emit([p])
             else:
                 pass
 

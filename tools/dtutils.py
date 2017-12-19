@@ -22,12 +22,14 @@ the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 """
 
+from builtins import range
+from builtins import str
 from qgis.PyQt import QtCore,  QtGui
 from qgis.core import *
 from qgis.gui import *
 
 def debug(msg):
-    QtGui.QMessageBox.information(None, "debug",  unicode(msg))
+    QtGui.QMessageBox.information(None, "debug",  str(msg))
 
 def dtGetFeatureForId(layer,  fid):
     '''Function that returns the QgsFeature with FeatureId *fid* in QgsVectorLayer *layer*'''

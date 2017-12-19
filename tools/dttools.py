@@ -16,12 +16,15 @@ it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 """
+
+from builtins import range
+from builtins import object
 from qgis.PyQt import QtGui,  QtCore
 from qgis.core import *
 from qgis.gui import *
 import dtutils
 
-class DtTool():
+class DtTool(object):
     '''Abstract class; parent for any Dt tool or button'''
     def __init__(self,  iface,  geometryTypes):
         self.iface = iface
@@ -129,7 +132,7 @@ class DtSingleButton(DtTool):
         self.act.setEnabled(False)
         layer = self.iface.activeLayer()
 
-        if layer <> None:
+        if layer != None:
             #Only for vector layers.
             if layer.type() == QgsMapLayer.VectorLayer:
                 if self.allowedGeometry(layer):
@@ -183,7 +186,7 @@ class DtSingleEditTool(DtSingleTool):
         doEnable = False
         layer = self.iface.activeLayer()
 
-        if layer <> None:
+        if layer != None:
             if layer.type() == 0: #Only for vector layers.
                 if self.allowedGeometry(layer):
                     doEnable = layer.isEditable()
@@ -327,7 +330,7 @@ class DtDualTool(DtTool):
         self.button.setEnabled(False)
         layer = self.iface.activeLayer()
 
-        if layer <> None:
+        if layer != None:
             #Only for vector layers.
             if layer.type() == QgsMapLayer.VectorLayer:
 
@@ -578,7 +581,7 @@ class DtSelectFeatureTool(DtMapTool):
 
         layer = self.canvas.currentLayer()
 
-        if layer <> None:
+        if layer != None:
             #the clicked point is our starting point
             startingPoint = QtCore.QPoint(x,y)
             found = self.getFeatureForPoint(layer, startingPoint)
@@ -605,7 +608,7 @@ class DtSelectRingTool(DtSelectFeatureTool):
 
         layer = self.canvas.currentLayer()
 
-        if layer <> None:
+        if layer != None:
             #the clicked point is our starting point
             startingPoint = QtCore.QPoint(x,y)
             found = self.getFeatureForPoint(layer, startingPoint, inRing = True)
@@ -646,7 +649,7 @@ class DtSelectGapTool(DtMapTool):
                             self.isPolygonLayer(aLayer):
                         visibleLayers.append(aLayer)
         else:
-            if layer <> None:
+            if layer != None:
                 visibleLayers.append(layer)
 
         if len(visibleLayers) > 0:
@@ -701,7 +704,7 @@ class DtSelectPartTool(DtSelectFeatureTool):
 
         layer = self.canvas.currentLayer()
 
-        if layer <> None:
+        if layer != None:
             #the clicked point is our starting point
             startingPoint = QtCore.QPoint(x,y)
             found = self.getFeatureForPoint(layer, startingPoint)
@@ -781,7 +784,7 @@ class DtSelectVertexTool(DtMapTool):
 
             layer = self.canvas.currentLayer()
 
-            if layer <> None:
+            if layer != None:
                 #the clicked point is our starting point
                 startingPoint = QtCore.QPoint(x,y)
 
@@ -843,7 +846,7 @@ class DtSelectSegmentTool(DtMapTool):
 
         layer = self.canvas.currentLayer()
 
-        if layer <> None:
+        if layer != None:
             #the clicked point is our starting point
             startingPoint = QtCore.QPoint(x,y)
 

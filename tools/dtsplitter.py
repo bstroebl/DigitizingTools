@@ -17,6 +17,7 @@ the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 """
 
+from builtins import str
 from qgis.PyQt import QtCore,  QtGui
 from qgis.core import *
 import dt_icons_rc

@@ -17,6 +17,9 @@ the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 """
 
+from __future__ import print_function
+from builtins import range
+from builtins import object
 from qgis.PyQt import QtCore, QtGui
 from qgis.core import *
 from qgis.gui import *
@@ -26,7 +29,7 @@ import math
 from dttools import DtSelectSegmentTool
 from dtmovesidebyarea_dialog import DtMoveSideByArea_Dialog
 
-class DtMoveSideByArea():
+class DtMoveSideByArea(object):
     '''Parallel move polygon side in order to achieve a desired polygon area'''
     def __init__(self, iface, toolBar):
         # Save reference to the QGIS interface
@@ -57,13 +60,13 @@ class DtMoveSideByArea():
         self.gui = DtMoveSideByArea_Dialog(self.iface.mainWindow(), flags)
         self.gui.initGui()
         self.gui.show()
-        QObject.connect(self.gui, SIGNAL("unsetTool()"), self.unsetTool)
-        QObject.connect(self.gui, SIGNAL("moveSide()"), self.moveSide)
+        self.gui.unsetTool.connect(self.unsetTool)
+        self.gui.moveSide.connect(self.moveSide)
 
     def enableSegmentTool(self):
         self.canvas.setMapTool(self.tool)
         #Connect to the DtSelectVertexTool
-        QObject.connect(self.tool, SIGNAL("segmentFound(PyQt_PyObject)"), self.storeSegmentPoints)
+        self.tool.segmentFound.connect(self.storeSegmentPoints)
 
     def unsetTool(self):
         self.p1 = None
@@ -106,7 +109,7 @@ class DtMoveSideByArea():
         self.side_mover.setEnabled(False)
         layer = self.iface.activeLayer()
 
-        if layer <> None:
+        if layer != None:
             #Only for vector layers.
             if layer.type() == QgsMapLayer.VectorLayer:
                 # only for polygon layers
@@ -220,8 +223,8 @@ def moveFixed(geom, p1, p2, new_area, multipolygon):
         geom_mid = getParallelGeomByDistance(geom, p1, p2, p1_indx, p2_indx, dist_mid, multipolygon)
         area_mid = geom_mid.area()
         if ((math.fabs(area_mid-new_area)) < EPSILON):
-            print "wanted area reached"
-            print area_mid
+            print ("wanted area reached")
+            print (area_mid)
             break
         elif (area_mid < new_area):
             dist_start = dist_mid
