@@ -2,8 +2,6 @@
 """
 dtmovesidebyarea
 ````````````````
-"""
-"""
 Part of DigitizingTools, a QGIS plugin that
 subsumes different tools neded during digitizing sessions
 
@@ -23,7 +21,6 @@ from builtins import object
 from qgis.PyQt import QtCore, QtGui
 from qgis.core import *
 from qgis.gui import *
-
 import dt_icons_rc
 import math
 from dttools import DtSelectSegmentTool
