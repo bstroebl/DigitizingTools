@@ -39,7 +39,7 @@ class DigitizingToolsChooseRemaining(QtWidgets.QDialog, FORM_CLASS):
         self.featDict = featDict
         self.chooseId.addItems(self.pkValues)
         self.setWindowTitle(title)
-        self.label.setText(QtCore.QCoreApplication.translate(
+        self.label.setText(QtWidgets.QApplication.translate(
             "digitizingtools", "Choose which feature should remain"))
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.accepted.connect(self.accept)

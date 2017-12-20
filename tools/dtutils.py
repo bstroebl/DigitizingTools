@@ -24,7 +24,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 from builtins import range
 from builtins import str
-from qgis.PyQt import QtCore,  QtGui
+from qgis.PyQt import QtCore,  QtGui, QtWidgets
 from qgis.core import *
 from qgis.gui import *
 
@@ -122,7 +122,7 @@ def dtChooseVectorLayer(iface, geomType = None,   skipActive = True,  msg = None
         if not msg:
             msg = ""
 
-        selectedLayer,  ok = QtGui.QInputDialog.getItem(None,  QtGui.QApplication.translate("dtutils",  "Choose Layer"),
+        selectedLayer,  ok = QtGui.QInputDialog.getItem(None,  QtWidgets.QApplication.translate("dtutils",  "Choose Layer"),
                                                         msg,  chooseFrom,  editable = False)
 
         if ok:

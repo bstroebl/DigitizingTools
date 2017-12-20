@@ -24,7 +24,7 @@
 from __future__ import absolute_import
 from builtins import object
 # Import the PyQt and QGIS libraries
-from qgis.PyQt import QtCore,  QtGui
+from qgis.PyQt import QtCore, QtWidgets
 from qgis.core import *
 import os.path,  sys
 # Set up current path.
@@ -55,8 +55,9 @@ class DigitizingTools(object):
         # Save reference to the QGIS interface
         self.iface = iface
         # initialize plugin directory
-        self.plugin_dir = QtCore.QFileInfo(QgsApplication.qgisUserDbFilePath()).path() + "/python/plugins/DigitizingTools"
+        self.plugin_dir = QtCore.QFileInfo(QgsApplication.qgisUserDatabaseFilePath()).path() + "/python/plugins/DigitizingTools"
         # initialize locale
+        QgsMessageLog.logMessage("dir = " + self.plugin_dir)
         localePath = ""
         locale = QtCore.QSettings().value("locale/userLocale", "en",  type=str)[0:2]
 
@@ -66,9 +67,7 @@ class DigitizingTools(object):
         if QtCore.QFileInfo(localePath).exists():
             self.translator = QtCore.QTranslator()
             self.translator.load(localePath)
-
-            if QtCore.qVersion() > '4.3.3':
-                QtCore.QCoreApplication.installTranslator(self.translator)
+            QtCore.QCoreApplication.installTranslator(self.translator)
 
     def initGui(self):
         """Customize QGIS' GUI"""
@@ -77,11 +76,11 @@ class DigitizingTools(object):
         self.toolBar.setObjectName("DigitizingTools")
 
         #. Add a menu
-        self.menuLabel = QtGui.QApplication.translate( "DigitizingTools","&DigitizingTools" )
-        self.digitizingtools_help = QtGui.QAction( QtGui.QApplication.translate("DigitizingTools", "Help" ), self.iface.mainWindow() )
-        self.digitizingtools_about = QtGui.QAction( QtGui.QApplication.translate("DigitizingTools", "About" ), self.iface.mainWindow() )
+        self.menuLabel = QtWidgets.QApplication.translate( "DigitizingTools","&DigitizingTools" )
+        self.digitizingtools_help = QtWidgets.QAction( QtWidgets.QApplication.translate("DigitizingTools", "Help" ), self.iface.mainWindow() )
+        self.digitizingtools_about = QtWidgets.QAction( QtWidgets.QApplication.translate("DigitizingTools", "About" ), self.iface.mainWindow() )
         self.digitizingtools_about.setObjectName("DtAbout")
-        self.digitizingtools_settings = QtGui.QAction( QtGui.QApplication.translate("DigitizingTools", "Settings" ), self.iface.mainWindow() )
+        self.digitizingtools_settings = QtWidgets.QAction( QtWidgets.QApplication.translate("DigitizingTools", "Settings" ), self.iface.mainWindow() )
 
         self.iface.addPluginToMenu(self.menuLabel, self.digitizingtools_about)
 
