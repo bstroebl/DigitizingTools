@@ -25,7 +25,7 @@ from dttools import DtDualToolSelectFeature
 class DtFlipLine(DtDualToolSelectFeature):
     '''Flip line direction tool'''
     def __init__(self, iface,  toolBar):
-        DtDualToolSelectFeature.__init__(self,  iface,  toolBar,
+        super().__init__(iface,  toolBar,
             QtGui.QIcon(":/flipLine.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Flip line (interactive mode)"),
             QtGui.QIcon(":/flipLineBatch.png"),

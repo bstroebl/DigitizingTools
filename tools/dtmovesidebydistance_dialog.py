@@ -26,7 +26,7 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
 class DtMoveSideByDistance_Dialog(QtWidgets.QDialog, FORM_CLASS):
 
     def __init__(self, parent, flags):
-        super(DtMoveSideByDistance_Dialog, self).__init__(parent, flags)
+        super().__init__(parent, flags)
         self.setupUi(self)
 
     def initGui(self):

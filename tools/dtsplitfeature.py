@@ -23,19 +23,18 @@ from qgis.PyQt import QtCore,  QtGui
 from qgis.core import *
 from qgis.gui import *
 import dt_icons_rc
-from dtsplitfeaturetool import DtSplitFeatureTool
-from dttools import DtSingleEditTool
+from dttools import DtSingleEditTool, DtSplitFeatureTool
 import dtutils
 
 class DtSplitFeature(DtSingleEditTool):
     '''Split feature'''
     def __init__(self, iface,  toolBar):
-        DtSingleEditTool.__init__(self,  iface,  toolBar,
+        super().__init__(iface,  toolBar,
             QtGui.QIcon(":/splitfeature.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Split Features"),
             geometryTypes = [2, 3, 5, 6],  dtName = "dtSplitFeature")
 
-        self.tool = DtSplitFeatureTool(self.canvas, self.iface)
+        self.tool = DtSplitFeatureTool(self.iface)
         self.tool.finishedDigitizing.connect(self.digitizingFinished)
         self.reset()
         self.enable()
@@ -48,7 +47,7 @@ class DtSplitFeature(DtSingleEditTool):
     def digitizingFinished(self, splitGeom):
         title = QtCore.QCoreApplication.translate("digitizingtools", "Split Features")
         hlColor, hlFillColor, hlBuffer,  hlMinWidth = dtutils.dtGetHighlightSettings()
-        selIds = self.editLayer.selectedFeaturesIds()
+        selIds = self.editLayer.selectedFeatureIds()
         self.editLayer.removeSelection()
         splitterPList = dtutils.dtExtractPoints(splitGeom)
         featuresToAdd = [] # store new features in this array

@@ -25,7 +25,7 @@ from dttools import DtDualToolSelectRing
 class DtFillRing(DtDualToolSelectRing):
     '''Fill selected ring/all rings in selected feature in active polygon layer'''
     def __init__(self, iface,  toolBar):
-        DtDualToolSelectRing.__init__(self,  iface,  toolBar,
+        super().__init__(iface,  toolBar,
             QtGui.QIcon(":/fillRing.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Fill ring with a new feature (interactive mode)"),
             QtGui.QIcon(":/fillRingBatch.png"),

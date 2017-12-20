@@ -29,12 +29,12 @@ class DtMedianLineTool(QgsMapTool):
     vertexFound = QtCore.pyqtSignal()
 
     def __init__(self, parent):
-        QgsMapTool.__init__(self, parent.canvas)
+        super().__init__(parent.canvas)
         self.canvas = parent.canvas
         self.parent = parent
         self.markers = []
         #custom cursor
-        self.cursor = QCursor(QPixmap(["16 16 3 1",
+        self.cursor = QtGui.QCursor(QtGui.QPixmap(["16 16 3 1",
                                     "      c None",
                                     ".     c #FF0000",
                                     "+     c #FFFFFF",
@@ -74,7 +74,7 @@ class DtMedianLineTool(QgsMapTool):
 
         if layer is not None:
             #the clicked point is our starting point
-            startingPoint = QPoint(x, y)
+            startingPoint = QtCore.QPoint(x, y)
 
             #we need a snapper, so we use the MapCanvas snappingUtils (new in 2.8.x)
             snapper = self.canvas.snappingUtils()

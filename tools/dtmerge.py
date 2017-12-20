@@ -30,7 +30,7 @@ from dtToolsDialog import DigitizingToolsChooseRemaining
 class DtMerge(DtSingleButton):
     '''Merge selected features of active layer'''
     def __init__(self, iface, toolBar):
-        DtSingleButton.__init__(self,  iface,  toolBar,
+        super().__init__(iface,  toolBar,
             QtGui.QIcon(":/Merge.png"),
             QtCore.QCoreApplication.translate("digitizingtools",
                 "Merge selected features"),

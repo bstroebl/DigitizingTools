@@ -45,7 +45,7 @@ PY_FILES = digitizingtools.py __init__.py dtDialog.py
 
 TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtclipper.py \
 	tools/dtfillring.py tools/dtfillgap.py tools/dtsplitter.py tools/dtsplitfeature.py \
-	tools/dtsplitfeaturetool.py tools/dtmovenodebyarea.py tools/dtmovesidebydistance.py \
+	tools/dtmovenodebyarea.py tools/dtmovesidebydistance.py \
 	tools/dtmovenodebyarea_dialog.py tools/dtmovesidebydistance_dialog.py \
 	tools/dtmovesidebyarea.py tools/dtmovesidebyarea_dialog.py \
 	tools/dtflipline.py tools/dttools.py tools/dtmedianline.py tools/dtmedianlinetool.py \

@@ -26,7 +26,7 @@ from dttools import DtDualToolSelectGap, DtSingleTool, DtSelectGapTool
 class DtFillGap(DtDualToolSelectGap):
     '''Fill gaps between selected features of the active layer with new features'''
     def __init__(self, iface,  toolBar):
-        DtDualToolSelectGap.__init__(self,  iface,  toolBar,
+        super().__init__(iface,  toolBar,
             QtGui.QIcon(":/fillGap.png"),
             QtCore.QCoreApplication.translate("digitizingtools",
                 "Fill gap with a new feature (interactive mode)"),
@@ -105,13 +105,13 @@ class DtFillGap(DtDualToolSelectGap):
 class DtFillGapAllLayers(DtSingleTool):
     '''Fill gaps between the polygons of all visible layers with new features'''
     def __init__(self, iface, toolBar):
-        DtSingleTool.__init__(self, iface, toolBar,
+        super().__init__(iface, toolBar,
             QtGui.QIcon(":/fillGapAll.png"),
             QtCore.QCoreApplication.translate("digitizingtools",
                 "Fill gap between polygons of all visible layers with a new feature"),
             geometryTypes = [3, 6], dtName = "dtFillGapAll")
 
-        self.tool = DtSelectGapTool(self.canvas, self.iface, True)
+        self.tool = DtSelectGapTool(self.iface, True)
         self.tool.gapSelected.connect(self.gapFound)
         self.enable()
 

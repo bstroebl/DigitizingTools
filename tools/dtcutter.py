@@ -25,7 +25,7 @@ from dttools import DtSingleButton
 class DtCutWithPolygon(DtSingleButton):
     '''Cut out from active editable layer with selected polygon from another layer'''
     def __init__(self, iface,  toolBar):
-        DtSingleButton.__init__(self,  iface,  toolBar,
+        super().__init__(iface,  toolBar,
             QtGui.QIcon(":/cutter.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Cut with polygon from another layer"),
             geometryTypes = [2, 3, 5, 6],  dtName = "dtCutter")

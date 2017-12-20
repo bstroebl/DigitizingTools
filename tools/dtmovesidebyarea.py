@@ -18,7 +18,7 @@ the Free Software Foundation; either version 2 of the License, or
 from __future__ import print_function
 from builtins import range
 from builtins import object
-from qgis.PyQt import QtCore, QtGui
+from qgis.PyQt import QtCore, QtGui, QtWidgets
 from qgis.core import *
 from qgis.gui import *
 import dt_icons_rc
@@ -43,14 +43,14 @@ class DtMoveSideByArea(object):
         self.selected_feature = None
 
         #create action
-        self.side_mover = QtGui.QAction(QtGui.QIcon(":/ParallelMovePolygonSideByArea.png"),
+        self.side_mover = QtWidgets.QAction(QtGui.QIcon(":/ParallelMovePolygonSideByArea.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Parallel move of polygon side to target area"), self.iface.mainWindow())
 
         self.side_mover.triggered.connect(self.run)
         self.iface.currentLayerChanged.connect(self.enable)
         toolBar.addAction(self.side_mover)
         self.enable()
-        self.tool = DtSelectSegmentTool(self.canvas, self.iface)
+        self.tool = DtSelectSegmentTool(self.iface)
 
     def showDialog(self):
         flags = Qt.WindowTitleHint | Qt.WindowSystemMenuHint | Qt.WindowMaximizeButtonHint  # QgisGui.ModalDialogFlags

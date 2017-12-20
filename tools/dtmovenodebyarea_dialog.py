@@ -27,7 +27,7 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
 class DtMoveNodeByArea_Dialog(QtWidgets.QDialog, FORM_CLASS):
 
     def __init__(self, parent, flags):
-        QtWidgets.QDialog.__init__(self, parent,  flags)
+        super().__init__(parent,  flags)
         self.setupUi(self)
 
     def initGui(self):

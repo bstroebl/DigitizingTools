@@ -19,16 +19,39 @@ the Free Software Foundation; either version 2 of the License, or
 
 from builtins import range
 from builtins import object
-from qgis.PyQt import QtGui,  QtCore
+from qgis.PyQt import QtGui,  QtCore, QtWidgets
 from qgis.core import *
 from qgis.gui import *
 import dtutils
 
 class DtTool(object):
     '''Abstract class; parent for any Dt tool or button'''
-    def __init__(self,  iface,  geometryTypes):
+    def __init__(self,  iface,  geometryTypes, **kw):
         self.iface = iface
         self.canvas = self.iface.mapCanvas()
+
+        #custom cursor
+        self.cursor = QtGui.QCursor(QtGui.QPixmap(["16 16 3 1",
+                                        "      c None",
+                                        ".     c #FF0000",
+                                        "+     c #FFFFFF",
+                                        "                ",
+                                        "       +.+      ",
+                                        "      ++.++     ",
+                                        "     +.....+    ",
+                                        "    +.     .+   ",
+                                        "   +.   .   .+  ",
+                                        "  +.    .    .+ ",
+                                        " ++.    .    .++",
+                                        " ... ...+... ...",
+                                        " ++.    .    .++",
+                                        "  +.    .    .+ ",
+                                        "   +.   .   .+  ",
+                                        "   ++.     .+   ",
+                                        "    ++.....+    ",
+                                        "      ++.++     ",
+                                        "       +.+      "]))
+
         self.geometryTypes = []
         self.shapeFileGeometryTypes = []
 
@@ -111,9 +134,9 @@ class DtSingleButton(DtTool):
     geometryTypes [array:integer] 0=point, 1=line, 2=polygon'''
 
     def __init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes = [1, 2, 3],  dtName = None):
-        DtTool.__init__(self,  iface,  geometryTypes)
+        super().__init__(iface,  geometryTypes)
 
-        self.act = QtGui.QAction(icon, tooltip, self.iface.mainWindow())
+        self.act = QtWidgets.QAction(icon, tooltip, self.iface.mainWindow())
         self.act.triggered.connect(self.process)
 
         if dtName != None:
@@ -151,7 +174,7 @@ class DtSingleButton(DtTool):
 class DtSingleTool(DtSingleButton):
     '''Abstract class for a tool'''
     def __init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes = [0, 1, 2],  crsWarning = True,  dtName = None):
-        DtSingleButton.__init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes,  dtName)
+        super().__init__(iface,  toolBar,  icon,  tooltip,  geometryTypes,  dtName)
         self.tool = None
         self.act.setCheckable(True)
         self.canvas.mapToolSet.connect(self.toolChanged)
@@ -173,7 +196,7 @@ class DtSingleTool(DtSingleButton):
 class DtSingleEditTool(DtSingleTool):
     '''Abstract class for a tool for interactive editing'''
     def __init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes = [0, 1, 2],  crsWarning = True,  dtName = None):
-        DtSingleTool.__init__(self, iface,  toolBar,  icon,  tooltip,  geometryTypes,  dtName)
+        super().__init__(iface,  toolBar,  icon,  tooltip,  geometryTypes,  dtName)
         self.crsWarning = crsWarning
         self.editLayer = None
 
@@ -224,7 +247,7 @@ class DtSingleEditTool(DtSingleTool):
 
             if layerCRSSrsid != projectCRSSrsid:
                 self.iface.messageBar().pushMessage("DigitizingTools",  self.act.toolTip() + " " +
-                    QtGui.QApplication.translate("DigitizingTools",
+                    QtWidgets.QApplication.translate("DigitizingTools",
                     "is disabled because layer CRS and project CRS do not match!"),
                     level=QgsMessageBar.WARNING, duration = 10)
                 doEnable = False
@@ -240,31 +263,31 @@ class DtDualTool(DtTool):
     geometryTypes [array:integer] 0=point, 1=line, 2=polygon'''
 
     def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [1, 2, 3],  dtName = None):
-        DtTool.__init__(self,  iface,  geometryTypes)
+        super().__init__(iface,  geometryTypes)
 
         self.iface.currentLayerChanged.connect(self.enable)
         self.canvas.mapToolSet.connect(self.toolChanged)
         #create button
-        self.button = QtGui.QToolButton(toolBar)
+        self.button = QtWidgets.QToolButton(toolBar)
         self.button.clicked.connect(self.runSlot)
         self.button.toggled.connect(self.hasBeenToggled)
         #create menu
-        self.menu = QtGui.QMenu(toolBar)
+        self.menu = QtWidgets.QMenu(toolBar)
 
         if dtName != None:
             self.menu.setObjectName(dtName)
 
         self.menu.triggered.connect(self.menuTriggered)
         self.button.setMenu(self.menu)
-        self.button.setPopupMode(QtGui.QToolButton.MenuButtonPopup)
+        self.button.setPopupMode(QtWidgets.QToolButton.MenuButtonPopup)
         # create actions
-        self.act = QtGui.QAction(icon, tooltip,  self.iface.mainWindow())
+        self.act = QtWidgets.QAction(icon, tooltip,  self.iface.mainWindow())
 
         if dtName != None:
             self.act.setObjectName(dtName + "Action")
 
         self.act.setToolTip(tooltip)
-        self.act_batch = QtGui.QAction(iconBatch, tooltipBatch,  self.iface.mainWindow())
+        self.act_batch = QtWidgets.QAction(iconBatch, tooltipBatch,  self.iface.mainWindow())
 
         if dtName != None:
             self.act_batch.setObjectName(dtName + "BatchAction")
@@ -309,8 +332,9 @@ class DtDualTool(DtTool):
         raise NotImplementedError("Should have implemented hasBeenToggled")
 
     def deactivate(self):
-        if self.button.isChecked():
-            self.button.toggle()
+        if self.button != None:
+            if self.button.isChecked():
+                self.button.toggle()
 
     def runSlot(self,  isChecked):
         if self.batchMode:
@@ -358,8 +382,8 @@ class DtDualToolSelectFeature(DtDualTool):
     '''Abstract class for a DtDualToo which uses the DtSelectFeatureTool for interactive mode'''
 
     def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [1, 2, 3],  dtName = None):
-        DtDualTool.__init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes,  dtName)
-        self.tool = DtSelectFeatureTool(self.canvas, self.iface)
+        super().__init__(iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes,  dtName)
+        self.tool = DtSelectFeatureTool(iface)
 
     def featureSelectedSlot(self,  fids):
         if len(fids) >0:
@@ -383,8 +407,8 @@ class DtDualToolSelectVertex(DtDualTool):
     numVertices [integer] nnumber of vertices to be snapped until vertexFound signal is emitted'''
 
     def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [1, 2, 3],  numVertices = 1,  dtName = None):
-        DtDualTool.__init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes,  dtName)
-        self.tool = DtSelectVertexTool(self.canvas, self.iface, numVertices)
+        super().__init__(iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes,  dtName)
+        self.tool = DtSelectVertexTool(self.iface, numVertices)
 
     def hasBeenToggled(self,  isChecked):
         try:
@@ -409,9 +433,9 @@ class DtDualToolSelectRing(DtDualTool):
 
     def __init__(self, iface, toolBar, icon, tooltip, iconBatch,
         tooltipBatch, geometryTypes = [1, 2, 3], dtName = None):
-        DtDualTool.__init__(self, iface, toolBar, icon, tooltip,
+        super().__init__(iface, toolBar, icon, tooltip,
             iconBatch, tooltipBatch, geometryTypes, dtName)
-        self.tool = DtSelectRingTool(self.canvas, self.iface)
+        self.tool = DtSelectRingTool(self.iface)
 
     def hasBeenToggled(self,  isChecked):
         try:
@@ -437,9 +461,9 @@ class DtDualToolSelectGap(DtDualTool):
     def __init__(self, iface, toolBar, icon, tooltip, iconBatch,
             tooltipBatch, geometryTypes = [1, 2, 3], dtName = None,
             allLayers = False):
-        DtDualTool.__init__(self, iface, toolBar, icon, tooltip,
+        super().__init__(iface, toolBar, icon, tooltip,
             iconBatch, tooltipBatch, geometryTypes, dtName)
-        self.tool = DtSelectGapTool(self.canvas, self.iface, allLayers)
+        self.tool = DtSelectGapTool(self.iface, allLayers)
 
     def hasBeenToggled(self, isChecked):
         try:
@@ -457,34 +481,10 @@ class DtDualToolSelectGap(DtDualTool):
     def gapFound(self, selectGapResult):
         raise NotImplementedError("Should have implemented gapFound")
 
-class DtMapTool(QgsMapTool, DtTool):
-    '''abstract subclass of QgsMapTool'''
-    def __init__(self, canvas, iface):
-        QgsMapTool.__init__(self, canvas)
-        DtTool.__init__(self, iface, [])
-        self.canvas = canvas
-
-        #custom cursor
-        self.cursor = QtGui.QCursor(QtGui.QPixmap(["16 16 3 1",
-                                        "      c None",
-                                        ".     c #FF0000",
-                                        "+     c #FFFFFF",
-                                        "                ",
-                                        "       +.+      ",
-                                        "      ++.++     ",
-                                        "     +.....+    ",
-                                        "    +.     .+   ",
-                                        "   +.   .   .+  ",
-                                        "  +.    .    .+ ",
-                                        " ++.    .    .++",
-                                        " ... ...+... ...",
-                                        " ++.    .    .++",
-                                        "  +.    .    .+ ",
-                                        "   +.   .   .+  ",
-                                        "   ++.     .+   ",
-                                        "    ++.....+    ",
-                                        "      ++.++     ",
-                                        "       +.+      "]))
+class DtMapToolEdit(QgsMapToolEdit, DtTool):
+    '''abstract subclass of QgsMapToolEdit'''
+    def __init__(self, iface, **kw):
+        super().__init__(canvas = iface.mapCanvas(), iface = iface,  geometryTypes = [])
 
     def activate(self):
         self.canvas.setCursor(self.cursor)
@@ -495,20 +495,11 @@ class DtMapTool(QgsMapTool, DtTool):
     def reset(self,  emitSignal = False):
         pass
 
-    def isZoomTool(self):
-        return False
-
-    def isTransient(self):
-        return False
-
-    def isEditTool(self):
-        return True
-
-class DtSelectFeatureTool(DtMapTool):
+class DtSelectFeatureTool(DtMapToolEdit):
     featureSelected = QtCore.pyqtSignal(list)
 
-    def __init__(self, canvas, iface):
-        DtMapTool.__init__(self, canvas, iface)
+    def __init__(self, iface):
+        super().__init__(iface)
 
     def getFeatureForPoint(self, layer, startingPoint, inRing = False):
         '''
@@ -598,8 +589,8 @@ class DtSelectRingTool(DtSelectFeatureTool):
     '''
     ringSelected = QtCore.pyqtSignal(list)
 
-    def __init__(self, canvas, iface):
-        DtSelectFeatureTool.__init__(self, canvas, iface)
+    def __init__(self, iface):
+        super().__init__(iface)
 
     def canvasReleaseEvent(self,event):
         #Get the click
@@ -620,7 +611,7 @@ class DtSelectRingTool(DtSelectFeatureTool):
     def reset(self, emitSignal = False):
         pass
 
-class DtSelectGapTool(DtMapTool):
+class DtSelectGapTool(DtMapToolEdit):
     '''
     a map tool to select a gap between polygons, if allLayers
     is True then the gap is searched between polygons of
@@ -628,8 +619,8 @@ class DtSelectGapTool(DtMapTool):
     '''
     gapSelected = QtCore.pyqtSignal(list)
 
-    def __init__(self, canvas, iface, allLayers):
-        DtMapTool.__init__(self, canvas, iface)
+    def __init__(self, iface, allLayers):
+        super().__init__(iface)
         self.allLayers = allLayers
 
     def canvasReleaseEvent(self,event):
@@ -694,8 +685,8 @@ class DtSelectPartTool(DtSelectFeatureTool):
     '''signal sends featureId of clickedd feature, number of part selected and geometry of part'''
     partSelected = QtCore.pyqtSignal(list)
 
-    def __init__(self, canvas, iface):
-        DtSelectFeatureTool.__init__(self, canvas, iface)
+    def __init__(self, iface):
+        super().__init__(iface)
 
     def canvasReleaseEvent(self,event):
         #Get the click
@@ -760,12 +751,12 @@ class DtSelectPartTool(DtSelectFeatureTool):
                                         break
 
 
-class DtSelectVertexTool(DtMapTool):
+class DtSelectVertexTool(DtMapToolEdit):
     '''select and mark numVertices vertices in the active layer'''
     vertexFound = QtCore.pyqtSignal(list)
 
-    def __init__(self, canvas, iface, numVertices = 1):
-        DtMapTool.__init__(self, canvas, iface)
+    def __init__(self, iface, numVertices = 1):
+        super().__init__(iface)
 
         # desired number of marked vertex until signal
         self.numVertices = numVertices
@@ -832,11 +823,11 @@ class DtSelectVertexTool(DtMapTool):
         self.fids = []
         self.count = 0
 
-class DtSelectSegmentTool(DtMapTool):
+class DtSelectSegmentTool(DtMapToolEdit):
     segmentFound = QtCore.pyqtSignal(list)
 
-    def __init__(self, canvas, iface):
-        DtMapTool.__init__(self, canvas, iface)
+    def __init__(self, iface):
+        super().__init__(iface)
         self.rb1 = QgsRubberBand(self.canvas,  False)
 
     def canvasReleaseEvent(self,event):
@@ -878,3 +869,112 @@ class DtSelectSegmentTool(DtMapTool):
 
     def reset(self,  emitSignal = False):
         self.rb1.reset()
+
+class DtSplitFeatureTool(QgsMapToolAdvancedDigitizing, DtTool):
+    finishedDigitizing = QtCore.pyqtSignal(QgsGeometry)
+
+    def __init__(self, iface):
+        super().__init__(canvas = iface.mapCanvas(), cadDockWidget = iface.cadDockWidget(),
+            iface = iface, geometryTypes = [])
+        self.marker = None
+        self.rubberBand = None
+        self.currentMousePosition = None
+        self.reset()
+
+    def activate(self):
+        super().activate()
+        self.canvas.setCursor(self.cursor)
+
+    def markSnap(self, thisPoint):
+        self.marker = QgsVertexMarker(self.canvas)
+        self.marker.setIconType(1)
+        self.marker.setColor(QtGui.QColor(255,0,0))
+        self.marker.setIconSize(12)
+        self.marker.setPenWidth (3)
+        self.marker.setCenter(thisPoint)
+
+    def removeSnapMarker(self):
+        if self.marker != None:
+            self.canvas.scene().removeItem(self.marker)
+            self.marker = None
+
+    def reset(self):
+        if self.rubberBand != None:
+            self.rubberBand.reset()
+            self.canvas.scene().removeItem(self.rubberBand)
+            self.rubberBand = None
+
+        self.removeSnapMarker()
+
+    def cadCanvasMoveEvent(self, event):
+        self.debug("cadCanvasMoveEvent")
+
+    def cadCanvasPressEvent(self, event):
+        self.debug("cadCanvasPressEvent")
+
+    def cadCanvasReleaseEvent(self, event):
+        self.debug("cadCanvasReleaseEvent")
+
+    def canvasMoveEvent(self, event):
+        self.removeSnapMarker()
+        # show snap
+        x = event.pos().x()
+        y = event.pos().y()
+        thisPoint = QtCore.QPoint(x, y)
+        # try to snap
+        snapper = self.canvas.snappingUtils()
+        # snap to any layer within snap tolerance
+        snapMatch = snapper.snapToMap(thisPoint)
+
+        if not snapMatch.isValid():
+            if self.rubberBand != None:
+                self.rubberBand.movePoint(self.rubberBand.numberOfVertices() -1,
+                    self.toMapCoordinates(thisPoint))
+        else:
+            snapPoint = snapMatch.point()
+            self.markSnap(snapPoint)
+
+            if self.rubberBand != None:
+                self.rubberBand.movePoint(self.rubberBand.numberOfVertices() -1,
+                    snapPoint)
+
+        self.currentMousePosition = thisPoint
+
+    def canvasReleaseEvent(self, event):
+        layer = self.canvas.currentLayer()
+
+        if layer != None:
+            #Get the click
+            x = event.pos().x()
+            y = event.pos().y()
+            thisPoint = QtCore.QPoint(x, y)
+            #QgsMapToPixel instance
+
+            if event.button() == QtCore.Qt.LeftButton:
+                if self.rubberBand == None:
+                    # create a QgsRubberBand
+                    self.rubberBand = self.createRubberBand() #QgsRubberBand(self.canvas)
+
+                self.rubberBand.addPoint(self.toMapCoordinates(thisPoint))
+
+            else: # right click
+                if self.rubberBand.numberOfVertices() > 1:
+                    rbGeom = self.rubberBand.asGeometry()
+                    self.finishedDigitizing.emit(rbGeom)
+
+                self.reset()
+                self.canvas.refresh()
+
+    def keyPressEvent(self,  event):
+        if event.key() == QtCore.Qt.Key_Escape:
+            self.reset()
+        elif event.key() == QtCore.Qt.Key_Backspace:
+            if self.rubberBand.numberOfVertices() > 2:
+                if self.currentMousePosition != None:
+                    self.rubberBand.removeLastPoint()
+                    self.rubberBand.movePoint(self.rubberBand.numberOfVertices() -1,
+                        self.toMapCoordinates(self.currentMousePosition))
+                    #self.rubberBand.updatePosition()
+
+    def deactivate(self):
+        self.reset()

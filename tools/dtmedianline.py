@@ -19,7 +19,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 from builtins import range
 from builtins import object
-from qgis.PyQt import QtCore, QtGui
+from qgis.PyQt import QtCore, QtGui, QtWidgets
 from qgis.core import *
 from qgis.gui import *
 from dtmedianlinetool import DtMedianLineTool
@@ -42,7 +42,7 @@ class DtMedianLine(object):
         self.point_list = []
 
         #create action
-        self.median_digitizer = QtGui.QAction(QtGui.QIcon(":/medianLine.png"),
+        self.median_digitizer = QtWidgets.QAction(QtGui.QIcon(":/medianLine.png"),
             QtCore.QCoreApplication.translate("digitizingtools",
                 "Digitize median line between adjacent polygons"),
                 self.iface.mainWindow())
@@ -66,15 +66,13 @@ class DtMedianLine(object):
         self.tool.activate()
         self.canvas.setMapTool(self.tool)
         #Connect to the DtSelectVertexTool
-        QtCore.QObject.connect(self.tool, QtCore.SIGNAL(
-            "vertexFound(PyQt_PyObject)"), self.storePoints)
+        self.tool.vertexFound.connect(self.storePoints)
 
     def disableTool(self):
         self.reset()
         #self.tool.deactivate()
         self.canvas.unsetMapTool(self.tool)
-        QtCore.QObject.disconnect(self.tool, QtCore.SIGNAL(
-            "vertexFound(PyQt_PyObject)"), self.storePoints)
+        self.tool.vertexFound.disconnect(self.storePoints)
         self.tool.deactivate()
 
     def deactivate(self):

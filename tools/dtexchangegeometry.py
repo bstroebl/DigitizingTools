@@ -26,7 +26,7 @@ from dttools import DtSingleButton
 
 class DtExchangeGeometry(DtSingleButton):
     def __init__(self, iface, toolBar):
-        DtSingleButton.__init__(self, iface, toolBar,
+        super().__init__(iface, toolBar,
             QtGui.QIcon(":/exchangeGeometry.png"),
             QtCore.QCoreApplication.translate("digitizingtools",
                 "Exchange attributes between selected features"),

@@ -18,7 +18,7 @@ the Free Software Foundation; either version 2 of the License, or
 """
 
 from builtins import object
-from qgis.PyQt import QtCore,  QtGui
+from qgis.PyQt import QtCore,  QtGui, QtWidgets
 from qgis.core import *
 
 import dt_icons_rc
@@ -42,7 +42,7 @@ class DtMoveNodeByArea(object):
         self.selected_feature = None
 
         #create action
-        self.node_mover = QtGui.QAction(QtGui.QIcon(":/MovePolygonNodeByArea.png"),
+        self.node_mover = QtWidgets.QAction(QtGui.QIcon(":/MovePolygonNodeByArea.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node (along a side) to achieve target area"),  self.iface.mainWindow())
 
         self.node_mover.triggered.connect(self.run)
@@ -50,7 +50,7 @@ class DtMoveNodeByArea(object):
         toolBar.addAction(self.node_mover)
         self.enable()
 
-        self.tool = DtSelectVertexTool(self.canvas, self.iface, 2)
+        self.tool = DtSelectVertexTool(self.iface, 2)
 
     def showDialog(self):
         flags = Qt.WindowTitleHint | Qt.WindowSystemMenuHint | Qt.WindowMaximizeButtonHint  # QgisGui.ModalDialogFlags

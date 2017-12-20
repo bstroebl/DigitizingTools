@@ -27,7 +27,7 @@ from dttools import DtSingleButton
 class DtSplitWithLine(DtSingleButton):
     '''Split selected features in active editable layer with selected line from another layer'''
     def __init__(self, iface,  toolBar):
-        DtSingleButton.__init__(self,  iface,  toolBar,
+        super().__init__(iface,  toolBar,
             QtGui.QIcon(":/splitter.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Split selected features with selected line from another layer"),
             geometryTypes = [2, 3, 5, 6],  dtName = "dtSplitWithLine")

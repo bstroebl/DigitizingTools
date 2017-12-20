@@ -25,7 +25,7 @@ from dttools import DtSingleButton
 class DtClipWithPolygon(DtSingleButton):
     '''Clip from active editable layer with selected polygon from another layer'''
     def __init__(self, iface,  toolBar):
-        DtSingleButton.__init__(self, iface, toolBar,
+        super().__init__(iface, toolBar,
             QtGui.QIcon(":/clipper.png"),
             QtCore.QCoreApplication.translate(
                 "digitizingtools", "Clip with polygon from another layer"),
