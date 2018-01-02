@@ -19,7 +19,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 from builtins import str
 from builtins import range
-from qgis.PyQt import QtCore,  QtGui
+from qgis.PyQt import QtCore, QtGui, QtWidgets
 from qgis.core import *
 from qgis.gui import *
 import dt_icons_rc
@@ -115,20 +115,20 @@ class DtSplitFeature(DtSingleEditTool):
                             hl.setFillColor(hlFillColor)
                             hl.setBuffer(hlBuffer)
                             hl.setWidth(hlMinWidth)
-                            answer = QtGui.QMessageBox.question(
+                            answer = QtWidgets.QMessageBox.question(
                                 None, QtCore.QCoreApplication.translate("digitizingtools", "Split Multipart Feature"),
                                 QtCore.QCoreApplication.translate("digitizingtools", "Create new feature from this part?"),
-                                QtGui.QMessageBox.Yes | QtGui.QMessageBox.No | QtGui.QMessageBox.Cancel | QtGui.QMessageBox.NoToAll)
+                                QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No | QtWidgets.QMessageBox.Cancel | QtWidgets.QMessageBox.NoToAll)
 
-                            if answer == QtGui.QMessageBox.Yes:
+                            if answer == QtWidgets.QMessageBox.Yes:
                                 takeThisOne = i
                                 break
-                            elif answer == QtGui.QMessageBox.NoToAll:
+                            elif answer == QtWidgets.QMessageBox.NoToAll:
                                 keepGeom = aGeom
                                 newGeoms = []
                                 takeThisOne = -2
                                 break
-                            elif answer == QtGui.QMessageBox.Cancel:
+                            elif answer == QtWidgets.QMessageBox.Cancel:
                                 return None
 
                     if takeThisOne == -2:
