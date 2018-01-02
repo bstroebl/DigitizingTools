@@ -884,6 +884,30 @@ class DtSplitFeatureTool(QgsMapToolAdvancedDigitizing, DtTool):
     def activate(self):
         super().activate()
         self.canvas.setCursor(self.cursor)
+        self.canvas.installEventFilter(self)
+
+    def eventFilter(self, source, event):
+        '''
+        we need an eventFilter here to filter out Backspace key presses
+        as otherwise the selected objects in the edit layer get deleted
+        if user hits Backspace
+        The eventFilter() function must return true if the event should be filtered,
+        (i.e. stopped); otherwise it must return false, see
+        http://doc.qt.io/qt-5/qobject.html#installEventFilter
+        '''
+
+        if event.type() == QtCore.QEvent.KeyPress:
+            if event.key() == QtCore.Qt.Key_Backspace:
+                if self.rubberBand.numberOfVertices() > 2:
+                    if self.currentMousePosition != None:
+                        self.rubberBand.removeLastPoint()
+                        self.rubberBand.movePoint(self.rubberBand.numberOfVertices() -1,
+                            self.toMapCoordinates(self.currentMousePosition))
+                return True
+            else:
+                return False
+        else:
+            return False
 
     def markSnap(self, thisPoint):
         self.marker = QgsVertexMarker(self.canvas)
@@ -905,6 +929,7 @@ class DtSplitFeatureTool(QgsMapToolAdvancedDigitizing, DtTool):
             self.rubberBand = None
 
         self.removeSnapMarker()
+        self.canvas.removeEventFilter(self)
 
     def cadCanvasMoveEvent(self, event):
         self.debug("cadCanvasMoveEvent")
@@ -966,15 +991,9 @@ class DtSplitFeatureTool(QgsMapToolAdvancedDigitizing, DtTool):
                 self.canvas.refresh()
 
     def keyPressEvent(self,  event):
+        self.debug("keyPressEvent")
         if event.key() == QtCore.Qt.Key_Escape:
             self.reset()
-        elif event.key() == QtCore.Qt.Key_Backspace:
-            if self.rubberBand.numberOfVertices() > 2:
-                if self.currentMousePosition != None:
-                    self.rubberBand.removeLastPoint()
-                    self.rubberBand.movePoint(self.rubberBand.numberOfVertices() -1,
-                        self.toMapCoordinates(self.currentMousePosition))
-                    #self.rubberBand.updatePosition()
 
     def deactivate(self):
         self.reset()
