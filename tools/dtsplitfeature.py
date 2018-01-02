@@ -157,8 +157,10 @@ class DtSplitFeature(DtSingleEditTool):
             self.editLayer.updateFeature(aFeat)
 
         if len(featuresToAdd) > 0:
-            self.editLayer.addFeatures(featuresToAdd,  False)
-            self.editLayer.endEditCommand()
+            if self.editLayer.addFeatures(featuresToAdd):
+                self.editLayer.endEditCommand()
+            else:
+                self.editLayer.destroyEditCommand()
         else:
             self.editLayer.destroyEditCommand()
 
