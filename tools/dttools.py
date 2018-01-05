@@ -580,7 +580,7 @@ class DtSelectFeatureTool(DtMapToolEdit):
             if len(found) > 0:
                 feat = found[0]
                 layer.removeSelection()
-                layer.setSelectedFeatures([feat.id()])
+                layer.select(feat.id())
                 self.featureSelected.emit([feat.id()])
 
 class DtSelectRingTool(DtSelectFeatureTool):
@@ -659,7 +659,7 @@ class DtSelectGapTool(DtMapToolEdit):
                     spatialIndex = dtutils.dtSpatialindex(aLayer)
                     # get the 100 closest Features
                     featureIds = spatialIndex.nearestNeighbor(thisQgsPoint, 100)
-                    aLayer.setSelectedFeatures(featureIds)
+                    aLayer.select(featureIds)
 
                 multiGeom = dtutils.dtCombineSelectedPolygons(aLayer, self.iface, multiGeom)
 

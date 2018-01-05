@@ -69,5 +69,5 @@ class DtSplitMultiPartTool(DtDualToolSelectFeature):
 
         # add new features to layer
         if len(newFeatures) > 0:
-            layer.addFeatures(newFeatures, False)
+            layer.addFeatures(newFeatures)
             layer.endEditCommand()

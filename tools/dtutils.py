@@ -211,12 +211,12 @@ def dtExtractRings(geom):
             for poly in multi_geom:
                 if len(poly) > 1:
                     for aRing in poly[1:]:
-                        rings.append(QgsGeometry.fromPolygon([aRing]))
+                        rings.append(QgsGeometry.fromPolygonXY([aRing]))
         else:
             poly = geom.asPolygon()
             if len(poly) > 1:
                 for aRing in poly[1:]:
-                    rings.append(QgsGeometry.fromPolygon([aRing]))
+                    rings.append(QgsGeometry.fromPolygonXY([aRing]))
 
     return rings
 
@@ -270,7 +270,7 @@ def dtSpatialindex(layer):
     return idx
 
 def dtDeleteRings(poly):
-    outGeom = QgsGeometry.fromPolygon(poly)
+    outGeom = QgsGeometry.fromPolygonXY(poly)
 
     if len(poly) > 1:
         # we have rings
