@@ -878,13 +878,20 @@ class DtSplitFeatureTool(QgsMapToolAdvancedDigitizing, DtTool):
             iface = iface, geometryTypes = [])
         self.marker = None
         self.rubberBand = None
+        self.sketchRubberBand = self.createRubberBand()
+        self.sketchRubberBand.setLineStyle(QtCore.Qt.DotLine)
+        self.rbPoints = [] # array to store points in rubber band because
+        # api to access points does not work properly or I did not figure it out :)
         self.currentMousePosition = None
+        self.snapPoint = None
         self.reset()
 
     def activate(self):
         super().activate()
         self.canvas.setCursor(self.cursor)
         self.canvas.installEventFilter(self)
+        self.snapPoint = None
+        self.rbPoints = []
 
     def eventFilter(self, source, event):
         '''
@@ -898,16 +905,56 @@ class DtSplitFeatureTool(QgsMapToolAdvancedDigitizing, DtTool):
 
         if event.type() == QtCore.QEvent.KeyPress:
             if event.key() == QtCore.Qt.Key_Backspace:
-                if self.rubberBand.numberOfVertices() > 2:
-                    if self.currentMousePosition != None:
-                        self.rubberBand.removeLastPoint()
-                        self.rubberBand.movePoint(self.rubberBand.numberOfVertices() -1,
-                            self.toMapCoordinates(self.currentMousePosition))
+                if self.rubberBand != None:
+                    if self.rubberBand.numberOfVertices() >= 2: # QgsRubberBand has always 2 vertices
+                        if self.currentMousePosition != None:
+                            self.removeLastPoint()
+                            self.redrawSketchRubberBand([self.toMapCoordinates(self.currentMousePosition)])
                 return True
             else:
                 return False
         else:
             return False
+
+    def eventToQPoint(self, event):
+        x = event.pos().x()
+        y = event.pos().y()
+        thisPoint = QtCore.QPoint(x, y)
+        return thisPoint
+
+    def initRubberBand(self, firstPoint):
+        if self.rubberBand == None:
+            # create a QgsRubberBand
+            self.rubberBand = self.createRubberBand()
+            self.rubberBand.addPoint(firstPoint)
+            self.rbPoints.append(firstPoint)
+
+    def removeLastPoint(self):
+        ''' remove the last point in self.rubberBand'''
+        if len (self.rbPoints) > 1: #first point will not be removed
+            self.rbPoints.pop()
+            #we recreate rubberBand because it contains doubles
+            self.rubberBand.reset()
+
+            for aPoint in self.rbPoints:
+                self.rubberBand.addPoint(QgsPointXY(aPoint))
+
+
+    def trySnap(self, event):
+        self.removeSnapMarker()
+        self.snapPoint = None
+        # try to snap
+        thisPoint = self.eventToQPoint(event)
+        snapper = self.canvas.snappingUtils()
+        # snap to any layer within snap tolerance
+        snapMatch = snapper.snapToMap(thisPoint)
+
+        if not snapMatch.isValid():
+            return False
+        else:
+            self.snapPoint = snapMatch.point()
+            self.markSnap(self.snapPoint)
+            return True
 
     def markSnap(self, thisPoint):
         self.marker = QgsVertexMarker(self.canvas)
@@ -922,78 +969,132 @@ class DtSplitFeatureTool(QgsMapToolAdvancedDigitizing, DtTool):
             self.canvas.scene().removeItem(self.marker)
             self.marker = None
 
-    def reset(self):
+    def clear(self):
         if self.rubberBand != None:
             self.rubberBand.reset()
             self.canvas.scene().removeItem(self.rubberBand)
             self.rubberBand = None
 
-        self.removeSnapMarker()
+        if self.snapPoint != None:
+            self.removeSnapMarker()
+            self.snapPoint = None
+
+        self.sketchRubberBand.reset()
+        self.rbPoints = []
+
+    def reset(self):
+        self.clear()
         self.canvas.removeEventFilter(self)
 
+    def redrawSketchRubberBand(self, points):
+        if self.rubberBand != None and len(self.rbPoints) > 0:
+            self.sketchRubberBand.reset()
+            sketchStartPoint = self.rbPoints[len(self.rbPoints) -1]
+            self.sketchRubberBand.addPoint(QgsPointXY(sketchStartPoint))
+
+            if len(points) == 1:
+                self.sketchRubberBand.addPoint(QgsPointXY(sketchStartPoint))
+                self.sketchRubberBand.movePoint(
+                    self.sketchRubberBand.numberOfVertices() -1, points[0])
+            #for p in range(self.rubberBand.size()):
+            #    self.debug("Part " + str(p))
+            #    for v in range(self.rubberBand.partSize(p)):
+            #        vertex = self.rubberBand.getPoint(0,j=v)
+            #        self.debug("Vertex " + str(v) + " = "+ str(vertex.x()) + ", " + str(vertex.y()))
+
+
+
+            #startPoint = self.rubberBand.getPoint(0, self.rubberBand.partSize(0) -1)
+            #self.debug("StartPoint " + str(startPoint))
+            #self.sketchRubberBand.addPoint(startPoint)
+            #self.sketchRubberBand.addPoint(points[len(points) - 1])
+            else:
+                for aPoint in points:
+                    self.sketchRubberBand.addPoint(aPoint)
+
     def cadCanvasMoveEvent(self, event):
-        self.debug("cadCanvasMoveEvent")
+        pass
+        #self.debug("cadCanvasMoveEvent")
 
     def cadCanvasPressEvent(self, event):
-        self.debug("cadCanvasPressEvent")
+        pass
+        #self.debug("cadCanvasPressEvent")
 
     def cadCanvasReleaseEvent(self, event):
-        self.debug("cadCanvasReleaseEvent")
+        pass
+        #self.debug("cadCanvasReleaseEvent")
 
     def canvasMoveEvent(self, event):
-        self.removeSnapMarker()
-        # show snap
-        x = event.pos().x()
-        y = event.pos().y()
-        thisPoint = QtCore.QPoint(x, y)
-        # try to snap
-        snapper = self.canvas.snappingUtils()
-        # snap to any layer within snap tolerance
-        snapMatch = snapper.snapToMap(thisPoint)
+        if self.rubberBand != None:
+            thisPoint = self.eventToQPoint(event)
+            hasSnap = self.trySnap(event)
 
-        if not snapMatch.isValid():
-            if self.rubberBand != None:
-                self.rubberBand.movePoint(self.rubberBand.numberOfVertices() -1,
-                    self.toMapCoordinates(thisPoint))
-        else:
-            snapPoint = snapMatch.point()
-            self.markSnap(snapPoint)
+            if hasSnap:
+                #if self.canvas.snappingUtils().config().enabled(): # is snapping active?
+                tracer = QgsMapCanvasTracer.tracerForCanvas(self.canvas)
 
-            if self.rubberBand != None:
-                self.rubberBand.movePoint(self.rubberBand.numberOfVertices() -1,
-                    snapPoint)
+                if tracer.actionEnableTracing().isChecked(): # tracing is pressed in
+                    tracer.configure()
+                    #startPoint = self.rubberBand.getPoint(0, self.rubberBand.numberOfVertices() -1)
+                    startPoint = self.rbPoints[len(self.rbPoints) -1]
+                    pathPoints,  pathError = tracer.findShortestPath(QgsPointXY(startPoint), self.snapPoint)
 
-        self.currentMousePosition = thisPoint
+                    if pathError == 0: #ErrNone
+                        pathPoints.pop(0) # remove first point as it is identical with starPoint
+                        self.redrawSketchRubberBand(pathPoints)
+                    else:
+                        self.redrawSketchRubberBand([self.snapPoint])
+                else:
+                    self.redrawSketchRubberBand([self.snapPoint])
+            else:
+                self.redrawSketchRubberBand([self.toMapCoordinates(thisPoint)])
+
+            self.currentMousePosition = thisPoint
 
     def canvasReleaseEvent(self, event):
         layer = self.canvas.currentLayer()
 
         if layer != None:
-            #Get the click
-            x = event.pos().x()
-            y = event.pos().y()
-            thisPoint = QtCore.QPoint(x, y)
+            thisPoint = self.eventToQPoint(event)
             #QgsMapToPixel instance
 
             if event.button() == QtCore.Qt.LeftButton:
                 if self.rubberBand == None:
-                    # create a QgsRubberBand
-                    self.rubberBand = self.createRubberBand() #QgsRubberBand(self.canvas)
+                    if self.snapPoint == None:
+                        self.initRubberBand(self.toMapCoordinates(thisPoint))
+                    else: # last mouse move created a snap
+                        self.initRubberBand(self.snapPoint)
+                        self.snapPoint = None
+                        self.removeSnapMarker()
+                else: # merge sketchRubberBand into rubberBand
+                    sketchGeom = self.sketchRubberBand.asGeometry()
+                    verticesSketchGeom = sketchGeom.vertices()
+                    self.rubberBand.addGeometry(sketchGeom)
+                    # rubberBand now contains a double point because it's former end point
+                    # and sketchRubberBand's start point are identical
+                    # so we remove the last point before adding new ones
+                    self.rbPoints.pop()
 
-                self.rubberBand.addPoint(self.toMapCoordinates(thisPoint))
+                    while verticesSketchGeom.hasNext():
+                        # add the new points
+                        self.rbPoints.append(verticesSketchGeom.next())
 
+                    self.redrawSketchRubberBand([self.toMapCoordinates(thisPoint)])
+
+                    if self.snapPoint != None:
+                        self.snapPoint = None
+                        self.removeSnapMarker()
             else: # right click
                 if self.rubberBand.numberOfVertices() > 1:
                     rbGeom = self.rubberBand.asGeometry()
                     self.finishedDigitizing.emit(rbGeom)
 
-                self.reset()
+                self.clear()
                 self.canvas.refresh()
 
     def keyPressEvent(self,  event):
-        self.debug("keyPressEvent")
         if event.key() == QtCore.Qt.Key_Escape:
-            self.reset()
+            self.clear()
 
     def deactivate(self):
         self.reset()
