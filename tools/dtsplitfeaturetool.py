@@ -42,6 +42,7 @@ class DtSplitFeatureTool(DtMapTool):
         settings.endGroup()
         self.rubberBandColor = QtGui.QColor(r, g, b, a)
         self.rubberBandWidth = lw
+        self.snapPoint = None
         self.reset()
 
     def markSnap(self, thisPoint):
@@ -63,6 +64,7 @@ class DtSplitFeatureTool(DtMapTool):
             self.canvas.scene().removeItem(self.rubberBand)
             self.rubberBand = None
 
+        self.snapPoint = None
         self.removeSnapMarker()
 
     def canvasMoveEvent(self, event):
@@ -82,12 +84,12 @@ class DtSplitFeatureTool(DtMapTool):
                 self.rubberBand.movePoint(self.rubberBand.numberOfVertices() -1,
                     mapToPixel.toMapCoordinates(thisPoint))
         else:
-            snapPoint = snapMatch.point()
-            self.markSnap(snapPoint)
+            self.snapPoint = snapMatch.point()
+            self.markSnap(self.snapPoint)
 
             if self.rubberBand != None:
                 self.rubberBand.movePoint(self.rubberBand.numberOfVertices() -1,
-                    snapPoint)
+                    self.snapPoint)
 
     def canvasReleaseEvent(self, event):
         layer = self.canvas.currentLayer()
@@ -106,7 +108,12 @@ class DtSplitFeatureTool(DtMapTool):
                     self.rubberBand = QgsRubberBand(self.canvas)
                     self.rubberBand.setColor(self.rubberBandColor)
                     self.rubberBand.setWidth(self.rubberBandWidth)
-                    self.rubberBand.addPoint(mapToPixel.toMapCoordinates(thisPoint))
+
+                    if self.snapPoint == None:
+                        self.rubberBand.addPoint(mapToPixel.toMapCoordinates(thisPoint))
+                    else:
+                        self.rubberBand.addPoint(self.snapPoint)
+                        self.snapPoint = None
                     #self.startedDigitizing.emit(layer, self.lineFeature,  startPoint,  self.rubberBand)
                 else:
                     self.rubberBand.addPoint(mapToPixel.toMapCoordinates(thisPoint))
