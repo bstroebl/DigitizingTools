@@ -64,18 +64,6 @@ compile: $(UI_FILES) $(RESOURCE_FILES)
 %.qm : %.ts
 	lrelease $<
 
-#compile: $(UI_FILES) $(RESOURCE_FILES)
-#compile: $(UI_FILES)
-compile3:
-
-%_rc.py : %.qrc
-	pyrcc5 -o $*_rc.py -py2 $<
-
-%.py : %.ui
-	pyuic5 -o $@ $<
-
-%.qm : %.ts
-	lrelease $<
 
 # The deploy target only works on unix like operating system where
 # the Python plugin directory is located at:
