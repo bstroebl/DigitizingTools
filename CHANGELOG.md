@@ -1,12 +1,21 @@
 # Change Log
 All notable changes to this project since Version 0.8.0 will be documented in this file.
 
-## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v0.11.3...develop)
+## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v1.0.0...develop)
+
+## [1.0.0] (https://github.com/bstroebl/DigitizingTools/compare/v0.11.3...v1.0.0) - 2018-05-15
+### General
+- Adapted to QGIS 3
+
+### Added
+- Improve split-feature tool: use tracing, fixes #20, show dotted rubberband for sketch, remove last point in rubberBand with backspace
+
 ### Changed
 - Highlight feature being preserved in merge features tool, fixes #24
 
 ### Fixed
 - Activate split multi part and extract part tools for any layer (not just for multi layers). In case the user tries to save a multi feature the data provider will deal with this.
+- always catch backspace key while tool is active
 
 ## [0.11.3] (https://github.com/bstroebl/DigitizingTools/compare/v0.11.0...v0.11.3) - 2017-09-14
 ### Changed since 0.11.0
