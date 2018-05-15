@@ -87,9 +87,7 @@ class DtClipWithPolygon(DtSingleButton):
                    # determine srs, we work in the project's srs
                     clipperCRSSrsid = clipperLayer.crs().srsid()
                     passiveCRSSrsid = passiveLayer.crs().srsid()
-                    mc = self.iface.mapCanvas()
-                    renderer = mc.mapRenderer()
-                    projectCRSSrsid = renderer.destinationCrs().srsid()
+                    projectCRSSrsid = QgsProject.instance().crs().srsid()
                     passiveLayer.beginEditCommand(
                         QtCore.QCoreApplication.translate(
                             "editcommand", "Clip Features"
@@ -110,7 +108,7 @@ class DtClipWithPolygon(DtSingleButton):
                             ))
 
                         bbox = clipperGeom.boundingBox()
-                        passiveLayer.select(bbox, False) # make a new selection
+                        passiveLayer.selectByRect(bbox) # make a new selection
 
                         for selFeat in passiveLayer.selectedFeatures():
                             if idsToProcess.count(selFeat.id()) == 0:
@@ -133,7 +131,7 @@ class DtClipWithPolygon(DtSingleButton):
                                 newGeom = selGeom.intersection(clipperGeom)
 
                                 if newGeom != None:
-                                    if not newGeom.isGeosEmpty():
+                                    if not newGeom.isEmpty():
                                         if passiveCRSSrsid != projectCRSSrsid:
                                             newGeom.transform(QgsCoordinateTransform(
                                                 projectCRSSrsid, passiveCRSSrsid))

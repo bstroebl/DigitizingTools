@@ -45,7 +45,7 @@ def dtCreateFeature(layer):
     if isinstance(layer, QgsVectorLayer):
         newFeature = QgsFeature()
         provider = layer.dataProvider()
-        fields = layer.pendingFields()
+        fields = layer.fields()
 
         newFeature.initAttributes(fields.count())
 
@@ -67,7 +67,7 @@ def dtCopyFeature(layer, srcFeature = None,   srcFid = None):
 
         #copy the attribute values#
         pkFields = layer.dataProvider().pkAttributeIndexes()
-        fields = layer.pendingFields()
+        fields = layer.fields()
         for i in range(fields.count()):
             # do not copy the PK value if there is a PK field
             if i in pkFields:
@@ -95,17 +95,17 @@ def dtGetVectorLayersByType(iface,  geomType = None,  skipActive = False):
     *geomType*; geomTypes are 0: point, 1: line, 2: polygon
     If *skipActive* is True the active Layer is not included.'''
     layerList = {}
-    for aLayer in iface.legendInterface().layers():
+    for anId, aLayer in QgsProject.instance().mapLayers().items():
         if 0 == aLayer.type():   # vectorLayer
-            if  skipActive and (iface.mapCanvas().currentLayer().id() == aLayer.id()):
+            if  skipActive and (iface.mapCanvas().currentLayer().id() == anId):
                 continue
             else:
                 if geomType:
                     if isinstance(geomType,  int):
                         if aLayer.geometryType() == geomType:
-                            layerList[aLayer.name()] =  aLayer.id()
+                            layerList[aLayer.name()] =  [anId,  aLayer]
                     else:
-                        layerList[aLayer.name()] =  aLayer.id()
+                        layerList[aLayer.name()] =  [anId,  aLayer]
     return layerList
 
 def dtChooseVectorLayer(iface, geomType = None,   skipActive = True,  msg = None):
@@ -122,15 +122,12 @@ def dtChooseVectorLayer(iface, geomType = None,   skipActive = True,  msg = None
         if not msg:
             msg = ""
 
-        selectedLayer,  ok = QtGui.QInputDialog.getItem(None,  QtWidgets.QApplication.translate("dtutils",  "Choose Layer"),
-                                                        msg,  chooseFrom,  editable = False)
+        selectedLayer,  ok = QtWidgets.QInputDialog.getItem(None,
+            QtWidgets.QApplication.translate("dtutils",  "Choose Layer"),
+            msg,  chooseFrom,  editable = False)
 
         if ok:
-            for aLayer in iface.legendInterface().layers():
-                if 0 == aLayer.type():
-                    if aLayer.id() == layerList[selectedLayer]:
-                        retValue = aLayer
-                        break
+            retValue = layerList[selectedLayer][1]
 
     return retValue
 
@@ -284,7 +281,7 @@ def dtGetDefaultAttributeMap(layer):
     attributeMap = {}
     dp = layer.dataProvider()
 
-    for i in range(len(layer.pendingFields())):
+    for i in range(len(layer.fields())):
         attributeMap[i] = dp.defaultValue(i)
 
     return attributeMap

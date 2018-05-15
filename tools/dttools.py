@@ -543,9 +543,9 @@ class DtSelectFeatureTool(DtMapToolEdit):
             #we need a snapper, so we use the MapCanvas snapper
             snapper = self.canvas.snappingUtils()
             snapper.setCurrentLayer(layer)
-            snapType, snapTolerance, snapUnits = snapper.defaultSettings()
-            # snapType = 0: no snap, 1 = vertex, 2 = segment, 3 = vertex & segment
-            snapMatch = snapper.snapToCurrentLayer(startingPoint, snapType)
+            snapType = snapper.config().type()
+            # snapType = 0: no snap, 1 = vertex, 2 vertex & segment, 3 = segment
+            snapMatch = snapper.snapToCurrentLayer(startingPoint, QgsPointLocator.All)
 
             if not snapMatch.isValid():
                 dtutils.showSnapSettingsWarning(self.iface)
@@ -632,12 +632,9 @@ class DtSelectGapTool(DtMapToolEdit):
         visibleLayers = []
 
         if self.allLayers:
-            legendIface = self.iface.legendInterface()
-
-            for aLayer in legendIface.layers():
+            for aLayer in self.iface.layerTreeCanvasBridge().rootGroup().checkedLayers():
                 if 0 == aLayer.type():
-                    if legendIface.isLayerVisible(aLayer) and \
-                            self.isPolygonLayer(aLayer):
+                    if self.isPolygonLayer(aLayer):
                         visibleLayers.append(aLayer)
         else:
             if layer != None:

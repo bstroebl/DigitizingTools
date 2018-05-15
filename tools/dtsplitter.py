@@ -62,9 +62,7 @@ class DtSplitWithLine(DtSingleButton):
                # determine srs, we work in the project's srs
                 splitterCRSSrsid = splitterLayer.crs().srsid()
                 passiveCRSSrsid = passiveLayer.crs().srsid()
-                mc = self.iface.mapCanvas()
-                renderer = mc.mapRenderer()
-                projectCRSSrsid = renderer.destinationCrs().srsid()
+                projectCRSSrsid = QgsProject.instance().crs().srsid()
                 passiveLayer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Split features"))
                 featuresBeingSplit = 0
                 featuresToAdd = []
@@ -119,7 +117,7 @@ class DtSplitWithLine(DtSingleButton):
                                         featuresToAdd.append(newFeat)
 
                 if featuresBeingSplit > 0:
-                    passiveLayer.addFeatures(featuresToAdd,  False)
+                    passiveLayer.addFeatures(featuresToAdd)
                     passiveLayer.endEditCommand()
                     passiveLayer.removeSelection()
                 else:

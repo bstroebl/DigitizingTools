@@ -70,9 +70,9 @@ class DtFlipLine(DtDualToolSelectFeature):
                 newNodes = []
 
             if layer.wkbType() == 2 or layer.wkbType() == -2147483646:
-                newGeom = QgsGeometry.fromPolyline(newNodes)
+                newGeom = QgsGeometry.fromPolylineXY(newNodes)
             else:
-                newGeom = QgsGeometry.fromMultiPolyline(newNodes)
+                newGeom = QgsGeometry.fromMultiPolylineXY(newNodes)
 
             if not layer.changeGeometry(feat.id(),  newGeom):
                 hadError = True

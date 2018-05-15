@@ -41,7 +41,7 @@ class DtMerge(DtSingleButton):
         '''Function that does all the real work'''
         title = QtCore.QCoreApplication.translate("digitizingtools", "Merge")
         processLayer = self.iface.activeLayer()
-        pkFld = processLayer.pendingPkAttributesList()[0]
+        pkFld = processLayer.primaryKeyAttributes()[0]
         pkValues = []
         featDict = {}
         fidsToDelete = []
@@ -96,7 +96,7 @@ class DtMerge(DtSingleButton):
             except:
                 pass
 
-            doEnable = len(layer.pendingPkAttributesList()) == 1
+            doEnable = len(layer.primaryKeyAttributes()) == 1
 
             if doEnable:
                 doEnable = layer.selectedFeatureCount() > 1

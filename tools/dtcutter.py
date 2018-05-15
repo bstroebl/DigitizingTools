@@ -79,9 +79,7 @@ class DtCutWithPolygon(DtSingleButton):
                # determine srs, we work in the project's srs
                 cutterCRSSrsid = cutterLayer.crs().srsid()
                 passiveCRSSrsid = passiveLayer.crs().srsid()
-                mc = self.iface.mapCanvas()
-                renderer = mc.mapRenderer()
-                projectCRSSrsid = renderer.destinationCrs().srsid()
+                projectCRSSrsid = QgsProject.instance().crs().srsid()
                 passiveLayer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Cut Features"))
                 featuresBeingCut = 0
 
@@ -97,7 +95,7 @@ class DtCutWithPolygon(DtSingleButton):
                         cutterGeom.transform(QgsCoordinateTransform(cutterCRSSrsid,  projectCRSSrsid))
 
                     bbox = cutterGeom.boundingBox()
-                    passiveLayer.select(bbox, False) # make a new selection
+                    passiveLayer.selectByRect(bbox) # make a new selection
 
                     for selFeat in passiveLayer.selectedFeatures():
                         if idsToProcess.count(selFeat.id()) == 0:
@@ -117,7 +115,7 @@ class DtCutWithPolygon(DtSingleButton):
                             newGeom = selGeom.difference(cutterGeom)
 
                             if newGeom != None:
-                                if newGeom.isGeosEmpty():
+                                if newGeom.isEmpty():
                                     #selGeom is completely contained in cutterGeom
                                     if showEmptyWarning:
                                         choice = QtGui.QMessageBox.question(None,  title,
