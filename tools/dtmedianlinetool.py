@@ -26,7 +26,7 @@ from qgis.gui import *
 
 class DtMedianLineTool(QgsMapTool):
     finishedDigitizing = QtCore.pyqtSignal()
-    vertexFound = QtCore.pyqtSignal()
+    vertexFound = QtCore.pyqtSignal(list)
 
     def __init__(self, parent):
         super().__init__(parent.canvas)
@@ -81,8 +81,7 @@ class DtMedianLineTool(QgsMapTool):
             snapper.setCurrentLayer(layer)
             #snapType, snapTolerance, snapUnits = snapper.defaultSettings()
             # snapType = 0: no snap, 1 = vertex, 2 = segment, 3 = vertex & segment
-            snapType = 1
-            snapMatch = snapper.snapToCurrentLayer(startingPoint, snapType)
+            snapMatch = snapper.snapToCurrentLayer(startingPoint, QgsPointLocator.Vertex)
 
             #if we have found a vertex
             if snapMatch.isValid():

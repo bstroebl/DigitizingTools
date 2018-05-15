@@ -55,7 +55,7 @@ class DtMoveSideByDistance(object):
         self.tool = DtSelectSegmentTool(self.iface)
 
     def showDialog(self):
-        flags = Qt.WindowTitleHint | Qt.WindowSystemMenuHint | Qt.WindowMaximizeButtonHint  # QgisGui.ModalDialogFlags
+        flags = QtCore.Qt.WindowTitleHint | QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowMaximizeButtonHint  # QgisGui.ModalDialogFlags
         self.gui = DtMoveSideByDistance_Dialog(self.iface.mainWindow(),  flags)
         self.gui.initGui()
         self.gui.show()
@@ -76,14 +76,14 @@ class DtMoveSideByDistance(object):
     def run(self):
         '''Function that does all the real work'''
         layer = self.iface.activeLayer()
-        if(layer.dataProvider().geometryType() == 6):
+        if(layer.dataProvider().wkbType() == 6):
             self.multipolygon_detected = True
         title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon side by distance")
 
         if layer.selectedFeatureCount() == 0:
-            QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select one polygon to edit."))
+            QtWidgets.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select one polygon to edit."))
         elif layer.selectedFeatureCount() > 1:
-            QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select only one polygon to edit."))
+            QtWidgets.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select only one polygon to edit."))
         else:
             #One selected feature
             self.selected_feature = layer.selectedFeatures()[0]
@@ -133,15 +133,15 @@ class DtMoveSideByDistance(object):
             pass
 
         if (dist == 0.0):
-            QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Target Distance not valid."))
+            QtWidgets.QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Target Distance not valid."))
             return
 
         if self.p1 == None or self.p2 == None:
-            QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Polygon side not selected."))
+            QtWidgets.QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Polygon side not selected."))
         else:
             touch_p1_p2 = self.selected_feature.geometry().touches(QgsGeometry.fromPolyline([self.p1, self.p2]))
             if (not touch_p1_p2):
-                QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Selected segment should be on the selected polygon."))
+                QtWidgets.QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Selected segment should be on the selected polygon."))
             else:
                 new_geom = createNewGeometry(self.selected_feature.geometry(), self.p1, self.p2, dist, self.multipolygon_detected)
                 fid = self.selected_feature.id()

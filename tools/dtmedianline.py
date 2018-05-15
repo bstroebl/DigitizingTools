@@ -91,7 +91,7 @@ class DtMedianLine(object):
             #self.lineLayer = layer
             self.median_digitizer.setChecked(True)
         else:
-            QtGui.QMessageBox.information(None, title,
+            QtWidgets.QMessageBox.information(None, title,
                 QtCore.QCoreApplication.translate("digitizingtools",
                 "Please clear selection."))
 
@@ -180,8 +180,7 @@ class DtMedianLine(object):
 
 
 def getCadLayerByName(cadname):
-    layermap = QgsMapLayerRegistry.instance().mapLayers()
-    for name, layer in list(layermap.items()):
+    for anId, layer in QgsProject.instance().mapLayers().items():
         if layer.name() == cadname:
             if layer.isValid():
                 return layer
@@ -216,7 +215,7 @@ def addGeometryToCadLayer(g):
         feat.setGeometry(g)
         pr.addFeatures([feat])
         vl.updateExtents()
-        QgsMapLayerRegistry.instance().addMapLayer(vl, True)
+        QgsProject.instance().addMapLayer(vl)
     else:
         layer = getCadLayerByName(theName)
         pr = layer.dataProvider()

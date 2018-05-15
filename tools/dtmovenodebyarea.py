@@ -53,7 +53,7 @@ class DtMoveNodeByArea(object):
         self.tool = DtSelectVertexTool(self.iface, 2)
 
     def showDialog(self):
-        flags = Qt.WindowTitleHint | Qt.WindowSystemMenuHint | Qt.WindowMaximizeButtonHint  # QgisGui.ModalDialogFlags
+        flags = QtCore.Qt.WindowTitleHint | QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowMaximizeButtonHint  # QgisGui.ModalDialogFlags
         self.gui = DtMoveNodeByArea_Dialog(self.iface.mainWindow(),  flags)
         self.gui.initGui()
         self.gui.show()
@@ -76,14 +76,14 @@ class DtMoveNodeByArea(object):
     def run(self):
         '''Function that does all the real work'''
         layer = self.iface.activeLayer()
-        if(layer.dataProvider().geometryType() == 6):
+        if(layer.dataProvider().wkbType() == 6):
             self.multipolygon_detected = True
         title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node by area")
 
         if layer.selectedFeatureCount() == 0:
-            QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select one polygon to edit."))
+            QtWidgets.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select one polygon to edit."))
         elif layer.selectedFeatureCount() > 1:
-            QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select only one polygon to edit."))
+            QtWidgets.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select only one polygon to edit."))
         else:
             #One selected feature
             self.selected_feature = layer.selectedFeatures()[0]
@@ -131,18 +131,18 @@ class DtMoveNodeByArea(object):
             pass
 
         if (new_a == -1.0):
-            QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Target Area not valid."))
+            QtWidgets.QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Target Area not valid."))
             return
 
         if self.p1 == None or self.p2 == None:
-            QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Not enough vertices selected."))
+            QtWidgets.QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Not enough vertices selected."))
         else:
             interp1 = self.selected_feature.geometry().intersects(QgsGeometry.fromPoint(self.p1))
             interp2 = self.selected_feature.geometry().intersects(QgsGeometry.fromPoint(self.p2))
             touch_p1_p2 = self.selected_feature.geometry().touches(QgsGeometry.fromPolyline([self.p1, self.p2]))
             if (interp1 and interp2):
                 if (not touch_p1_p2):
-                    QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Selected vertices should be consecutive on the selected polygon."))
+                    QtWidgets.QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Selected vertices should be consecutive on the selected polygon."))
                 else:
                     new_geom = createNewGeometry(self.selected_feature.geometry(), self.p1, self.p2, new_a, self.multipolygon_detected)
                     fid = self.selected_feature.id()
@@ -157,7 +157,7 @@ class DtMoveNodeByArea(object):
                     #title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node by area")
                     #QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", tmp_str))
             else:
-                QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Vertices not on the selected polygon."))
+                QtWidgets.QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Vertices not on the selected polygon."))
 
 # p1 is the stable node (red) and p2 is the node to move (blue)
 def createNewGeometry(geom, p1, p2, new_area, multipolygon):

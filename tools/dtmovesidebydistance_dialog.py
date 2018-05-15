@@ -24,6 +24,8 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'ui_dtmovesidebydistance.ui'))
 
 class DtMoveSideByDistance_Dialog(QtWidgets.QDialog, FORM_CLASS):
+    unsetTool = QtCore.pyqtSignal()
+    moveSide = QtCore.pyqtSignal()
 
     def __init__(self, parent, flags):
         super().__init__(parent, flags)
@@ -34,10 +36,10 @@ class DtMoveSideByDistance_Dialog(QtWidgets.QDialog, FORM_CLASS):
 
     @QtCore.pyqtSlot()
     def on_buttonClose_clicked(self):
-        self.emit(QtCore.SIGNAL("unsetTool()"))
+        self.unsetTool.emit()
         self.close()
 
     @QtCore.pyqtSlot()
     def on_moveButton_clicked(self):
-        self.emit(QtCore.SIGNAL("moveSide()"))
+        self.moveSide.emit()
         pass
