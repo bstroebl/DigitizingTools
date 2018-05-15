@@ -543,7 +543,6 @@ class DtSelectFeatureTool(DtMapToolEdit):
             #we need a snapper, so we use the MapCanvas snapper
             snapper = self.canvas.snappingUtils()
             snapper.setCurrentLayer(layer)
-            snapType = snapper.config().type()
             # snapType = 0: no snap, 1 = vertex, 2 vertex & segment, 3 = segment
             snapMatch = snapper.snapToCurrentLayer(startingPoint, QgsPointLocator.All)
 
@@ -781,8 +780,7 @@ class DtSelectVertexTool(DtMapToolEdit):
                 snapper.setCurrentLayer(layer)
 
                 # snapType = 0: no snap, 1 = vertex, 2 = segment, 3 = vertex & segment
-                snapType = 1
-                snapMatch = snapper.snapToCurrentLayer(startingPoint, snapType)
+                snapMatch = snapper.snapToCurrentLayer(startingPoint, QgsPointLocator.Vertex)
 
                 if not snapMatch.isValid():
                     #warn about missing snapping tolerance if appropriate
@@ -844,7 +842,7 @@ class DtSelectSegmentTool(DtMapToolEdit):
 
             # snapType = 0: no snap, 1 = vertex, 2 = segment, 3 = vertex & segment
             snapType = 2
-            snapMatch = snapper.snapToCurrentLayer(startingPoint, snapType)
+            snapMatch = snapper.snapToCurrentLayer(startingPoint, QgsPointLocator.Edge)
 
             if not snapMatch.isValid():
                 #warn about missing snapping tolerance if appropriate
