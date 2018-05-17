@@ -2,8 +2,14 @@
 All notable changes to this project since Version 0.8.0 will be documented in this file.
 
 ## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v1.0.0...develop)
+### Added
+- Cut using the same layer as is the current edit layer, selection defines the cutting polygons, cutting will be performed on all polygons
+
 ### Fixed
-- Aktivate tools for shape files, too. Reason: wkbType now always returns the multi type whereas in QGIS2 it used to return the single type
+- Activate tools for shape files, too. Reason: wkbType now always returns the multi type whereas in QGIS2 it used to return the single type
+- Adapt more code to Qt5 api
+- Remove editing command when splitting has been cancelled
+- Show snap match in split feature tool before a rubber band exists, so first point of rubber band can snap, too
 
 ## [1.0.0] (https://github.com/bstroebl/DigitizingTools/compare/v0.11.3...v1.0.0) - 2018-05-15
 ### General
