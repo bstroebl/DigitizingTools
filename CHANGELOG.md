@@ -1,7 +1,8 @@
 # Change Log
 All notable changes to this project since Version 0.8.0 will be documented in this file.
 
-## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v1.0.0...develop)
+## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v1.1.0...develop)
+## [1.1.0](https://github.com/bstroebl/DigitizingTools/compare/v1.0.0...v1.1.0) - 2018-5-17
 ### Added
 - Cut using the same layer as is the current edit layer, selection defines the cutting polygons, cutting will be performed on all polygons
 
