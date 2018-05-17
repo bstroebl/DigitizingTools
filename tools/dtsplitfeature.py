@@ -129,6 +129,7 @@ class DtSplitFeature(DtSingleEditTool):
                                 takeThisOne = -2
                                 break
                             elif answer == QtWidgets.QMessageBox.Cancel:
+                                self.editLayer.destroyEditCommand()
                                 return None
 
                     if takeThisOne == -2:
