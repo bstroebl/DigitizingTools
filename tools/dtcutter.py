@@ -16,7 +16,7 @@ it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 """
-from qgis.PyQt import QtCore,  QtGui
+from qgis.PyQt import QtCore,  QtGui, QtWidgets
 from qgis.core import *
 import dt_icons_rc
 import dtutils
@@ -48,11 +48,11 @@ class DtCutWithPolygon(DtSingleButton):
                 msgLst = dtutils.dtGetNoSelMessage()
                 noSelMsg1 = msgLst[0]
                 noSelMsg2 = msgLst[1]
-                reply = QtGui.QMessageBox.question(None,  title,
+                reply = QtWidgets.QMessageBox.question(None,  title,
                                                    noSelMsg1 + " " + cutterLayer.name() + "\n" + noSelMsg2,
-                                                   QtGui.QMessageBox.Yes | QtGui.QMessageBox.No )
+                                                   QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No )
 
-                if reply == QtGui.QMessageBox.Yes:
+                if reply == QtWidgets.QMessageBox.Yes:
                     cutterLayer.invertSelection()
                 else:
                     return None
@@ -61,11 +61,11 @@ class DtCutWithPolygon(DtSingleButton):
                 msgLst = dtutils.dtGetNoSelMessage()
                 noSelMsg1 = msgLst[0]
                 noSelMsg2 = msgLst[1]
-                reply = QtGui.QMessageBox.question(None,  title,
+                reply = QtWidgets.QMessageBox.question(None,  title,
                                                    noSelMsg1 + " " + passiveLayer.name() + "\n" + noSelMsg2,
-                                                   QtGui.QMessageBox.Yes | QtGui.QMessageBox.No )
+                                                   QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No )
 
-                if reply == QtGui.QMessageBox.Yes:
+                if reply == QtWidgets.QMessageBox.Yes:
                     passiveLayer.invertSelection()
                 else:
                     return None
@@ -118,18 +118,18 @@ class DtCutWithPolygon(DtSingleButton):
                                 if newGeom.isEmpty():
                                     #selGeom is completely contained in cutterGeom
                                     if showEmptyWarning:
-                                        choice = QtGui.QMessageBox.question(None,  title,
+                                        choice = QtWidgets.QMessageBox.question(None,  title,
                                             QtCore.QCoreApplication.translate("digitizingtools",
                                             "A feature would be completely removed by cutting. Delete this feature\'s dataset altogether?"),
-                                            QtGui.QMessageBox.Yes | QtGui.QMessageBox.YesToAll | QtGui.QMessageBox.No | QtGui.QMessageBox.NoToAll | QtGui.QMessageBox.Cancel)
+                                            QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.YesToAll | QtWidgets.QMessageBox.No | QtWidgets.QMessageBox.NoToAll | QtWidgets.QMessageBox.Cancel)
 
-                                        if choice == QtGui.QMessageBox.Cancel:
+                                        if choice == QtWidgets.QMessageBox.Cancel:
                                             passiveLayer.destroyEditCommand()
                                             return None
                                         else:
-                                            showEmptyWarning = (choice == QtGui.QMessageBox.Yes or choice == QtGui.QMessageBox.No)
+                                            showEmptyWarning = (choice == QtWidgets.QMessageBox.Yes or choice == QtWidgets.QMessageBox.No)
 
-                                    if choice == QtGui.QMessageBox.Yes or choice == QtGui.QMessageBox.YesToAll:
+                                    if choice == QtWidgets.QMessageBox.Yes or choice == QtWidgets.QMessageBox.YesToAll:
                                         fidsToDelete.append(selFeat.id())
 
                                 else:

@@ -16,7 +16,7 @@ it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 """
-from qgis.PyQt import QtCore, QtGui
+from qgis.PyQt import QtCore, QtGui, QtWidgets
 from qgis.core import *
 import dt_icons_rc
 import dtutils
@@ -69,11 +69,11 @@ class DtClipWithPolygon(DtSingleButton):
                     msgLst = dtutils.dtGetNoSelMessage()
                     noSelMsg1 = msgLst[0]
                     noSelMsg2 = msgLst[1]
-                    reply = QtGui.QMessageBox.question(None,  title,
+                    reply = QtWidgets.QMessageBox.question(None,  title,
                         noSelMsg1 + " " + passiveLayer.name() + "\n" + noSelMsg2,
-                        QtGui.QMessageBox.Yes | QtGui.QMessageBox.No )
+                        QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No )
 
-                    if reply == QtGui.QMessageBox.Yes:
+                    if reply == QtWidgets.QMessageBox.Yes:
                         passiveLayer.invertSelection()
                     else:
                         return None
