@@ -1020,10 +1020,11 @@ class DtSplitFeatureTool(QgsMapToolAdvancedDigitizing, DtTool):
         #self.debug("cadCanvasReleaseEvent")
 
     def canvasMoveEvent(self, event):
-        if self.rubberBand != None:
-            thisPoint = self.eventToQPoint(event)
-            hasSnap = self.trySnap(event)
+        self.snapPoint = None
+        thisPoint = self.eventToQPoint(event)
+        hasSnap = self.trySnap(event)
 
+        if self.rubberBand != None:
             if hasSnap:
                 #if self.canvas.snappingUtils().config().enabled(): # is snapping active?
                 tracer = QgsMapCanvasTracer.tracerForCanvas(self.canvas)
