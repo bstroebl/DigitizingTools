@@ -37,25 +37,33 @@ class DtCutWithPolygon(DtSingleButton):
         showEmptyWarning = True
         choice = None
         fidsToDelete = []
-        cutterLayer = dtutils.dtChooseVectorLayer(self.iface,  2,  msg = QtCore.QCoreApplication.translate("digitizingtools", "cutter layer"))
+        cutterLayer = dtutils.dtChooseVectorLayer(self.iface,  2,  skipActive = False,
+            msg = QtCore.QCoreApplication.translate("digitizingtools", "cutter layer"))
 
         if cutterLayer == None:
-            self.iface.messageBar().pushMessage(title,  QtCore.QCoreApplication.translate("digitizingtools", "Please provide a polygon layer to cut with."))
+            self.iface.messageBar().pushMessage(title,
+                QtCore.QCoreApplication.translate("digitizingtools", "Please provide a polygon layer to cut with."))
         else:
             passiveLayer = self.iface.activeLayer()
+            isSameLayer = cutterLayer == self.iface.activeLayer()
 
             if cutterLayer.selectedFeatureCount() == 0:
                 msgLst = dtutils.dtGetNoSelMessage()
                 noSelMsg1 = msgLst[0]
                 noSelMsg2 = msgLst[1]
-                reply = QtWidgets.QMessageBox.question(None,  title,
-                                                   noSelMsg1 + " " + cutterLayer.name() + "\n" + noSelMsg2,
-                                                   QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No )
 
-                if reply == QtWidgets.QMessageBox.Yes:
-                    cutterLayer.invertSelection()
-                else:
+                if isSameLayer:
+                    self.iface.messageBar().pushMessage(title, noSelMsg1 + " " + cutterLayer.name())
                     return None
+                else:
+                    reply = QtWidgets.QMessageBox.question(None,  title,
+                                                       noSelMsg1 + " " + cutterLayer.name() + "\n" + noSelMsg2,
+                                                       QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No )
+
+                    if reply == QtWidgets.QMessageBox.Yes:
+                        cutterLayer.invertSelection()
+                    else:
+                        return None
 
             if passiveLayer.selectedFeatureCount() == 0:
                 msgLst = dtutils.dtGetNoSelMessage()
@@ -82,18 +90,44 @@ class DtCutWithPolygon(DtSingleButton):
                 projectCRSSrsid = QgsProject.instance().crs().srsid()
                 passiveLayer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Cut Features"))
                 featuresBeingCut = 0
+                tmpCutterLayer = QgsVectorLayer("Polygon?crs=" + cutterLayer.crs().authid(),"cutter","memory")
+                tmpCutterLayer.setCrs(cutterLayer.crs())
+                tmpCutterLayer.startEditing()
 
                 for feat in cutterLayer.selectedFeatures():
                     cutterGeom = QgsGeometry(feat.geometry())
+
+                    if cutterGeom.wkbType() == 6:
+                        cutterGeom = QgsGeometry.fromMultiPolygonXY(cutterGeom.asMultiPolygon())
+                    else:
+                        cutterGeom = QgsGeometry.fromPolygonXY(cutterGeom.asPolygon())
 
                     if not cutterGeom.isGeosValid():
                         thisWarning = dtutils.dtGetInvalidGeomWarning(cutterLayer)
                         dtutils.dtShowWarning(self.iface, thisWarning)
                         continue
 
+                    cutterFeat = QgsFeature()
+                    cutterFeat.setGeometry(cutterGeom)
+                    tmpCutterLayer.addFeature(cutterFeat)
+
+                tmpCutterLayer.commitChanges()
+
+                idsToProcess = []
+
+                if isSameLayer:
+                    for aFeat in passiveLayer.getFeatures():
+                        idsToProcess.append(aFeat.id())
+                else:
+                    for aFeat in passiveLayer.selectedFeatures():
+                        idsToProcess.append(aFeat.id())
+
+                #tmpCutterLayer.invertSelection()
+
+                for feat in tmpCutterLayer.getFeatures():
                     if cutterCRSSrsid != projectCRSSrsid:
                         cutterGeom.transform(QgsCoordinateTransform(cutterCRSSrsid,  projectCRSSrsid))
-
+                    cutterGeom = QgsGeometry(feat.geometry())
                     bbox = cutterGeom.boundingBox()
                     passiveLayer.selectByRect(bbox) # make a new selection
 
@@ -102,6 +136,10 @@ class DtCutWithPolygon(DtSingleButton):
                             continue
 
                         selGeom = QgsGeometry(selFeat.geometry())
+
+                        if isSameLayer:
+                            if selGeom.isGeosEqual(cutterGeom):
+                                continue # do not cut the same geometry
 
                         if not selGeom.isGeosValid():
                             thisWarning = dtutils.dtGetInvalidGeomWarning(passiveLayer)
