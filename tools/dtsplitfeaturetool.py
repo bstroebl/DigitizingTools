@@ -68,6 +68,7 @@ class DtSplitFeatureTool(DtMapTool):
         self.removeSnapMarker()
 
     def canvasMoveEvent(self, event):
+        self.snapPoint = None
         self.removeSnapMarker()
         # show snap
         x = event.pos().x()
