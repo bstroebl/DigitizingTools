@@ -2,6 +2,8 @@
 All notable changes to this project since Version 0.8.0 will be documented in this file.
 
 ## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v1.0.0...develop)
+### Fixed
+- Aktivate tools for shape files, too. Reason: wkbType now always returns the multi type whereas in QGIS2 it used to return the single type
 
 ## [1.0.0] (https://github.com/bstroebl/DigitizingTools/compare/v0.11.3...v1.0.0) - 2018-05-15
 ### General
