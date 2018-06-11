@@ -59,7 +59,11 @@ class DigitizingTools(object):
         # initialize locale
         QgsMessageLog.logMessage("dir = " + self.plugin_dir)
         localePath = ""
-        locale = QtCore.QSettings().value("locale/userLocale", "en",  type=str)[0:2]
+
+        try:
+            locale = QtCore.QSettings().value("locale/userLocale", "en",  type=str)[0:2]
+        except:
+            locale = "en"
 
         if QtCore.QFileInfo(self.plugin_dir).exists():
             localePath = self.plugin_dir + "/i18n/digitizingtools_" + locale + ".qm"
