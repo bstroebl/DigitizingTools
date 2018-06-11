@@ -1,5 +1,5 @@
 # Change Log
-All notable changes to this project since Version 0.8.0 will be documented in this file.
+All notable changes to this project since Version 0.8.0 will be documented in this file. Bug-fix releases are not documented seperately; their schanges are listed in the Unreleased section until a new version is released.
 
 ## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v1.1.0...develop)
 
