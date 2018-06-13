@@ -29,7 +29,7 @@ from qgis.core import *
 from qgis.gui import *
 
 def debug(msg):
-    QtGui.QMessageBox.information(None, "debug",  str(msg))
+    QtWidgets.QMessageBox.information(None, "debug",  str(msg))
 
 def dtGetFeatureForId(layer,  fid):
     '''Function that returns the QgsFeature with FeatureId *fid* in QgsVectorLayer *layer*'''
