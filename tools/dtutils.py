@@ -43,14 +43,7 @@ def dtGetFeatureForId(layer,  fid):
 def dtCreateFeature(layer):
     '''Create an empty feature for the *layer*'''
     if isinstance(layer, QgsVectorLayer):
-        newFeature = QgsFeature()
-        provider = layer.dataProvider()
-        fields = layer.fields()
-
-        newFeature.initAttributes(fields.count())
-
-        for i in range(fields.count()):
-            newFeature.setAttribute(i, provider.defaultValue(i))
+        newFeature = QgsVectorLayerUtils.createFeature(layer)
 
         return newFeature
     else:
