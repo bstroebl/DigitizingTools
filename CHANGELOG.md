@@ -1,10 +1,11 @@
 # Change Log
-All notable changes to this project since Version 0.8.0 will be documented in this file. Bug-fix releases are not documented seperately; their schanges are listed in the Unreleased section until a new version is released.
+All notable changes to this project since Version 0.8.0 will be documented in this file. Bug-fix releases are not documented seperately; their changes are listed in the Unreleased section until a new version is released.
 
 ## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v1.1.0...develop)
 
 ### Fixed
 - Fix occasional runtime error when trying to identify localization.
+- Use new QgsVectorLayerUtils class for creating new features
 
 ## [1.1.0](https://github.com/bstroebl/DigitizingTools/compare/v1.0.0...v1.1.0) - 2018-5-17
 ### Added
