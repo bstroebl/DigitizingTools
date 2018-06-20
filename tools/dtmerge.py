@@ -20,9 +20,8 @@ the Free Software Foundation; either version 2 of the License, or
 """
 
 from builtins import str
-from qgis.PyQt import QtCore,  QtGui
+from qgis.PyQt import QtCore, QtGui, QtWidgets
 from qgis.core import *
-from qgis.gui import QgsMessageBar
 import dt_icons_rc
 from dttools import DtSingleButton
 from dtToolsDialog import DigitizingToolsChooseRemaining
@@ -42,25 +41,41 @@ class DtMerge(DtSingleButton):
         title = QtCore.QCoreApplication.translate("digitizingtools", "Merge")
         processLayer = self.iface.activeLayer()
         pkFld = processLayer.primaryKeyAttributes()[0]
-        pkValues = []
+        pkValues = {}
         featDict = {}
         fidsToDelete = []
 
         for aFeat in processLayer.selectedFeatures():
+            aFid = aFeat.id()
             aPkValue = aFeat[pkFld]
-            pkValues.append(str(aPkValue))
-            featDict[str(aPkValue)] = aFeat
+            featDict[aFid] = aFeat
 
-        dlg = DigitizingToolsChooseRemaining(self.iface, processLayer, pkValues, featDict, title)
-        doContinue = dlg.exec_()
+            if aFid >= 0: # only already existing features
+                pkValues[str(aPkValue)] = aFid
+
+        if len(pkValues) > 1:
+            dlg = DigitizingToolsChooseRemaining(self.iface, processLayer, pkValues, featDict, title)
+            doContinue = dlg.exec_()
+
+            if doContinue == 1:
+                pkValueToKeep = dlg.pkValueToKeep
+        elif len(pkValues) == 1:
+            doContinue = 1
+            pkValueToKeep = list(pkValues.keys())[0]
+        else: # all new features
+            doContinue = 1
+            pkValueToKeep = None
 
         if doContinue == 1:
-            pkValueToKeep = dlg.pkValueToKeep
             processLayer.beginEditCommand(
                 QtCore.QCoreApplication.translate("editcommand",
                 "Merge Features"))
 
-            outFeat = featDict.pop(pkValueToKeep)
+            if pkValueToKeep != None:
+                outFeat = featDict.pop(pkValues[pkValueToKeep])
+            else:
+                outFeat = featDict.popitem()[1] # use any
+
             outFid = outFeat.id()
             outGeom = QgsGeometry(outFeat.geometry())
 
@@ -69,14 +84,13 @@ class DtMerge(DtSingleButton):
                 outGeom = outGeom.combine(QgsGeometry(aFeatVal.geometry()))
 
             if not self.geometryTypeMatchesLayer(processLayer, outGeom):
-                self.iface.messageBar().pushMessage("DigitizingTools",
-                    QtGui.QApplication.translate("DigitizingTools",
-                    "The geometry type of the result is not valid in this layer!"),
-                    level=QgsMessageBar.CRITICAL, duration = 10)
+                self.iface.messageBar().pushCritical("DigitizingTools",
+                    QtWidgets.QApplication.translate("DigitizingTools",
+                    "The geometry type of the result is not valid in this layer!"))
                 processLayer.destroyEditCommand()
             else:
                 processLayer.removeSelection()
-                processLayer.changeGeometry(outFid, outGeom)
+                success = processLayer.changeGeometry(outFid, outGeom)
 
                 for aFid in fidsToDelete:
                     if not processLayer.deleteFeature(aFid):

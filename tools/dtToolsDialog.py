@@ -37,17 +37,17 @@ class DigitizingToolsChooseRemaining(QtWidgets.QDialog, FORM_CLASS):
         self.editLayer = editLayer
         self.pkValues = pkValues
         self.featDict = featDict
-        self.chooseId.addItems(self.pkValues)
+        self.chooseId.addItems(list(self.pkValues.keys()))
         self.setWindowTitle(title)
         self.label.setText(QtWidgets.QApplication.translate(
-            "digitizingtools", "Choose which feature should remain"))
+            "digitizingtools", "Choose which already existing feature should remain"))
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.accepted.connect(self.accept)
 
     @QtCore.pyqtSlot(int)
     def on_chooseId_currentIndexChanged(self, thisIndex):
         aPkValue = self.chooseId.currentText()
-        aGeom = self.featDict[aPkValue].geometry()
+        aGeom = self.featDict[self.pkValues[aPkValue]].geometry()
         hlColor, hlFillColor, hlBuffer,  hlMinWidth = dtGetHighlightSettings()
         self.hl = QgsHighlight(self.iface.mapCanvas(), aGeom, self.editLayer)
         self.hl.setColor(hlColor)
