@@ -63,10 +63,9 @@ class DtFillGap(DtDualToolSelectGap):
             rings = dtutils.dtExtractRings(multiGeom)
 
             if len(rings) == 0:
-                self.iface.messageBar().pushMessage(self.title,
+                self.iface.messageBar().pushWarning(self.title,
                     QtCore.QCoreApplication.translate("digitizingtools",
-                    "There are no gaps between the polygons."),
-                    level=QgsMessageBar.WARNING, duration = 10)
+                    "There are no gaps between the polygons."))
             else:
                 defaultAttributeMap = dtutils.dtGetDefaultAttributeMap(layer)
                 layer.featureAdded.connect(self.featureAdded)

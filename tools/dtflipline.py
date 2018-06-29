@@ -78,8 +78,8 @@ class DtFlipLine(DtDualToolSelectFeature):
                 hadError = True
 
         if hadError:
-            self.iface.messageBar().pushMessage(QtCore.QCoreApplication.translate("digitizingtools",
-                "An error occured during flipping", level=QgsMessageBar.CRITICAL))
+            self.iface.messageBar().pushCritical(QtCore.QCoreApplication.translate("digitizingtools",
+                "An error occured during flipping"))
             layer.destroyEditCommand()
         else:
             layer.endEditCommand()

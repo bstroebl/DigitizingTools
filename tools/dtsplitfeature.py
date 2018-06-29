@@ -91,10 +91,9 @@ class DtSplitFeature(DtSingleEditTool):
                 try:
                     result,  newGeometries,  topoTestPoints = thisGeom.splitGeometry(splitterPList,  False)
                 except:
-                    self.iface.messageBar().pushMessage(title,
+                    self.iface.messageBar().pushCritical(title,
                         dtutils.dtGetErrorMessage() + QtCore.QCoreApplication.translate(
-                            "digitizingtools", "splitting of feature") + " " + str(aFeat.id()),
-                        level=QgsMessageBar.CRITICAL)
+                            "digitizingtools", "splitting of feature") + " " + str(aFeat.id()))
                     return None
 
                 if result == 0: # success

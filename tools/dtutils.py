@@ -150,12 +150,10 @@ def showSnapSettingsWarning(iface):
     msg2 = QtCore.QCoreApplication.translate("digitizingtools",
         "Have you set the tolerance in Settings > Snapping Options?")
 
-    iface.messageBar().pushMessage(title, msg1 + " " + msg2,
-        level=QgsMessageBar.WARNING, duration = 10)
+    iface.messageBar().pushWarning(title, msg1 + " " + msg2)
 
 def dtShowWarning(iface, msg):
-    iface.messageBar().pushMessage(msg,
-        level=QgsMessageBar.WARNING, duration = 10)
+    iface.messageBar().pushWarning(msg)
 
 def dtGetErrorMessage():
     '''Returns the default error message which can be appended'''

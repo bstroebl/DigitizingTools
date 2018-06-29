@@ -95,9 +95,9 @@ class DtSplitWithLine(DtSingleButton):
                             try:
                                 result,  newGeometries,  topoTestPoints = selGeom.splitGeometry(splitterPList,  False) #QgsProject.instance().topologicalEditing())
                             except:
-                                self.iface.messageBar().pushMessage(title,
-                                    dtutils.dtGetErrorMessage() + QtCore.QCoreApplication.translate("digitizingtools", "splitting of feature") + " " + str(selFeat.id()),
-                                    level=QgsMessageBar.CRITICAL)
+                                self.iface.messageBar().pushCritical(title,
+                                    dtutils.dtGetErrorMessage() + QtCore.QCoreApplication.translate(
+                                        "digitizingtools", "splitting of feature") + " " + str(selFeat.id()))
                                 return None
 
                             if result == 0:
