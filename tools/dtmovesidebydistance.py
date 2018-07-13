@@ -45,7 +45,7 @@ class DtMoveSideByDistance(object):
 
         #create action
         self.side_mover = QtWidgets.QAction(QtGui.QIcon(":/ParallelMovePolygonSideByDistance.png"),
-            QtCore.QCoreApplication.translate("digitizingtools", "Parallel move of polygon side to given distance"),  self.iface.mainWindow())
+            QtWidgets.QApplication.translate("digitizingtools", "Parallel move of polygon side to given distance"),  self.iface.mainWindow())
 
         self.side_mover.triggered.connect(self.run)
         self.iface.currentLayerChanged.connect(self.enable)
@@ -78,12 +78,12 @@ class DtMoveSideByDistance(object):
         layer = self.iface.activeLayer()
         if(layer.dataProvider().wkbType() == 6):
             self.multipolygon_detected = True
-        title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon side by distance")
+        title = QtWidgets.QApplication.translate("digitizingtools", "Move polygon side by distance")
 
         if layer.selectedFeatureCount() == 0:
-            QtWidgets.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select one polygon to edit."))
+            QtWidgets.QMessageBox.information(None, title,  QtWidgets.QApplication.translate("digitizingtools", "Please select one polygon to edit."))
         elif layer.selectedFeatureCount() > 1:
-            QtWidgets.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select only one polygon to edit."))
+            QtWidgets.QMessageBox.information(None, title,  QtWidgets.QApplication.translate("digitizingtools", "Please select only one polygon to edit."))
         else:
             #One selected feature
             self.selected_feature = layer.selectedFeatures()[0]
@@ -133,20 +133,20 @@ class DtMoveSideByDistance(object):
             pass
 
         if (dist == 0.0):
-            QtWidgets.QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Target Distance not valid."))
+            QtWidgets.QMessageBox.information(None, QtWidgets.QApplication.translate("digitizingtools", "Cancel"), QtWidgets.QApplication.translate("digitizingtools", "Target Distance not valid."))
             return
 
         if self.p1 == None or self.p2 == None:
-            QtWidgets.QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Polygon side not selected."))
+            QtWidgets.QMessageBox.information(None, QtWidgets.QApplication.translate("digitizingtools", "Cancel"), QtWidgets.QApplication.translate("digitizingtools", "Polygon side not selected."))
         else:
-            touch_p1_p2 = self.selected_feature.geometry().touches(QgsGeometry.fromPolyline([self.p1, self.p2]))
+            touch_p1_p2 = self.selected_feature.geometry().touches(QgsGeometry.fromPolyline([QgsPoint(self.p1), QgsPoint(self.p2)]))
             if (not touch_p1_p2):
-                QtWidgets.QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Selected segment should be on the selected polygon."))
+                QtWidgets.QMessageBox.information(None, QtWidgets.QApplication.translate("digitizingtools", "Cancel"), QtWidgets.QApplication.translate("digitizingtools", "Selected segment should be on the selected polygon."))
             else:
                 new_geom = createNewGeometry(self.selected_feature.geometry(), self.p1, self.p2, dist, self.multipolygon_detected)
                 fid = self.selected_feature.id()
                 layer = self.iface.activeLayer()
-                layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Move Side By Distance"))
+                layer.beginEditCommand(QtWidgets.QApplication.translate("editcommand", "Move Side By Distance"))
                 layer.changeGeometry(fid,new_geom)
                 self.canvas.refresh()
                 layer.endEditCommand()
@@ -179,7 +179,7 @@ def createNewGeometry(geom, p1, p2, new_distance, multipolygon):
 
     pointList[p1_indx] = p3
     pointList[p2_indx] = p4
-    new_geom = QgsGeometry.fromPolygon( [ pointList ] )
+    new_geom = QgsGeometry.fromPolygonXY( [ pointList ] )
 
     return new_geom
 
@@ -194,11 +194,11 @@ def getParallelLinePoints(p1,  p2, dist):
     dn = ( (p1.x()-p2.x())**2 + (p1.y()-p2.y())**2 )**0.5
     x3 = p1.x() + dist*(p1.y()-p2.y()) / dn
     y3 = p1.y() - dist*(p1.x()-p2.x()) / dn
-    p3 = QgsPoint(x3,  y3)
+    p3 = QgsPointXY(x3,  y3)
 
     x4 = p2.x() + dist*(p1.y()-p2.y()) / dn
     y4 = p2.y() - dist*(p1.x()-p2.x()) / dn
-    p4 = QgsPoint(x4,  y4)
+    p4 = QgsPointXY(x4,  y4)
 
     g = (p3,p4)
     return g

@@ -43,7 +43,7 @@ class DtMoveNodeByArea(object):
 
         #create action
         self.node_mover = QtWidgets.QAction(QtGui.QIcon(":/MovePolygonNodeByArea.png"),
-            QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node (along a side) to achieve target area"),  self.iface.mainWindow())
+            QtWidgets.QApplication.translate("digitizingtools", "Move polygon node (along a side) to achieve target area"),  self.iface.mainWindow())
 
         self.node_mover.triggered.connect(self.run)
         self.iface.currentLayerChanged.connect(self.enable)
@@ -78,12 +78,12 @@ class DtMoveNodeByArea(object):
         layer = self.iface.activeLayer()
         if(layer.dataProvider().wkbType() == 6):
             self.multipolygon_detected = True
-        title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node by area")
+        title = QtWidgets.QApplication.translate("digitizingtools", "Move polygon node by area")
 
         if layer.selectedFeatureCount() == 0:
-            QtWidgets.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select one polygon to edit."))
+            QtWidgets.QMessageBox.information(None, title,  QtWidgets.QApplication.translate("digitizingtools", "Please select one polygon to edit."))
         elif layer.selectedFeatureCount() > 1:
-            QtWidgets.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", "Please select only one polygon to edit."))
+            QtWidgets.QMessageBox.information(None, title,  QtWidgets.QApplication.translate("digitizingtools", "Please select only one polygon to edit."))
         else:
             #One selected feature
             self.selected_feature = layer.selectedFeatures()[0]
@@ -131,33 +131,33 @@ class DtMoveNodeByArea(object):
             pass
 
         if (new_a == -1.0):
-            QtWidgets.QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Target Area not valid."))
+            QtWidgets.QMessageBox.information(None, QtWidgets.QApplication.translate("digitizingtools", "Cancel"), QtWidgets.QApplication.translate("digitizingtools", "Target Area not valid."))
             return
 
         if self.p1 == None or self.p2 == None:
-            QtWidgets.QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Not enough vertices selected."))
+            QtWidgets.QMessageBox.information(None, QtWidgets.QApplication.translate("digitizingtools", "Cancel"), QtWidgets.QApplication.translate("digitizingtools", "Not enough vertices selected."))
         else:
-            interp1 = self.selected_feature.geometry().intersects(QgsGeometry.fromPoint(self.p1))
-            interp2 = self.selected_feature.geometry().intersects(QgsGeometry.fromPoint(self.p2))
-            touch_p1_p2 = self.selected_feature.geometry().touches(QgsGeometry.fromPolyline([self.p1, self.p2]))
+            interp1 = self.selected_feature.geometry().intersects(QgsGeometry.fromPointXY(self.p1))
+            interp2 = self.selected_feature.geometry().intersects(QgsGeometry.fromPointXY(self.p2))
+            touch_p1_p2 = self.selected_feature.geometry().touches(QgsGeometry.fromPolyline([QgsPoint(self.p1), QgsPoint(self.p2)]))
             if (interp1 and interp2):
                 if (not touch_p1_p2):
-                    QtWidgets.QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Selected vertices should be consecutive on the selected polygon."))
+                    QtWidgets.QMessageBox.information(None, QtWidgets.QApplication.translate("digitizingtools", "Cancel"), QtWidgets.QApplication.translate("digitizingtools", "Selected vertices should be consecutive on the selected polygon."))
                 else:
                     new_geom = createNewGeometry(self.selected_feature.geometry(), self.p1, self.p2, new_a, self.multipolygon_detected)
                     fid = self.selected_feature.id()
                     layer = self.iface.activeLayer()
-                    layer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Move Node By Area"))
+                    layer.beginEditCommand(QtWidgets.QApplication.translate("editcommand", "Move Node By Area"))
                     layer.changeGeometry(fid,new_geom)
                     self.canvas.refresh()
                     layer.endEditCommand()
                     #wkt_tmp1 = self.selected_feature.geometry().exportToWkt()
                     #wkt_tmp2 = new_geom.exportToWkt()
                     #tmp_str = wkt_tmp1 + " Initial Area:" + str(self.selected_feature.geometry().area()) + " " + wkt_tmp2 + " Final Area:" + str(new_geom.area())
-                    #title = QtCore.QCoreApplication.translate("digitizingtools", "Move polygon node by area")
-                    #QtGui.QMessageBox.information(None, title,  QtCore.QCoreApplication.translate("digitizingtools", tmp_str))
+                    #title = QtWidgets.QApplication.translate("digitizingtools", "Move polygon node by area")
+                    #QtGui.QMessageBox.information(None, title,  QtWidgets.QApplication.translate("digitizingtools", tmp_str))
             else:
-                QtWidgets.QMessageBox.information(None, QCoreApplication.translate("digitizingtools", "Cancel"), QCoreApplication.translate("digitizingtools", "Vertices not on the selected polygon."))
+                QtWidgets.QMessageBox.information(None, QtWidgets.QApplication.translate("digitizingtools", "Cancel"), QtWidgets.QApplication.translate("digitizingtools", "Vertices not on the selected polygon."))
 
 # p1 is the stable node (red) and p2 is the node to move (blue)
 def createNewGeometry(geom, p1, p2, new_area, multipolygon):
@@ -210,14 +210,14 @@ def createNewGeometry(geom, p1, p2, new_area, multipolygon):
 
     (x2a,y2a, x2b,y2b)=move_vertex(x1,y1,x2,y2,x3,y3,area_diff)
 
-    p2a = QgsPoint(x2a,y2a)
-    p2b = QgsPoint(x2b,y2b)
+    p2a = QgsPointXY(x2a,y2a)
+    p2b = QgsPointXY(x2b,y2b)
 
     pointList[p2_indx] = p2a
-    geom1 = QgsGeometry.fromPolygon( [ pointList ] )
+    geom1 = QgsGeometry.fromPolygonXY( [ pointList ] )
 
     pointList[p2_indx] = p2b
-    geom2 = QgsGeometry.fromPolygon( [ pointList ] )
+    geom2 = QgsGeometry.fromPolygonXY( [ pointList ] )
 
     diff_geom1 = abs(geom1.area() - new_area)
     diff_geom2 = abs(geom2.area() - new_area)
