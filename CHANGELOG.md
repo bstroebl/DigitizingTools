@@ -9,6 +9,9 @@ All notable changes to this project since Version 0.8.0 will be documented in th
 - Merge new features with sequence value, too
 - Adapt messages to new api
 
+### Added
+- Enable merge tool for all data providers. If no primary key field is present the internal id is presented as _Feature ID <value>_ to the user.
+
 ## [1.1.0](https://github.com/bstroebl/DigitizingTools/compare/v1.0.0...v1.1.0) - 2018-5-17
 ### Added
 - Cut using the same layer as is the current edit layer, selection defines the cutting polygons, cutting will be performed on all polygons
