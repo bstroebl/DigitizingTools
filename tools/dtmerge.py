@@ -40,18 +40,27 @@ class DtMerge(DtSingleButton):
         '''Function that does all the real work'''
         title = QtCore.QCoreApplication.translate("digitizingtools", "Merge")
         processLayer = self.iface.activeLayer()
-        pkFld = processLayer.primaryKeyAttributes()[0]
+        pkAtts = processLayer.primaryKeyAttributes()
+
+        if len(pkAtts) == 1:
+            pkFld = pkAtts[0]
+        else:
+            pkFld = None
+
         pkValues = {}
         featDict = {}
         fidsToDelete = []
 
         for aFeat in processLayer.selectedFeatures():
             aFid = aFeat.id()
-            aPkValue = aFeat[pkFld]
             featDict[aFid] = aFeat
 
             if aFid >= 0: # only already existing features
-                pkValues[str(aPkValue)] = aFid
+                if pkFld == None:
+                    pkValues["Feature ID " + str(aFid)] = aFid
+                else:
+                    aPkValue = aFeat[pkFld]
+                    pkValues[str(aPkValue)] = aFid
 
         if len(pkValues) > 1:
             dlg = DigitizingToolsChooseRemaining(self.iface, processLayer, pkValues, featDict, title)
@@ -110,11 +119,7 @@ class DtMerge(DtSingleButton):
             except:
                 pass
 
-            doEnable = len(layer.primaryKeyAttributes()) == 1
-
-            if doEnable:
-                doEnable = layer.selectedFeatureCount() > 1
-
+            doEnable = layer.selectedFeatureCount() > 1
             self.act.setEnabled(doEnable)
             layer.selectionChanged.connect(self.enable)
 
