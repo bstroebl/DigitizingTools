@@ -107,7 +107,10 @@ class DtTool(object):
                 # does not distinguish between single and multi
                 match = (layer.wkbType() == 1 and geom.wkbType() == 4) or \
                     (layer.wkbType() == 2 and geom.wkbType() == 5) or \
-                    (layer.wkbType() == 3 and geom.wkbType() == 6)
+                    (layer.wkbType() == 3 and geom.wkbType() == 6) or \
+                    (layer.wkbType() == 4 and geom.wkbType() == 1) or \
+                    (layer.wkbType() == 5 and geom.wkbType() == 2) or \
+                    (layer.wkbType() == 6 and geom.wkbType() == 3)
             else:
                 # are we trying a single into a multi layer?
                 match = (layer.wkbType() == 4 and geom.wkbType() == 1) or \
