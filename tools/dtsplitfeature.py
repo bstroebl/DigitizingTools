@@ -32,7 +32,7 @@ class DtSplitFeature(DtSingleEditTool):
         super().__init__(iface,  toolBar,
             QtGui.QIcon(":/splitfeature.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Split Features"),
-            geometryTypes = [2, 3, 5, 6],  dtName = "dtSplitFeature")
+            geometryTypes = [2, 3, 5, 6], crsWarning = False, dtName = "dtSplitFeature")
 
         self.tool = DtSplitFeatureTool(self.iface)
         self.tool.finishedDigitizing.connect(self.digitizingFinished)
@@ -49,6 +49,12 @@ class DtSplitFeature(DtSingleEditTool):
         hlColor, hlFillColor, hlBuffer,  hlMinWidth = dtutils.dtGetHighlightSettings()
         selIds = self.editLayer.selectedFeatureIds()
         self.editLayer.removeSelection()
+
+        if self.editLayer.crs().srsid() != QgsProject.instance().crs().srsid():
+            splitGeom.transform(QgsCoordinateTransform(
+                QgsProject.instance().crs(), self.editLayer.crs(),
+                QgsProject.instance()
+            ))
         splitterPList = dtutils.dtExtractPoints(splitGeom)
         featuresToAdd = [] # store new features in this array
         featuresToKeep = {} # store geoms that will stay with their id as key
