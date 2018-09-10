@@ -76,7 +76,10 @@ class DtSplitWithLine(DtSingleButton):
                         continue
 
                     if splitterCRSSrsid != projectCRSSrsid:
-                        splitterGeom.transform(QgsCoordinateTransform(splitterCRSSrsid,  projectCRSSrsid))
+                        splitterGeom.transform(QgsCoordinateTransform(
+                            splitterLayer.crs(),  QgsProject.instance().crs(),
+                            QgsProject.instance()
+                        ))
 
                     for selFeat in passiveLayer.selectedFeatures():
                         selGeom = QgsGeometry(selFeat.geometry())
@@ -87,7 +90,10 @@ class DtSplitWithLine(DtSingleButton):
                             continue
 
                         if passiveCRSSrsid != projectCRSSrsid:
-                            selGeom.transform(QgsCoordinateTransform(passiveCRSSrsid,  projectCRSSrsid))
+                            selGeom.transform(QgsCoordinateTransform(
+                                passiveLayer.crs(),  QgsProject.instance().crs(),
+                                QgsProject.instance()
+                            ))
 
                         if splitterGeom.intersects(selGeom): # we have a candidate
                             splitterPList = dtutils.dtExtractPoints(splitterGeom)
@@ -101,6 +107,12 @@ class DtSplitWithLine(DtSingleButton):
                                 return None
 
                             if result == 0:
+                                if passiveCRSSrsid != projectCRSSrsid:
+                                    selGeom.transform(QgsCoordinateTransform(
+                                        QgsProject.instance().crs(),  passiveLayer.crs(),
+                                        QgsProject.instance()
+                                    ))
+
                                 selFeat.setGeometry(selGeom)
                                 passiveLayer.updateFeature(selFeat)
 
@@ -111,7 +123,10 @@ class DtSplitWithLine(DtSingleButton):
                                     for newFeat in newFeatures:
                                         newGeom = QgsGeometry(newFeat.geometry())
                                         if passiveCRSSrsid != projectCRSSrsid:
-                                            newGeom.transform(QgsCoordinateTransform( projectCRSSrsid,  passiveCRSSrsid))
+                                            newGeom.transform(QgsCoordinateTransform(
+                                                QgsProject.instance().crs(),  passiveLayer.crs(),
+                                                QgsProject.instance()
+                                            ))
                                             newFeat.setGeometry(newGeom)
 
                                         featuresToAdd.append(newFeat)

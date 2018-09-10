@@ -125,10 +125,22 @@ class DtCutWithPolygon(DtSingleButton):
                 #tmpCutterLayer.invertSelection()
 
                 for feat in tmpCutterLayer.getFeatures():
-                    if cutterCRSSrsid != projectCRSSrsid:
-                        cutterGeom.transform(QgsCoordinateTransform(cutterCRSSrsid,  projectCRSSrsid))
                     cutterGeom = QgsGeometry(feat.geometry())
-                    bbox = cutterGeom.boundingBox()
+
+                    if cutterCRSSrsid != projectCRSSrsid:
+                        cutterGeom.transform(QgsCoordinateTransform(
+                        cutterLayer.crs(),  QgsProject.instance().crs(),
+                                QgsProject.instance()))
+
+                    if passiveCRSSrsid != projectCRSSrsid:
+                        bboxGeom = QgsGeometry(cutterGeom)
+                        bboxGeom.transform(QgsCoordinateTransform(
+                            QgsProject.instance().crs(), passiveLayer.crs(),
+                            QgsProject.instance()))
+                        bbox = bboxGeom.boundingBox()
+                    else:
+                        bbox = cutterGeom.boundingBox()
+
                     passiveLayer.selectByRect(bbox) # make a new selection
 
                     for selFeat in passiveLayer.selectedFeatures():
@@ -147,7 +159,10 @@ class DtCutWithPolygon(DtSingleButton):
                             continue
 
                         if passiveCRSSrsid != projectCRSSrsid:
-                            selGeom.transform(QgsCoordinateTransform(passiveCRSSrsid,  projectCRSSrsid))
+                            selGeom.transform(QgsCoordinateTransform(
+                                passiveLayer.crs(),  QgsProject.instance().crs(),
+                                QgsProject.instance()
+                            ))
 
                         if cutterGeom.intersects(selGeom): # we have a candidate
                             newGeom = selGeom.difference(cutterGeom)
@@ -172,7 +187,10 @@ class DtCutWithPolygon(DtSingleButton):
 
                                 else:
                                     if passiveCRSSrsid != projectCRSSrsid:
-                                        newGeom.transform(QgsCoordinateTransform( projectCRSSrsid,  passiveCRSSrsid))
+                                        newGeom.transform(QgsCoordinateTransform(
+                                            QgsProject.instance().crs(),  passiveLayer.crs(),
+                                            QgsProject.instance()
+                                        ))
 
                                     selFeat.setGeometry(newGeom)
                                     passiveLayer.updateFeature(selFeat)

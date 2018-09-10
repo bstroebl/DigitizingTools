@@ -104,10 +104,19 @@ class DtClipWithPolygon(DtSingleButton):
 
                         if clipperCRSSrsid != projectCRSSrsid:
                             clipperGeom.transform(QgsCoordinateTransform(
-                                clipperCRSSrsid, projectCRSSrsid
+                                clipperLayer.crs(), QgsProject.instance().crs(),
+                                QgsProject.instance()
                             ))
 
-                        bbox = clipperGeom.boundingBox()
+                        if passiveCRSSrsid != projectCRSSrsid:
+                            bboxGeom = QgsGeometry(clipperGeom)
+                            bboxGeom.transform(QgsCoordinateTransform(
+                                QgsProject.instance().crs(), passiveLayer.crs(),
+                                QgsProject.instance()))
+                            bbox = bboxGeom.boundingBox()
+                        else:
+                            bbox = clipperGeom.boundingBox()
+
                         passiveLayer.selectByRect(bbox) # make a new selection
 
                         for selFeat in passiveLayer.selectedFeatures():
@@ -123,8 +132,8 @@ class DtClipWithPolygon(DtSingleButton):
 
                             if passiveCRSSrsid != projectCRSSrsid:
                                 selGeom.transform(
-                                    QgsCoordinateTransform(passiveCRSSrsid,
-                                    projectCRSSrsid
+                                    QgsCoordinateTransform(passiveLayer.crs(),
+                                    QgsProject.instance().crs(), QgsProject.instance()
                                 ))
 
                             if clipperGeom.intersects(selGeom): # we have a candidate
@@ -134,7 +143,8 @@ class DtClipWithPolygon(DtSingleButton):
                                     if not newGeom.isEmpty():
                                         if passiveCRSSrsid != projectCRSSrsid:
                                             newGeom.transform(QgsCoordinateTransform(
-                                                projectCRSSrsid, passiveCRSSrsid))
+                                                QgsProject.instance().crs(), passiveLayer.crs(),
+                                                QgsProject.instance()))
 
                                         selFeat.setGeometry(newGeom)
                                         passiveLayer.updateFeature(selFeat)
