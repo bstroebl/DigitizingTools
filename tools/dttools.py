@@ -497,6 +497,19 @@ class DtMapToolEdit(QgsMapToolEdit, DtTool):
     def reset(self,  emitSignal = False):
         pass
 
+    def transformed(self, thisLayer, thisQgsPoint):
+        layerCRSSrsid = thisLayer.crs().srsid()
+        projectCRSSrsid = QgsProject.instance().crs().srsid()
+
+        if layerCRSSrsid != projectCRSSrsid:
+            transQgsPoint = QgsGeometry.fromPointXY(thisQgsPoint)
+            transQgsPoint.transform(QgsCoordinateTransform(
+                QgsProject.instance().crs(), thisLayer.crs(),
+                QgsProject.instance()))
+            return transQgsPoint.asPoint()
+        else:
+            return thisQgsPoint
+
 class DtSelectFeatureTool(DtMapToolEdit):
     featureSelected = QtCore.pyqtSignal(list)
 
@@ -512,7 +525,8 @@ class DtSelectFeatureTool(DtMapToolEdit):
 
         if self.isPolygonLayer(layer):
             mapToPixel = self.canvas.getCoordinateTransform()
-            thisQgsPoint = mapToPixel.toMapCoordinates(startingPoint)
+            #thisQgsPoint = mapToPixel.toMapCoordinates(startingPoint)
+            thisQgsPoint = self.transformed(layer, mapToPixel.toMapCoordinates(startingPoint))
             spatialIndex = dtutils.dtSpatialindex(layer)
             featureIds = spatialIndex.nearestNeighbor(thisQgsPoint, 0)
             # if we use 0 as neighborCount then only features that contain the point
@@ -645,7 +659,7 @@ class DtSelectGapTool(DtMapToolEdit):
             #the clicked point is our starting point
             startingPoint = QtCore.QPoint(x,y)
             mapToPixel = self.canvas.getCoordinateTransform()
-            thisQgsPoint = mapToPixel.toMapCoordinates(startingPoint)
+            thisQgsPoint = self.transformed(layer, mapToPixel.toMapCoordinates(startingPoint))
             multiGeom = None
 
             for aLayer in visibleLayers:
