@@ -4,32 +4,32 @@
 <context>
     <name>DigitizingTools</name>
     <message>
-        <location filename="../digitizingtools.py" line="84"/>
+        <location filename="../digitizingtools.py" line="85"/>
         <source>&amp;DigitizingTools</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="85"/>
+        <location filename="../digitizingtools.py" line="86"/>
         <source>Help</source>
         <translation>Hilfe</translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="86"/>
+        <location filename="../digitizingtools.py" line="87"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="88"/>
+        <location filename="../digitizingtools.py" line="89"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../tools/dttools.py" line="249"/>
+        <location filename="../tools/dttools.py" line="252"/>
         <source>is disabled because layer CRS and project CRS do not match!</source>
         <translation>wird deaktiviert weil das KBS des Layers und das KBS des Projektes nicht übereinstimmen!</translation>
     </message>
     <message>
-        <location filename="../tools/dtmerge.py" line="92"/>
+        <location filename="../tools/dtmerge.py" line="96"/>
         <source>The geometry type of the result is not valid in this layer!</source>
         <translation>Der Geometrietyp des Ergebnissses ist in diesem Layer ungültig!</translation>
     </message>
@@ -144,19 +144,14 @@
 <context>
     <name>digitizingtools</name>
     <message>
-        <location filename="../tools/dtcutter.py" line="28"/>
+        <location filename="../tools/dtcutter.py" line="29"/>
         <source>Cut with polygon from another layer</source>
         <translation>Mit einem Polygon eines anderen Layers ausstanzen</translation>
     </message>
     <message>
-        <location filename="../tools/dtcutter.py" line="44"/>
+        <location filename="../tools/dtcutter.py" line="48"/>
         <source>Please provide a polygon layer to cut with.</source>
         <translation>Bitte einen Polygonlayer zum Ausstanzen bereitstellen.</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtcutter.py" line="40"/>
-        <source>cutter layer</source>
-        <translation>Ausstanzlayer</translation>
     </message>
     <message>
         <location filename="../tools/dtutils.py" line="130"/>
@@ -184,32 +179,32 @@
         <translation>Es gibt ungültige Geometrien im Layer </translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="148"/>
+        <location filename="../tools/dtutils.py" line="156"/>
         <source>Snap Tolerance</source>
         <translation>Fangtoleranz</translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="149"/>
+        <location filename="../tools/dtutils.py" line="157"/>
         <source>Could not snap vertex</source>
         <translation>Konnte keinen Stützpunkt fangen</translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="151"/>
+        <location filename="../tools/dtutils.py" line="159"/>
         <source>Have you set the tolerance in Settings &gt; Snapping Options?</source>
         <translation>Haben Sie die Toleranz in Einstellungen &gt; Fangoptionen eingetragen?</translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="163"/>
+        <location filename="../tools/dtutils.py" line="169"/>
         <source>Error occured during</source>
         <translation>Während dieses Prozesses trat ein Fehler auf</translation>
     </message>
     <message>
-        <location filename="../tools/dtcutter.py" line="36"/>
+        <location filename="../tools/dtcutter.py" line="38"/>
         <source>Cutter</source>
         <translation>Stanze</translation>
     </message>
     <message>
-        <location filename="../tools/dtcutter.py" line="159"/>
+        <location filename="../tools/dtcutter.py" line="181"/>
         <source>A feature would be completely removed by cutting. Delete this feature&apos;s dataset altogether?</source>
         <translation>Durch das Ausstanzen würde ein Objekt komplett entfernt werden. Soll der Datensatz dieses Objektes gelöscht werden?</translation>
     </message>
@@ -229,7 +224,7 @@
         <translation>Bitte stellen Sie einen Linienlayer zum Aufteilen bereit.</translation>
     </message>
     <message>
-        <location filename="../tools/dtsplitfeature.py" line="94"/>
+        <location filename="../tools/dtsplitfeature.py" line="101"/>
         <source>splitting of feature</source>
         <translation>Objekt aufteilen</translation>
     </message>
@@ -419,7 +414,7 @@
         <translation> Bitte wählen Sie nur ein Objekt aus, mit dem ausgeschnitten werden soll.</translation>
     </message>
     <message>
-        <location filename="../tools/dtfillgap.py" line="108"/>
+        <location filename="../tools/dtfillgap.py" line="107"/>
         <source>Fill gap between polygons of all visible layers with a new feature</source>
         <translation>Riss zwischen Polygonen aller sichtbaren Layer mit einem neuen Objekt fluten</translation>
     </message>
@@ -429,12 +424,12 @@
         <translation>Teil abspalten und als neues Objekt einfügen</translation>
     </message>
     <message>
-        <location filename="../tools/dtmerge.py" line="33"/>
+        <location filename="../tools/dtmerge.py" line="32"/>
         <source>Merge selected features</source>
         <translation>Gewählte Objekte verschmelzen</translation>
     </message>
     <message>
-        <location filename="../tools/dtmerge.py" line="42"/>
+        <location filename="../tools/dtmerge.py" line="41"/>
         <source>Merge</source>
         <translation>Verschmelzen</translation>
     </message>
@@ -449,12 +444,12 @@
         <translation>Objekte zerteilen</translation>
     </message>
     <message>
-        <location filename="../tools/dtsplitfeature.py" line="118"/>
+        <location filename="../tools/dtsplitfeature.py" line="124"/>
         <source>Split Multipart Feature</source>
         <translation>Multiobjekt zerteilen</translation>
     </message>
     <message>
-        <location filename="../tools/dtsplitfeature.py" line="118"/>
+        <location filename="../tools/dtsplitfeature.py" line="124"/>
         <source>Create new feature from this part?</source>
         <translation>Diesen Teil als neues Objekt erzeugen?</translation>
     </message>
@@ -463,18 +458,61 @@
         <source>Choose which already existing feature should remain</source>
         <translation>Wählen Sie das bereits existierende Objekt, das übrigbleiben soll</translation>
     </message>
+    <message>
+        <location filename="../tools/dtutils.py" line="151"/>
+        <source>Fix geometries before commiting changes.</source>
+        <translation>Reparieren Sie die Geometrien vor dem Speichern.</translation>
+    </message>
+    <message>
+        <location filename="../tools/dtcutter.py" line="220"/>
+        <source>Added geometry</source>
+        <translation>Hinzugefügte Geometrie</translation>
+    </message>
+    <message>
+        <location filename="../tools/dtflipline.py" line="81"/>
+        <source>An error occured during flipping</source>
+        <translation>Während des Umdrehens trat ein Fehler auf</translation>
+    </message>
+    <message>
+        <location filename="../tools/dtcutter.py" line="202"/>
+        <source>New geometry</source>
+        <translation>Neue Geometrie</translation>
+    </message>
+    <message>
+        <location filename="../tools/dtutils.py" line="148"/>
+        <source>Geometry&apos;s type is not compatible with the following layer: </source>
+        <translation>Der Geometrietyp ist mit dem folgenden Layer nicht kompatibel: </translation>
+    </message>
 </context>
 <context>
     <name>dtAbout</name>
     <message>
-        <location filename="../dtDialog.py" line="36"/>
+        <location filename="../dtDialog.py" line="40"/>
         <source>Subsumes different tools useful during digitizing sessions</source>
         <translation>Fasst verschiedene nützliche Digitalisierwerkzeuge zusammen</translation>
     </message>
     <message>
-        <location filename="../dtDialog.py" line="38"/>
+        <location filename="../dtDialog.py" line="42"/>
         <source>List of Contributors:</source>
         <translation>Folgende Personen haben beigetragen:</translation>
+    </message>
+</context>
+<context>
+    <name>dtCutterDialog</name>
+    <message>
+        <location filename="../dtDialog.py" line="69"/>
+        <source>Choose Layer</source>
+        <translation>Layer wählen</translation>
+    </message>
+    <message>
+        <location filename="../dtDialog.py" line="71"/>
+        <source>cutter layer</source>
+        <translation>Ausstanzlayer</translation>
+    </message>
+    <message>
+        <location filename="../dtDialog.py" line="73"/>
+        <source>add cutter polygon to edit layer</source>
+        <translation>füge das Ausstanzpolygon dem Bearbeitungslayer hinzu</translation>
     </message>
 </context>
 <context>
@@ -493,12 +531,12 @@
         <translation>Geometrien aufgeteilt</translation>
     </message>
     <message>
-        <location filename="../tools/dtcutter.py" line="91"/>
+        <location filename="../tools/dtcutter.py" line="97"/>
         <source>Cut Features</source>
         <translation>Objekte ausgestanzt</translation>
     </message>
     <message>
-        <location filename="../tools/dtcutter.py" line="190"/>
+        <location filename="../tools/dtcutter.py" line="243"/>
         <source>Delete Features</source>
         <translation>Objekte gelöscht</translation>
     </message>
@@ -528,12 +566,12 @@
         <translation>Seite durch Festlegen einer Zielfläche verschoben</translation>
     </message>
     <message>
-        <location filename="../tools/dtfillgap.py" line="126"/>
+        <location filename="../tools/dtfillgap.py" line="125"/>
         <source>Fill gap</source>
         <translation>Riss geflutet</translation>
     </message>
     <message>
-        <location filename="../tools/dtfillgap.py" line="78"/>
+        <location filename="../tools/dtfillgap.py" line="77"/>
         <source>Fill gaps</source>
         <translation>Risse geflutet</translation>
     </message>
@@ -568,12 +606,12 @@
         <translation>Attribute vertauscht</translation>
     </message>
     <message>
-        <location filename="../tools/dtmerge.py" line="71"/>
+        <location filename="../tools/dtmerge.py" line="79"/>
         <source>Merge Features</source>
         <translation>Objekte verschmolzen</translation>
     </message>
     <message>
-        <location filename="../tools/dtsplitfeature.py" line="68"/>
+        <location filename="../tools/dtsplitfeature.py" line="75"/>
         <source>Features split</source>
         <translation>Objekte geteilt</translation>
     </message>
