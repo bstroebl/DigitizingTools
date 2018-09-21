@@ -30,6 +30,7 @@ import os.path,  sys
 # Set up current path.
 currentPath = os.path.dirname( __file__ )
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/tools'))
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 from .dtDialog import DigitizingToolsAbout
 
 #import the tools

@@ -55,7 +55,7 @@ TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtcli
 
 EXTRAS = metadata.txt license.txt digitizingtools.png
 
-UI_FILES = ui_about.ui
+UI_FILES = ui_about.ui ui_dtcutter.ui
 
 RESOURCE_SRC=$(shell grep '^ *<file' dt_icons_rc.qrc | sed 's@</file>@@g;s/.*>//g' | tr '\n' ' ')
 COMPILED_RESOURCE_FILES = dt_icons_rc.py

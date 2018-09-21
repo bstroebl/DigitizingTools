@@ -21,6 +21,7 @@ from qgis.core import *
 import dt_icons_rc
 import dtutils
 from dttools import DtSingleButton
+from dtDialog import DtChooseCutterLayer
 
 class DtCutWithPolygon(DtSingleButton):
     '''Cut out from active editable layer with selected polygon from another layer'''
@@ -30,6 +31,7 @@ class DtCutWithPolygon(DtSingleButton):
             QtCore.QCoreApplication.translate("digitizingtools", "Cut with polygon from another layer"),
             geometryTypes = [2, 3, 5, 6],  dtName = "dtCutter")
         self.enable()
+        self.lastChoice = [None, False]
 
     def process(self):
         '''Function that does all the real work'''
@@ -37,14 +39,18 @@ class DtCutWithPolygon(DtSingleButton):
         showEmptyWarning = True
         choice = None
         fidsToDelete = []
-        cutterLayer = dtutils.dtChooseVectorLayer(self.iface,  2,  skipActive = False,
-            msg = QtCore.QCoreApplication.translate("digitizingtools", "cutter layer"))
+        passiveLayer = self.iface.activeLayer()
+        dlg = DtChooseCutterLayer(self.iface, self.isPolygonLayer(passiveLayer), self.lastChoice)
+        dlg.show()
+        result = dlg.exec_()
 
-        if cutterLayer == None:
+        if result != 1:
             self.iface.messageBar().pushMessage(title,
                 QtCore.QCoreApplication.translate("digitizingtools", "Please provide a polygon layer to cut with."))
         else:
-            passiveLayer = self.iface.activeLayer()
+            cutterLayer = dlg.cutterLayer
+            copyPoly = dlg.copyPoly
+            self.lastChoice= [cutterLayer, copyPoly]
             isSameLayer = cutterLayer == self.iface.activeLayer()
 
             if cutterLayer.selectedFeatureCount() == 0:
@@ -90,9 +96,11 @@ class DtCutWithPolygon(DtSingleButton):
                 projectCRSSrsid = QgsProject.instance().crs().srsid()
                 passiveLayer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Cut Features"))
                 featuresBeingCut = 0
+                featuresToAdd = []
                 tmpCutterLayer = QgsVectorLayer("Polygon?crs=" + cutterLayer.crs().authid(),"cutter","memory")
                 tmpCutterLayer.setCrs(cutterLayer.crs())
                 tmpCutterLayer.startEditing()
+                noMatchWarning = dtutils.dtGetNotMatchingGeomWarning(passiveLayer)
 
                 for feat in cutterLayer.selectedFeatures():
                     cutterGeom = QgsGeometry(feat.geometry())
@@ -112,7 +120,6 @@ class DtCutWithPolygon(DtSingleButton):
                     tmpCutterLayer.addFeature(cutterFeat)
 
                 tmpCutterLayer.commitChanges()
-
                 idsToProcess = []
 
                 if isSameLayer:
@@ -184,7 +191,6 @@ class DtCutWithPolygon(DtSingleButton):
 
                                     if choice == QtWidgets.QMessageBox.Yes or choice == QtWidgets.QMessageBox.YesToAll:
                                         fidsToDelete.append(selFeat.id())
-
                                 else:
                                     if passiveCRSSrsid != projectCRSSrsid:
                                         newGeom.transform(QgsCoordinateTransform(
@@ -192,20 +198,50 @@ class DtCutWithPolygon(DtSingleButton):
                                             QgsProject.instance()
                                         ))
 
+                                    if not self.geometryTypeMatchesLayer(passiveLayer, newGeom):
+                                        newMsg = QtCore.QCoreApplication.translate(
+                                            "digitizingtools", "New geometry")
+                                        dtutils.dtShowWarning(self.iface, newMsg + ": " + noMatchWarning)
+
                                     selFeat.setGeometry(newGeom)
                                     passiveLayer.updateFeature(selFeat)
-                                    #if passiveLayer.changeGeometry(selFeat.id(),  newGeom):
                                     featuresBeingCut += 1
 
+                                    if copyPoly:
+                                        copyGeom = selGeom.intersection(cutterGeom)
+
+                                        if copyGeom != None:
+                                            if not copyGeom.isEmpty():
+                                                if passiveCRSSrsid != projectCRSSrsid:
+                                                    copyGeom.transform(QgsCoordinateTransform(
+                                                        QgsProject.instance().crs(), passiveLayer.crs(),
+                                                        QgsProject.instance()))
+                                                if not self.geometryTypeMatchesLayer(passiveLayer, copyGeom):
+                                                    copyMsg = QtCore.QCoreApplication.translate(
+                                                        "digitizingtools", "Added geometry")
+                                                    dtutils.dtShowWarning(self.iface, copyMsg + ": " + noMatchWarning)
+                                                newFeatures = dtutils.dtMakeFeaturesFromGeometries(\
+                                                    passiveLayer, selFeat, [copyGeom])
+
+                                                for newFeat in newFeatures:
+                                                        featuresToAdd.append(newFeat)
+
                 if featuresBeingCut > 0:
-                    passiveLayer.endEditCommand()
+                    if copyPoly:
+                        if passiveLayer.addFeatures(featuresToAdd):
+                            passiveLayer.endEditCommand()
+                        else:
+                            passiveLayer.destroyEditCommand()
+                    else:
+                        passiveLayer.endEditCommand()
                 else:
                     passiveLayer.destroyEditCommand()
 
                 passiveLayer.removeSelection()
 
                 if len(fidsToDelete) > 0:
-                    passiveLayer.beginEditCommand(QtCore.QCoreApplication.translate("editcommand", "Delete Features"))
+                    passiveLayer.beginEditCommand(QtCore.QCoreApplication.translate(\
+                        "editcommand", "Delete Features"))
                     for fid in fidsToDelete:
                         if not passiveLayer.deleteFeature(fid):
                             passiveLayer.destroyEditCommand()

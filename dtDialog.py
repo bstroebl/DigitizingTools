@@ -22,11 +22,15 @@
 
 from qgis.PyQt import QtWidgets, QtCore, uic
 import os
+from dtutils import dtGetVectorLayersByType
 
-FORM_CLASS, _ = uic.loadUiType(os.path.join(
+ABOUT_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'ui_about.ui'))
 
-class DigitizingToolsAbout(QtWidgets.QDialog, FORM_CLASS):
+CUTTER_CLASS, _ = uic.loadUiType(os.path.join(
+    os.path.dirname(__file__), 'ui_dtcutter.ui'))
+
+class DigitizingToolsAbout(QtWidgets.QDialog, ABOUT_CLASS):
     def __init__(self, iface):
         QtWidgets.QDialog.__init__(self)
         self.setupUi(self)
@@ -54,3 +58,43 @@ class DigitizingToolsAbout(QtWidgets.QDialog, FORM_CLASS):
         aboutText += " either version 2 of the License, or (at your option) any later version."
         #QtGui.QMessageBox.information(None, "", aboutText)
         self.textArea.setPlainText(aboutText)
+
+class DtChooseCutterLayer(QtWidgets.QDialog, CUTTER_CLASS):
+    def __init__(self, iface, isPolygonLayer, lastChoice):
+        QtWidgets.QDialog.__init__(self)
+        self.setupUi(self)
+        # keep reference to QGIS interface
+        self.iface = iface
+        self.isPolygonLayer = isPolygonLayer
+        self.setWindowTitle(QtCore.QCoreApplication.translate("dtCutterDialog",
+            "Choose Layer"))
+        self.lblCutter.setText(QtCore.QCoreApplication.translate("dtCutterDialog",
+            "cutter layer"))
+        self.chkCopy.setText(QtCore.QCoreApplication.translate("dtCutterDialog",
+            "add cutter polygon to edit layer"))
+        self.cutterLayer = lastChoice[0]
+        self.copyPoly = lastChoice[1]
+        self.initialize()
+
+    def initialize(self):
+        self.cbxLayer.clear()
+        layerList = dtGetVectorLayersByType(self.iface,  2,  False)
+
+        for keyValue, valueArray in list(layerList.items()):
+            self.cbxLayer.addItem(keyValue, valueArray)
+
+            if self.cutterLayer != None:
+                if self.cutterLayer.id() == valueArray[0]:
+                    self.cbxLayer.setCurrentText(keyValue)
+
+        if not self.isPolygonLayer:
+            self.chkCopy.setChecked(False)
+        else:
+            self.chkCopy.setChecked(self.copyPoly)
+
+        self.chkCopy.setEnabled(self.isPolygonLayer)
+
+    def accept(self):
+        self.cutterLayer = self.cbxLayer.currentData()[1]
+        self.copyPoly = self.chkCopy.isChecked()
+        self.done(1)

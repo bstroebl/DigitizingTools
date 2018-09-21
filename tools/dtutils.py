@@ -143,6 +143,14 @@ def dtGetInvalidGeomWarning(layer):
     invalidGeomMsg += layer.name()
     return invalidGeomMsg
 
+def dtGetNotMatchingGeomWarning(layer):
+    notMatchingGeomMsg = QtCore.QCoreApplication.translate(
+        "digitizingtools", "Geometry's type is not compatible with the following layer: ")
+    notMatchingGeomMsg += layer.name() + ". "
+    notMatchingGeomMsg +=  QtCore.QCoreApplication.translate(
+        "digitizingtools", "Fix geometries before commiting changes.")
+    return notMatchingGeomMsg
+
 def showSnapSettingsWarning(iface):
     title = QtCore.QCoreApplication.translate("digitizingtools", "Snap Tolerance")
     msg1 = QtCore.QCoreApplication.translate(
@@ -150,10 +158,10 @@ def showSnapSettingsWarning(iface):
     msg2 = QtCore.QCoreApplication.translate("digitizingtools",
         "Have you set the tolerance in Settings > Snapping Options?")
 
-    iface.messageBar().pushWarning(title, msg1 + " " + msg2)
+    dtShowWarning(iface, msg1 + " " + msg2, title)
 
-def dtShowWarning(iface, msg):
-    iface.messageBar().pushWarning(msg)
+def dtShowWarning(iface, msg, title = None):
+    iface.messageBar().pushWarning(title, msg)
 
 def dtGetErrorMessage():
     '''Returns the default error message which can be appended'''
