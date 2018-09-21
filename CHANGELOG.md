@@ -3,6 +3,10 @@ All notable changes to this project since Version 0.8.0 will be documented in th
 
 ## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v1.2.0...develop)
 
+### Added
+- add topological points when splitting and topolgical editing is switched on
+- Optionally copy cutting polygon in edit layer
+
 ## [1.2.0](https://github.com/bstroebl/DigitizingTools/compare/v1.1.0...v1.2.0) - 2018-9-10
 ### Fixed
 - Fix occasional runtime error when trying to identify localization.
