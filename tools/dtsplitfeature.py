@@ -76,7 +76,7 @@ class DtSplitFeature(DtSingleEditTool):
 
         for anId, aFeat in list(featuresToSplit.items()):
             aGeom = aFeat.geometry()
-            wasMultipart = aGeom.isMultipart()
+            wasMultipart = aGeom.isMultipart() and len(aGeom.asGeometryCollection()) > 1
             splitResult = []
             geomsToSplit = []
 
