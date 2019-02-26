@@ -228,17 +228,18 @@ class DtSingleEditTool(DtSingleTool):
                     layer.editingStopped.connect(self.enable)
 
         if self.editLayer != None: # we have a current edit session, activeLayer may have changed or editing status of self.editLayer
-            try:
-                self.editLayer.editingStarted.disconnect(self.enable) # disconnect, will be reconnected
-            except:
-                pass
-            try:
-                self.editLayer.editingStopped.disconnect(self.enable) # when it becomes active layer again
-            except:
-                pass
+            if self.editLayer != layer:
+                try:
+                    self.editLayer.editingStarted.disconnect(self.enable) # disconnect, will be reconnected
+                except:
+                    pass
+                try:
+                    self.editLayer.editingStopped.disconnect(self.enable) # when it becomes active layer again
+                except:
+                    pass
 
-            self.tool.reset()
-            self.reset()
+                self.tool.reset()
+                self.reset()
 
         if not doEnable:
             self.deactivate()
