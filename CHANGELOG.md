@@ -1,9 +1,12 @@
 # Change Log
 All notable changes to this project since Version 0.8.0 will be documented in this file. Bug-fix releases are not documented seperately; their changes are listed in the Unreleased section until a new version is released.
 
-## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v1.2.0...develop)
+## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v1.3.0...develop)
+
+## [1.3.0](https://github.com/bstroebl/DigitizingTools/compare/v1.2.0...v1.3.0) - 2019-03-07
 ### Fixed
-  - Handle different CRS of layer and project in fill-ring/fill-gap tools
+- Handle different CRS of layer and project in fill-ring/fill-gap tools
+- Split feature tool: Show dialog only for multi features with more than one part, ensure that tool stays enabled on save layer edits
 
 ### Added
 - add topological points when splitting and topolgical editing is switched on
