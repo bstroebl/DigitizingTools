@@ -43,8 +43,8 @@ PLUGINNAME = DigitizingTools
 
 PY_FILES = digitizingtools.py __init__.py dtDialog.py
 
-TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtclipper.py \
-	tools/dtfillring.py tools/dtfillgap.py tools/dtsplitter.py tools/dtsplitfeature.py \
+TOOLS = tools/dtutils.py tools/dtsplitmultipart.py \
+	tools/dtfillring.py tools/dtfillgap.py tools/dtsplitfeature.py \
 	tools/dtmovenodebyarea.py tools/dtmovesidebydistance.py \
 	tools/dtmovenodebyarea_dialog.py tools/dtmovesidebydistance_dialog.py \
 	tools/dtmovesidebyarea.py tools/dtmovesidebyarea_dialog.py \

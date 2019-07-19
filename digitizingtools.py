@@ -35,11 +35,8 @@ from .dtDialog import DigitizingToolsAbout
 
 #import the tools
 import dtsplitmultipart
-import dtcutter
-import dtclipper
 import dtfillring
 import dtfillgap
-import dtsplitter
 import dtflipline
 import dtsplitfeature
 import dtmovenodebyarea
@@ -95,12 +92,9 @@ class DigitizingTools(object):
         self.splitfeature = dtsplitfeature.DtSplitFeature(self.iface, self.toolBar)
         self.merger = dtmerge.DtMerge(self.iface, self.toolBar)
         self.exchangeGeometry = dtexchangegeometry.DtExchangeGeometry(self.iface, self.toolBar)
-        self.cutter = dtcutter.DtCutWithPolygon(self.iface, self.toolBar)
-        self.clipper = dtclipper.DtClipWithPolygon(self.iface, self.toolBar)
         self.ringFiller = dtfillring.DtFillRing(self.iface, self.toolBar)
         self.gapFiller = dtfillgap.DtFillGap(self.iface, self.toolBar)
         self.gapFillerAll = dtfillgap.DtFillGapAllLayers(self.iface, self.toolBar)
-        self.splitter = dtsplitter.DtSplitWithLine(self.iface, self.toolBar)
         self.flipLine = dtflipline.DtFlipLine(self.iface,  self.toolBar)
         self.moveNodeByArea = dtmovenodebyarea.DtMoveNodeByArea(self.iface, self.toolBar)
         self.moveSideByDistance = dtmovesidebydistance.DtMoveSideByDistance(self.iface, self.toolBar)
