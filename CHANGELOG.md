@@ -1,7 +1,11 @@
 # Change Log
 All notable changes to this project since Version 0.8.0 will be documented in this file. Bug-fix releases are not documented seperately; their changes are listed in the Unreleased section until a new version is released.
 
-## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v1.3.0...develop)
+## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v1.4.0...develop)
+
+## [1.3.0](https://github.com/bstroebl/DigitizingTools/compare/v1.3.0...v1.4.0) - 2019-07-19
+### Removed
+- Tools that have become obsolete by processing's in-place editing: cut with polygon (use Difference), clip with polygon (use Clip), split selected feature with selected line from another layer (use Split with lines)
 
 ## [1.3.0](https://github.com/bstroebl/DigitizingTools/compare/v1.2.0...v1.3.0) - 2019-03-07
 ### Fixed
