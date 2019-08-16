@@ -40,35 +40,32 @@ def dtGetFeatureForId(layer,  fid):
     else:
         return None
 
-def dtCreateFeature(layer):
-    '''Create an empty feature for the *layer*'''
-    if isinstance(layer, QgsVectorLayer):
-        newFeature = QgsVectorLayerUtils.createFeature(layer)
-
-        return newFeature
-    else:
-        return None
-
-def dtCopyFeature(layer, srcFeature = None,   srcFid = None):
+def dtCopyFeature(layer, srcFeat = None,   srcFid = None):
     '''Copy the QgsFeature with FeatureId *srcFid* in *layer* and return it. Alternatively the
     source Feature can be given as paramter. The feature is not added to the layer!'''
     if srcFid != None:
-        srcFeature = dtGetFeatureForId(layer,  srcFid)
+        srcFeat = dtGetFeatureForId(layer,  srcFid)
 
-    if srcFeature:
-        newFeature = dtCreateFeature(layer)
+    if srcFeat:
+        #get layer type
+        layerType = layer.geometryType()
 
-        #copy the attribute values#
-        pkFields = layer.dataProvider().pkAttributeIndexes()
-        fields = layer.fields()
-        for i in range(fields.count()):
-            # do not copy the PK value if there is a PK field
-            if i in pkFields:
-                continue
-            else:
-                newFeature.setAttribute(i, srcFeature[i])
+        if layerType == 0:
+            dummyGeomTxt = 'Point()'
+        elif layerType == 1:
+            dummyGeomTxt = 'LineString()'
+        elif layerType == 2:
+            dummyGeomTxt = 'Polygon()'
 
-        return newFeature
+        #set dummy geom
+        dummyGeom = QgsGeometry.fromWkt(dummyGeomTxt)
+
+        #copy the attribute values
+        attributes = {i: v for i, v in enumerate(srcFeat.attributes())}
+
+        newFeat = QgsVectorLayerUtils.createFeature(layer, dummyGeom, attributes)
+
+        return newFeat
     else:
         return None
 
@@ -262,7 +259,7 @@ def dtSpatialindex(layer):
     """
     idx = QgsSpatialIndex()
     for ft in layer.getFeatures():
-        idx.insertFeature(ft)
+        idx.addFeature(ft)
     return idx
 
 def dtDeleteRings(poly):
