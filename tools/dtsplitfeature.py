@@ -60,6 +60,7 @@ class DtSplitFeature(DtSingleEditTool):
         featuresToKeep = {} # store geoms that will stay with their id as key
         featuresToSplit = {}
         topoGeoms = [] # store all new geometries in this array
+        topoEditEnabled = QgsProject.instance().topologicalEditing()
 
         for aFeat in self.editLayer.getFeatures(QgsFeatureRequest(splitGeom.boundingBox())):
             anId = aFeat.id()
@@ -96,7 +97,7 @@ class DtSplitFeature(DtSingleEditTool):
 
             for thisGeom in geomsToSplit:
                 try:
-                    result,  newGeometries,  topoTestPoints = thisGeom.splitGeometry(splitterPList,  False)
+                    result,  newGeometries,  topoTestPoints = thisGeom.splitGeometry(splitterPList,  topoEditEnabled)
                 except:
                     self.iface.messageBar().pushCritical(title,
                         dtutils.dtGetErrorMessage() + QtCore.QCoreApplication.translate(
@@ -168,9 +169,8 @@ class DtSplitFeature(DtSingleEditTool):
         if len(featuresToAdd) > 0:
             if self.editLayer.addFeatures(featuresToAdd):
 
-                if QgsProject.instance().topologicalEditing():
-                    for aGeom in topoGeoms:
-                        self.editLayer.addTopologicalPoints(aGeom)
+                for pt in topoTestPoints:
+                    self.editLayer.addTopologicalPoints(pt)
 
                 self.editLayer.endEditCommand()
             else:
