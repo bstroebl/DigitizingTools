@@ -59,7 +59,6 @@ class DtSplitFeature(DtSingleEditTool):
         featuresToAdd = [] # store new features in this array
         featuresToKeep = {} # store geoms that will stay with their id as key
         featuresToSplit = {}
-        topoGeoms = [] # store all new geometries in this array
         topoEditEnabled = QgsProject.instance().topologicalEditing()
         topoTestPointsAll = [] # store all topoTestPoints for all parts
 
@@ -159,11 +158,9 @@ class DtSplitFeature(DtSingleEditTool):
 
                 newFeatures = dtutils.dtMakeFeaturesFromGeometries(self.editLayer,  aFeat,  newGeoms)
                 featuresToAdd = featuresToAdd + newFeatures
-                topoGeoms = topoGeoms + newGeoms
 
             aFeat.setGeometry(keepGeom)
             featuresToKeep[anId] = aFeat
-            topoGeoms.append(keepGeom)
 
         for anId,  aFeat in list(featuresToKeep.items()):
             aGeom = aFeat.geometry()
