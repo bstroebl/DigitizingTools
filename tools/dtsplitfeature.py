@@ -59,7 +59,8 @@ class DtSplitFeature(DtSingleEditTool):
         featuresToAdd = [] # store new features in this array
         featuresToKeep = {} # store geoms that will stay with their id as key
         featuresToSplit = {}
-        topoGeoms = [] # store all new geometries in this array
+        topoEditEnabled = QgsProject.instance().topologicalEditing()
+        topoTestPointsAll = [] # store all topoTestPoints for all parts
 
         for aFeat in self.editLayer.getFeatures(QgsFeatureRequest(splitGeom.boundingBox())):
             anId = aFeat.id()
@@ -96,12 +97,14 @@ class DtSplitFeature(DtSingleEditTool):
 
             for thisGeom in geomsToSplit:
                 try:
-                    result,  newGeometries,  topoTestPoints = thisGeom.splitGeometry(splitterPList,  False)
+                    result,  newGeometries,  topoTestPoints = thisGeom.splitGeometry(splitterPList,  topoEditEnabled)
                 except:
                     self.iface.messageBar().pushCritical(title,
                         dtutils.dtGetErrorMessage() + QtCore.QCoreApplication.translate(
                             "digitizingtools", "splitting of feature") + " " + str(aFeat.id()))
                     return None
+
+                topoTestPointsAll.append(topoTestPoints)
 
                 if result == 0: # success
                     if len(newGeometries) > 0:
@@ -155,11 +158,9 @@ class DtSplitFeature(DtSingleEditTool):
 
                 newFeatures = dtutils.dtMakeFeaturesFromGeometries(self.editLayer,  aFeat,  newGeoms)
                 featuresToAdd = featuresToAdd + newFeatures
-                topoGeoms = topoGeoms + newGeoms
 
             aFeat.setGeometry(keepGeom)
             featuresToKeep[anId] = aFeat
-            topoGeoms.append(keepGeom)
 
         for anId,  aFeat in list(featuresToKeep.items()):
             aGeom = aFeat.geometry()
@@ -168,9 +169,9 @@ class DtSplitFeature(DtSingleEditTool):
         if len(featuresToAdd) > 0:
             if self.editLayer.addFeatures(featuresToAdd):
 
-                if QgsProject.instance().topologicalEditing():
-                    for aGeom in topoGeoms:
-                        self.editLayer.addTopologicalPoints(aGeom)
+                for topoTestPoint in topoTestPointsAll:
+                    for pt in topoTestPoint:
+                        self.editLayer.addTopologicalPoints(pt)
 
                 self.editLayer.endEditCommand()
             else:
