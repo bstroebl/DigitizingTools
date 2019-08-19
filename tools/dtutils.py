@@ -40,13 +40,13 @@ def dtGetFeatureForId(layer,  fid):
     else:
         return None
 
-def dtCopyFeature(layer, srcFeat = None,   srcFid = None):
+def dtCopyFeature(layer, srcFeature = None,   srcFid = None):
     '''Copy the QgsFeature with FeatureId *srcFid* in *layer* and return it. Alternatively the
     source Feature can be given as paramter. The feature is not added to the layer!'''
     if srcFid != None:
-        srcFeat = dtGetFeatureForId(layer,  srcFid)
+        srcFeature = dtGetFeatureForId(layer,  srcFid)
 
-    if srcFeat:
+    if srcFeature:
         #get layer type
         layerType = layer.geometryType()
 
@@ -61,11 +61,11 @@ def dtCopyFeature(layer, srcFeat = None,   srcFid = None):
         dummyGeom = QgsGeometry.fromWkt(dummyGeomTxt)
 
         #copy the attribute values
-        attributes = {i: v for i, v in enumerate(srcFeat.attributes())}
+        attributes = {i: v for i, v in enumerate(srcFeature.attributes())}
 
-        newFeat = QgsVectorLayerUtils.createFeature(layer, dummyGeom, attributes)
+        newFeature = QgsVectorLayerUtils.createFeature(layer, dummyGeom, attributes)
 
-        return newFeat
+        return newFeature
     else:
         return None
 
