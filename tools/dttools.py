@@ -405,6 +405,13 @@ class DtDualToolSelectFeature(DtDualTool):
         else:
             self.canvas.unsetMapTool(self.tool)
 
+class DtDualToolSelectPolygon(DtDualToolSelectFeature):
+    '''Abstract class for a DtDualToo which uses the DtSelectFeatureTool for interactive mode'''
+
+    def __init__(self, iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes = [3, 6],  dtName = None):
+        super().__init__(iface,  toolBar,  icon,  tooltip,  iconBatch,  tooltipBatch,  geometryTypes,  dtName)
+        self.tool = DtSelectPolygonTool(iface)
+
 class DtDualToolSelectVertex(DtDualTool):
     '''Abstract class for a DtDualTool which uses the DtSelectVertexTool for interactive mode
     numVertices [integer] nnumber of vertices to be snapped until vertexFound signal is emitted'''
@@ -598,6 +605,158 @@ class DtSelectFeatureTool(DtMapToolEdit):
                 layer.removeSelection()
                 layer.select(feat.id())
                 self.featureSelected.emit([feat.id()])
+
+class DtSelectPolygonTool(DtSelectFeatureTool):
+    def __init__(self, iface):
+        super().__init__(iface)
+        self.currentHighlight = [None, None] # feature, highlightGraphic
+        self.ignoreFids = [] # featureids that schould be ignored when looking for a feature
+
+    def getFeatureForPoint(self, layer, startingPoint):
+        '''
+        return the feature this QPoint is in and the total amount of features
+        '''
+        result = []
+        mapToPixel = self.canvas.getCoordinateTransform()
+        #thisQgsPoint = mapToPixel.toMapCoordinates(startingPoint)
+        thisQgsPoint = self.transformed(layer, mapToPixel.toMapCoordinates(startingPoint))
+        spatialIndex = dtutils.dtSpatialindex(layer)
+        featureIds = spatialIndex.nearestNeighbor(thisQgsPoint, 0)
+        # if we use 0 as neighborCount then only features that contain the point
+        # are included
+        foundFeatures = []
+
+        while True:
+            for fid in featureIds:
+                if self.ignoreFids.count(fid) == 0:
+                    feat = dtutils.dtGetFeatureForId(layer, fid)
+
+                    if feat != None:
+                        geom = QgsGeometry(feat.geometry())
+
+                        if geom.contains(thisQgsPoint):
+                            foundFeatures.append(feat)
+
+            if len(foundFeatures) == 0:
+                if len(self.ignoreFids) == 0: #there is no feaure at this point
+                    break #while
+                else:
+                    self.ignoreFids.pop(0) # remove first and try again
+            elif len(foundFeatures) > 0: # return first feature
+                feat = foundFeatures[0]
+                result.append(feat)
+                result.append(len(featureIds))
+                break #while
+
+        return result
+
+    def highlightFeature(self,  layer,  feature):
+        '''highlight the feature if it has a geometry'''
+        geomType = layer.geometryType()
+        returnGeom = None
+
+        if geomType <= 2:
+            if geomType == 0:
+                marker = QgsVertexMarker(self.iface.mapCanvas())
+                marker.setIconType(3) # ICON_BOX
+                marker.setColor(self.rubberBandColor)
+                marker.setIconSize(12)
+                marker.setPenWidth (3)
+                marker.setCenter(feature.geometry().centroid().asPoint())
+                returnGeom = marker
+            else:
+                settings = QtCore.QSettings()
+                settings.beginGroup("Qgis/digitizing")
+                a = settings.value("line_color_alpha",200,type=int)
+                b = settings.value("line_color_blue",0,type=int)
+                g = settings.value("line_color_green",0,type=int)
+                r = settings.value("line_color_red",255,type=int)
+                lw = settings.value("line_width",1,type=int)
+                settings.endGroup()
+                rubberBandColor = QtGui.QColor(r, g, b, a)
+                rubberBandWidth = lw
+                rubberBand = QgsRubberBand(self.iface.mapCanvas())
+                rubberBand.setColor(rubberBandColor)
+                rubberBand.setWidth(rubberBandWidth)
+                rubberBand.setToGeometry(feature.geometry(),  layer)
+                returnGeom = rubberBand
+
+            self.currentHighlight = [feature, returnGeom]
+            return returnGeom
+        else:
+            return None
+
+    def removeHighlight(self):
+        highlightGeom = self.currentHighlight[1]
+
+        if highlightGeom != None:
+            self.iface.mapCanvas().scene().removeItem(highlightGeom)
+
+        self.currentHighlight = [None, None]
+
+    def highlightNext(self, layer, startingPoint):
+        if self.currentHighlight != [None, None]:
+            self.ignoreFids.append(self.currentHighlight[0].id())
+
+        # will return the first feature, if there is only one will return this feature
+        found = self.getFeatureForPoint(layer, startingPoint)
+
+        if len(found) == 0:
+            self.removeHighlight()
+            return 0
+        else:
+            aFeat = found[0]
+            numFeatures = found[1]
+
+            if self.currentHighlight != [None, None]:
+                if aFeat.id() != self.currentHighlight[0].id():
+                    self.removeHighlight()
+                    self.highlightFeature(layer, found[0])
+            else:
+                self.highlightFeature(layer, found[0])
+
+            return numFeatures
+
+    def canvasReleaseEvent(self,event):
+        '''
+        - if user clicks left and no feature is highlighted, highlight first feature
+        - if user clicks left and there is a highlighted feature use this feature as selected
+        - if user clicks right, highlight another feature
+        '''
+        #Get the click
+        x = event.pos().x()
+        y = event.pos().y()
+
+        layer = self.canvas.currentLayer()
+
+        if layer != None:
+            startingPoint = QtCore.QPoint(x,y)
+            #the clicked point is our starting point
+
+            if event.button() == QtCore.Qt.RightButton: # choose another feature
+                self.highlightNext(layer, startingPoint)
+            elif event.button() == QtCore.Qt.LeftButton:
+                if self.currentHighlight == [None, None]: # first click
+                    numFeatures = self.highlightNext(layer, startingPoint)
+                else: # user accepts highlighted geometry
+                    mapToPixel = self.canvas.getCoordinateTransform()
+                    thisQgsPoint = self.transformed(layer, mapToPixel.toMapCoordinates(startingPoint))
+                    feat = self.currentHighlight[0]
+
+                    if feat.geometry().contains(thisQgsPoint): # is point in highlighted feature?
+                        numFeatures = 1
+                    else: # mabe user clicked somewhere else
+                        numFeatures = self.highlightNext(layer, startingPoint)
+
+                if numFeatures == 1:
+                    feat = self.currentHighlight[0]
+                    self.removeHighlight()
+                    layer.removeSelection()
+                    layer.select(feat.id())
+                    self.featureSelected.emit([feat.id()])
+
+    def reset(self):
+        self.removeHighlight()
 
 class DtSelectRingTool(DtSelectFeatureTool):
     '''
