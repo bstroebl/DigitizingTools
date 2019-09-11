@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="de_DE" sourcelanguage="en_GB">
+<!DOCTYPE TS><TS version="2.0" language="de_DE" sourcelanguage="en_GB">
 <context>
     <name>DigitizingTools</name>
     <message>
-        <location filename="../digitizingtools.py" line="85"/>
+        <location filename="../digitizingtools.py" line="84"/>
         <source>&amp;DigitizingTools</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="86"/>
+        <location filename="../digitizingtools.py" line="85"/>
         <source>Help</source>
         <translation>Hilfe</translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="87"/>
+        <location filename="../digitizingtools.py" line="86"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="../digitizingtools.py" line="89"/>
+        <location filename="../digitizingtools.py" line="88"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../tools/dttools.py" line="252"/>
+        <location filename="../tools/dttools.py" line="253"/>
         <source>is disabled because layer CRS and project CRS do not match!</source>
         <translation>wird deaktiviert weil das KBS des Layers und das KBS des Projektes nicht übereinstimmen!</translation>
     </message>
@@ -144,87 +143,62 @@
 <context>
     <name>digitizingtools</name>
     <message>
-        <location filename="../tools/dtcutter.py" line="29"/>
-        <source>Cut with polygon from another layer</source>
-        <translation>Mit einem Polygon eines anderen Layers ausstanzen</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtcutter.py" line="48"/>
-        <source>Please provide a polygon layer to cut with.</source>
-        <translation>Bitte einen Polygonlayer zum Ausstanzen bereitstellen.</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtutils.py" line="130"/>
+        <location filename="../tools/dtutils.py" line="127"/>
         <source>No Selection in layer</source>
         <translation>Keine Auswahl in Layer</translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="131"/>
+        <location filename="../tools/dtutils.py" line="128"/>
         <source>Use all features for process?</source>
         <translation>Alle Objekte zum Prozessieren benutzen?</translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="136"/>
+        <location filename="../tools/dtutils.py" line="133"/>
         <source>There are </source>
         <translation>Es gibt </translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="138"/>
+        <location filename="../tools/dtutils.py" line="135"/>
         <source> features selected in layer </source>
         <translation> gewählte Objekte im Layer </translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="143"/>
+        <location filename="../tools/dtutils.py" line="140"/>
         <source>There are invalid geometries in layer </source>
         <translation>Es gibt ungültige Geometrien im Layer </translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="156"/>
+        <location filename="../tools/dtutils.py" line="153"/>
         <source>Snap Tolerance</source>
         <translation>Fangtoleranz</translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="157"/>
+        <location filename="../tools/dtutils.py" line="154"/>
         <source>Could not snap vertex</source>
         <translation>Konnte keinen Stützpunkt fangen</translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="159"/>
+        <location filename="../tools/dtutils.py" line="156"/>
         <source>Have you set the tolerance in Settings &gt; Snapping Options?</source>
         <translation>Haben Sie die Toleranz in Einstellungen &gt; Fangoptionen eingetragen?</translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="169"/>
+        <location filename="../tools/dtutils.py" line="166"/>
         <source>Error occured during</source>
         <translation>Während dieses Prozesses trat ein Fehler auf</translation>
     </message>
     <message>
-        <location filename="../tools/dtcutter.py" line="38"/>
+        <location filename="../tools/dtcutter.py" line="39"/>
         <source>Cutter</source>
         <translation>Stanze</translation>
     </message>
     <message>
-        <location filename="../tools/dtcutter.py" line="181"/>
+        <location filename="../tools/dtcutter.py" line="108"/>
         <source>A feature would be completely removed by cutting. Delete this feature&apos;s dataset altogether?</source>
         <translation>Durch das Ausstanzen würde ein Objekt komplett entfernt werden. Soll der Datensatz dieses Objektes gelöscht werden?</translation>
     </message>
     <message>
-        <location filename="../tools/dtsplitter.py" line="39"/>
-        <source>Splitter</source>
-        <translation>Aufteilen</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtsplitter.py" line="40"/>
-        <source>splitter layer</source>
-        <translation>Aufteilungslayer</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtsplitter.py" line="43"/>
-        <source>Please provide a line layer to split with.</source>
-        <translation>Bitte stellen Sie einen Linienlayer zum Aufteilen bereit.</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtsplitfeature.py" line="101"/>
+        <location filename="../tools/dtsplitfeature.py" line="102"/>
         <source>splitting of feature</source>
         <translation>Objekt aufteilen</translation>
     </message>
@@ -374,44 +348,19 @@
         <translation>Bitte löschen Sie die Auswahl.</translation>
     </message>
     <message>
-        <location filename="../tools/dtsplitter.py" line="54"/>
-        <source> Please select only one feature to split with.</source>
-        <translation> Bitte wählen Sie nur ein Objekt aus, mit dem aufgeteilt werden soll.</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtsplitter.py" line="58"/>
-        <source> Please select the features to be splitted.</source>
-        <translation> Bitte wählen Sie die Objekte aus, die aufgeteilt werden sollen.</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtsplitter.py" line="30"/>
-        <source>Split selected features with selected line from another layer</source>
-        <translation>Ausgewählte Objekte mit ausgewählter Linie eines anderen Layers aufteilen</translation>
+        <location filename="../tools/dtclipper.py" line="28"/>
+        <source>Clip with polygon (interactive)</source>
+        <translation>Mit einem Polygon ausschneiden (interaktiv)</translation>
     </message>
     <message>
         <location filename="../tools/dtclipper.py" line="28"/>
-        <source>Clip with polygon from another layer</source>
-        <translation>Mit einem Polygon eines anderen Layers ausschneiden (clip)</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtclipper.py" line="37"/>
-        <source>Clipper</source>
-        <translation>Clipper</translation>
+        <source>Clip with selected polygons</source>
+        <translation>Mit den ausgewählten Polygonen ausschneiden</translation>
     </message>
     <message>
         <location filename="../tools/dtclipper.py" line="40"/>
-        <source>clipper layer</source>
-        <translation>Ausschneidelayer</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtclipper.py" line="46"/>
-        <source>Please provide a polygon layer to clip with.</source>
-        <translation>Bitte einen Polygonlayer zum Ausschneiden bereitstellen.</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtclipper.py" line="62"/>
-        <source> Please select only one feature to clip with.</source>
-        <translation> Bitte wählen Sie nur ein Objekt aus, mit dem ausgeschnitten werden soll.</translation>
+        <source>Clipper</source>
+        <translation>Ausschneiden</translation>
     </message>
     <message>
         <location filename="../tools/dtfillgap.py" line="107"/>
@@ -444,12 +393,12 @@
         <translation>Objekte zerteilen</translation>
     </message>
     <message>
-        <location filename="../tools/dtsplitfeature.py" line="124"/>
+        <location filename="../tools/dtsplitfeature.py" line="127"/>
         <source>Split Multipart Feature</source>
         <translation>Multiobjekt zerteilen</translation>
     </message>
     <message>
-        <location filename="../tools/dtsplitfeature.py" line="124"/>
+        <location filename="../tools/dtsplitfeature.py" line="127"/>
         <source>Create new feature from this part?</source>
         <translation>Diesen Teil als neues Objekt erzeugen?</translation>
     </message>
@@ -459,14 +408,9 @@
         <translation>Wählen Sie das bereits existierende Objekt, das übrigbleiben soll</translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="151"/>
+        <location filename="../tools/dtutils.py" line="148"/>
         <source>Fix geometries before commiting changes.</source>
         <translation>Reparieren Sie die Geometrien vor dem Speichern.</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtcutter.py" line="220"/>
-        <source>Added geometry</source>
-        <translation>Hinzugefügte Geometrie</translation>
     </message>
     <message>
         <location filename="../tools/dtflipline.py" line="81"/>
@@ -474,14 +418,24 @@
         <translation>Während des Umdrehens trat ein Fehler auf</translation>
     </message>
     <message>
-        <location filename="../tools/dtcutter.py" line="202"/>
+        <location filename="../tools/dtcutter.py" line="126"/>
         <source>New geometry</source>
         <translation>Neue Geometrie</translation>
     </message>
     <message>
-        <location filename="../tools/dtutils.py" line="148"/>
+        <location filename="../tools/dtutils.py" line="145"/>
         <source>Geometry&apos;s type is not compatible with the following layer: </source>
         <translation>Der Geometrietyp ist mit dem folgenden Layer nicht kompatibel: </translation>
+    </message>
+    <message>
+        <location filename="../tools/dtcutter.py" line="28"/>
+        <source>Cut with polygon (interactive)</source>
+        <translation>Mit einem Polygon ausstanzen (interaktiv)</translation>
+    </message>
+    <message>
+        <location filename="../tools/dtcutter.py" line="28"/>
+        <source>Cut with selected polygons</source>
+        <translation>Mit den ausgewählten Polygonen ausstanzen</translation>
     </message>
 </context>
 <context>
@@ -518,7 +472,7 @@
 <context>
     <name>dtutils</name>
     <message>
-        <location filename="../tools/dtutils.py" line="119"/>
+        <location filename="../tools/dtutils.py" line="116"/>
         <source>Choose Layer</source>
         <translation>Layer wählen</translation>
     </message>
@@ -526,19 +480,14 @@
 <context>
     <name>editcommand</name>
     <message>
-        <location filename="../tools/dtsplitter.py" line="66"/>
+        <location filename="../tools/dtsplitmultipart.py" line="46"/>
         <source>Split features</source>
         <translation>Geometrien aufgeteilt</translation>
     </message>
     <message>
-        <location filename="../tools/dtcutter.py" line="97"/>
+        <location filename="../tools/dtcutter.py" line="73"/>
         <source>Cut Features</source>
         <translation>Objekte ausgestanzt</translation>
-    </message>
-    <message>
-        <location filename="../tools/dtcutter.py" line="243"/>
-        <source>Delete Features</source>
-        <translation>Objekte gelöscht</translation>
     </message>
     <message>
         <location filename="../tools/dtmovenodebyarea.py" line="150"/>
@@ -596,7 +545,7 @@
         <translation>Teil extrahiert</translation>
     </message>
     <message>
-        <location filename="../tools/dtclipper.py" line="91"/>
+        <location filename="../tools/dtclipper.py" line="69"/>
         <source>Clip Features</source>
         <translation>Objekte ausgeschnitten</translation>
     </message>
@@ -611,7 +560,7 @@
         <translation>Objekte verschmolzen</translation>
     </message>
     <message>
-        <location filename="../tools/dtsplitfeature.py" line="75"/>
+        <location filename="../tools/dtsplitfeature.py" line="76"/>
         <source>Features split</source>
         <translation>Objekte geteilt</translation>
     </message>
