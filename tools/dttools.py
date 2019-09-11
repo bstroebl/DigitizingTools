@@ -523,6 +523,75 @@ class DtSelectFeatureTool(DtMapToolEdit):
 
     def __init__(self, iface):
         super().__init__(iface)
+        self.currentHighlight = [None, None] # feature, highlightGraphic
+        self.ignoreFids = [] # featureids that schould be ignored when looking for a feature
+
+    def highlightFeature(self,  layer,  feature):
+        '''highlight the feature if it has a geometry'''
+        geomType = layer.geometryType()
+        returnGeom = None
+
+        if geomType <= 2:
+            if geomType == 0:
+                marker = QgsVertexMarker(self.iface.mapCanvas())
+                marker.setIconType(3) # ICON_BOX
+                marker.setColor(self.rubberBandColor)
+                marker.setIconSize(12)
+                marker.setPenWidth (3)
+                marker.setCenter(feature.geometry().centroid().asPoint())
+                returnGeom = marker
+            else:
+                settings = QtCore.QSettings()
+                settings.beginGroup("Qgis/digitizing")
+                a = settings.value("line_color_alpha",200,type=int)
+                b = settings.value("line_color_blue",0,type=int)
+                g = settings.value("line_color_green",0,type=int)
+                r = settings.value("line_color_red",255,type=int)
+                lw = settings.value("line_width",1,type=int)
+                settings.endGroup()
+                rubberBandColor = QtGui.QColor(r, g, b, a)
+                rubberBandWidth = lw
+                rubberBand = QgsRubberBand(self.iface.mapCanvas())
+                rubberBand.setColor(rubberBandColor)
+                rubberBand.setWidth(rubberBandWidth)
+                rubberBand.setToGeometry(feature.geometry(),  layer)
+                returnGeom = rubberBand
+
+            self.currentHighlight = [feature, returnGeom]
+            return returnGeom
+        else:
+            return None
+
+    def removeHighlight(self):
+        highlightGeom = self.currentHighlight[1]
+
+        if highlightGeom != None:
+            self.iface.mapCanvas().scene().removeItem(highlightGeom)
+
+        self.currentHighlight = [None, None]
+
+    def highlightNext(self, layer, startingPoint):
+        if self.currentHighlight != [None, None]:
+            self.ignoreFids.append(self.currentHighlight[0].id())
+
+        # will return the first feature, if there is only one will return this feature
+        found = self.getFeatureForPoint(layer, startingPoint)
+
+        if len(found) == 0:
+            self.removeHighlight()
+            return 0
+        else:
+            aFeat = found[0]
+            numFeatures = found[1]
+
+            if self.currentHighlight != [None, None]:
+                if aFeat.id() != self.currentHighlight[0].id():
+                    self.removeHighlight()
+                    self.highlightFeature(layer, found[0])
+            else:
+                self.highlightFeature(layer, found[0])
+
+            return numFeatures
 
     def getFeatureForPoint(self, layer, startingPoint, inRing = False):
         '''
@@ -609,8 +678,6 @@ class DtSelectFeatureTool(DtMapToolEdit):
 class DtSelectPolygonTool(DtSelectFeatureTool):
     def __init__(self, iface):
         super().__init__(iface)
-        self.currentHighlight = [None, None] # feature, highlightGraphic
-        self.ignoreFids = [] # featureids that schould be ignored when looking for a feature
 
     def getFeatureForPoint(self, layer, startingPoint):
         '''
@@ -650,72 +717,7 @@ class DtSelectPolygonTool(DtSelectFeatureTool):
 
         return result
 
-    def highlightFeature(self,  layer,  feature):
-        '''highlight the feature if it has a geometry'''
-        geomType = layer.geometryType()
-        returnGeom = None
 
-        if geomType <= 2:
-            if geomType == 0:
-                marker = QgsVertexMarker(self.iface.mapCanvas())
-                marker.setIconType(3) # ICON_BOX
-                marker.setColor(self.rubberBandColor)
-                marker.setIconSize(12)
-                marker.setPenWidth (3)
-                marker.setCenter(feature.geometry().centroid().asPoint())
-                returnGeom = marker
-            else:
-                settings = QtCore.QSettings()
-                settings.beginGroup("Qgis/digitizing")
-                a = settings.value("line_color_alpha",200,type=int)
-                b = settings.value("line_color_blue",0,type=int)
-                g = settings.value("line_color_green",0,type=int)
-                r = settings.value("line_color_red",255,type=int)
-                lw = settings.value("line_width",1,type=int)
-                settings.endGroup()
-                rubberBandColor = QtGui.QColor(r, g, b, a)
-                rubberBandWidth = lw
-                rubberBand = QgsRubberBand(self.iface.mapCanvas())
-                rubberBand.setColor(rubberBandColor)
-                rubberBand.setWidth(rubberBandWidth)
-                rubberBand.setToGeometry(feature.geometry(),  layer)
-                returnGeom = rubberBand
-
-            self.currentHighlight = [feature, returnGeom]
-            return returnGeom
-        else:
-            return None
-
-    def removeHighlight(self):
-        highlightGeom = self.currentHighlight[1]
-
-        if highlightGeom != None:
-            self.iface.mapCanvas().scene().removeItem(highlightGeom)
-
-        self.currentHighlight = [None, None]
-
-    def highlightNext(self, layer, startingPoint):
-        if self.currentHighlight != [None, None]:
-            self.ignoreFids.append(self.currentHighlight[0].id())
-
-        # will return the first feature, if there is only one will return this feature
-        found = self.getFeatureForPoint(layer, startingPoint)
-
-        if len(found) == 0:
-            self.removeHighlight()
-            return 0
-        else:
-            aFeat = found[0]
-            numFeatures = found[1]
-
-            if self.currentHighlight != [None, None]:
-                if aFeat.id() != self.currentHighlight[0].id():
-                    self.removeHighlight()
-                    self.highlightFeature(layer, found[0])
-            else:
-                self.highlightFeature(layer, found[0])
-
-            return numFeatures
 
     def canvasReleaseEvent(self,event):
         '''
