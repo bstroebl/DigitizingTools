@@ -1,2 +1,4 @@
 DigitizingTools: a QGIS plugin
 Subsumes different tools useful during digitizing sessions
+
+DO NOT install the plugin directly from github, this is the source code only; install via the extensions menu in QGIS.
