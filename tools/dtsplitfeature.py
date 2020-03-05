@@ -124,11 +124,13 @@ class DtSplitFeature(DtSingleEditTool):
                             hl.setFillColor(hlFillColor)
                             hl.setBuffer(hlBuffer)
                             hl.setWidth(hlMinWidth)
+                            hl.show()
                             answer = QtWidgets.QMessageBox.question(
                                 None, QtCore.QCoreApplication.translate("digitizingtools", "Split Multipart Feature"),
                                 QtCore.QCoreApplication.translate("digitizingtools", "Create new feature from this part?"),
                                 QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No | QtWidgets.QMessageBox.Cancel | QtWidgets.QMessageBox.NoToAll)
-
+                            hl.hide()
+                            hl = None
                             if answer == QtWidgets.QMessageBox.Yes:
                                 takeThisOne = i
                                 break

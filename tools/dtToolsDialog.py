@@ -44,8 +44,15 @@ class DigitizingToolsChooseRemaining(QtWidgets.QDialog, FORM_CLASS):
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.accepted.connect(self.accept)
 
+    def clearHighlight(self):
+        try:
+            self.hl.hide()
+        except:
+            pass
+
     @QtCore.pyqtSlot(int)
     def on_chooseId_currentIndexChanged(self, thisIndex):
+        self.clearHighlight()
         aPkValue = self.chooseId.currentText()
         aGeom = self.featDict[self.pkValues[aPkValue]].geometry()
         hlColor, hlFillColor, hlBuffer,  hlMinWidth = dtGetHighlightSettings()
@@ -54,12 +61,15 @@ class DigitizingToolsChooseRemaining(QtWidgets.QDialog, FORM_CLASS):
         self.hl.setFillColor(hlFillColor)
         self.hl.setBuffer(hlBuffer)
         self.hl.setWidth(hlMinWidth)
+        self.hl.show()
 
     @QtCore.pyqtSlot()
     def reject(self):
+        self.clearHighlight()
         self.done(0)
 
     @QtCore.pyqtSlot()
     def accept(self):
+        self.clearHighlight()
         self.pkValueToKeep = self.chooseId.currentText()
         self.done(1)
