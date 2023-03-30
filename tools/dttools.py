@@ -1001,7 +1001,7 @@ class DtSelectSegmentTool(DtMapToolEdit):
 
     def __init__(self, iface):
         super().__init__(iface)
-        self.rb1 = QgsRubberBand(self.canvas,  False)
+        self.rb1 = QgsRubberBand(self.canvas,  QgsWkbTypes.LineGeometry)
 
     def canvasReleaseEvent(self,event):
         #Get the click

@@ -39,7 +39,7 @@ class DtMoveSideByDistance(object):
         # p1 is always the left point
         self.p1 = None
         self.p2 = None
-        self.rb1 = QgsRubberBand(self.canvas,  False)
+        self.rb1 = QgsRubberBand(self.canvas,  QgsWkbTypes.LineGeometry)
         #self.m1 = None
         self.selected_feature = None
 
