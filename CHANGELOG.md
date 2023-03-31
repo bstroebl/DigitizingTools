@@ -2,6 +2,8 @@
 All notable changes to this project since Version 0.8.0 will be documented in this file. Bug-fix releases are not documented seperately; their changes are listed in the Unreleased section until a new version is released.
 
 ## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v1.5.0...develop)
+### Fixed
+- Fix the use of QgsRubberBand (Fix #60) (thanks to Andrea Giudiceandrea)
 
 ## [1.5.0](https://github.com/bstroebl/DigitizingTools/compare/v1.4.0...v1.5.0) - 2019-09-11
 ### Fixed
