@@ -297,5 +297,5 @@ def dtGetHighlightSettings():
     r, g, b, a = color.getRgb()
     fillColor.setRgb(r, g, b, int(colorAlpha))
 
-    return [color, fillColor, float(buffer), float(minWidth)]
+    return [color, fillColor, float(buffer), int(minWidth)]
 
