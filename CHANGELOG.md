@@ -3,6 +3,7 @@ All notable changes to this project since Version 0.8.0 will be documented in th
 
 ## [Unreleased](https://github.com/bstroebl/DigitizingTools/compare/v1.5.0...develop)
 ### Fixed
+- Fix highlighting (Fix #65)
 - Fix the use of QgsRubberBand (Fix #60) (thanks to Andrea Giudiceandrea)
 
 ## [1.5.0](https://github.com/bstroebl/DigitizingTools/compare/v1.4.0...v1.5.0) - 2019-09-11
