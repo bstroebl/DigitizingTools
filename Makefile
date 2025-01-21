@@ -53,7 +53,7 @@ TOOLS = tools/dtutils.py tools/dtsplitmultipart.py tools/dtcutter.py tools/dtcli
 	tools/ui_dtmovenodebyarea.ui tools/ui_dtmovesidebydistance.ui tools/ui_dtmovesidebyarea.ui \
 	tools/ui_dtchooseremaining.ui
 
-EXTRAS = metadata.txt license.txt digitizingtools.png
+EXTRAS = metadata.txt LICENSE digitizingtools.png
 
 UI_FILES = ui_about.ui ui_dtcutter.ui
 
