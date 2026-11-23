@@ -22,7 +22,7 @@ the Free Software Foundation; either version 2 of the License, or
 from builtins import str
 from qgis.PyQt import QtCore, QtGui, QtWidgets
 from qgis.core import *
-import dt_icons_rc
+import dtutils
 from dttools import DtSingleButton
 from dtToolsDialog import DigitizingToolsChooseRemaining
 
@@ -30,7 +30,7 @@ class DtMerge(DtSingleButton):
     '''Merge selected features of active layer'''
     def __init__(self, iface, toolBar):
         super().__init__(iface,  toolBar,
-            QtGui.QIcon(":/Merge.png"),
+            dtutils.dtIcon("Merge.png"),
             QtCore.QCoreApplication.translate("digitizingtools",
                 "Merge selected features"),
             geometryTypes = [1, 2, 3, 4, 5, 6],  dtName = "dtMerge")
@@ -64,7 +64,7 @@ class DtMerge(DtSingleButton):
 
         if len(pkValues) > 1:
             dlg = DigitizingToolsChooseRemaining(self.iface, processLayer, pkValues, featDict, title)
-            doContinue = dlg.exec_()
+            doContinue = dlg.exec()
 
             if doContinue == 1:
                 pkValueToKeep = dlg.pkValueToKeep

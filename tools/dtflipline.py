@@ -19,16 +19,16 @@ the Free Software Foundation; either version 2 of the License, or
 from qgis.PyQt import QtCore,  QtGui
 from qgis.core import *
 from qgis.gui import *
-import dt_icons_rc
+import dtutils
 from dttools import DtDualToolSelectFeature
 
 class DtFlipLine(DtDualToolSelectFeature):
     '''Flip line direction tool'''
     def __init__(self, iface,  toolBar):
         super().__init__(iface,  toolBar,
-            QtGui.QIcon(":/flipLine.png"),
+            dtutils.dtIcon("flipLine.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Flip line (interactive mode)"),
-            QtGui.QIcon(":/flipLineBatch.png"),
+            dtutils.dtIcon("flipLineBatch.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Flip selected lines"),
             geometryTypes = [2, 5],  dtName = "dtFlipLine")
 

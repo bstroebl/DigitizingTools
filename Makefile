@@ -57,19 +57,13 @@ EXTRAS = metadata.txt LICENSE digitizingtools.png
 
 UI_FILES = ui_about.ui ui_dtcutter.ui
 
-RESOURCE_SRC=$(shell grep '^ *<file' dt_icons_rc.qrc | sed 's@</file>@@g;s/.*>//g' | tr '\n' ' ')
-COMPILED_RESOURCE_FILES = dt_icons_rc.py
-
 HELP = help/build/html
 
 QGISDIR=.local/share/QGIS/QGIS3/profiles/default
 
 default: compile
 
-compile: $(COMPILED_RESOURCE_FILES)
-
-%.py : %.qrc $(RESOURCES_SRC)
-	pyrcc5 -o $*.py  $<
+compile:
 
 %.qm : %.ts
 	$(LRELEASE) $<
@@ -101,7 +95,7 @@ deploy: compile transcompile
 	cp -vf $(PY_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vf $(UI_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vf $(TOOLS) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/tools
-	cp -vf $(COMPILED_RESOURCE_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/tools
+	cp -vfr tools/icons $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/tools
 	cp -vf $(EXTRAS) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vfr i18n $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	#cp -vfr $(HELP) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/help
@@ -190,7 +184,7 @@ clean:
 	@echo "------------------------------------"
 	@echo "Removing uic and rcc generated files"
 	@echo "------------------------------------"
-	rm $(COMPILED_UI_FILES) $(COMPILED_RESOURCE_FILES)
+	rm $(COMPILED_UI_FILES)
 
 doc:
 	@echo

@@ -21,13 +21,12 @@ the Free Software Foundation; either version 2 of the License, or
 from qgis.PyQt import QtCore,  QtGui
 from qgis.core import *
 import dtutils
-import dt_icons_rc
 from dttools import DtSingleTool,  DtSelectPartTool
 
 class DtExtractPartTool(DtSingleTool):
     def __init__(self, iface,  toolBar):
         super().__init__(iface,  toolBar,
-            QtGui.QIcon(":/ExtractPart.png"),
+            dtutils.dtIcon("ExtractPart.png"),
             QtCore.QCoreApplication.translate("digitizingtools",
                 "Split off one part and add it as a new feature"),
             geometryTypes = [1, 2, 3, 4, 5, 6], dtName = "dtExtractPart")

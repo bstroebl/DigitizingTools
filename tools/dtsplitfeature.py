@@ -22,7 +22,6 @@ from builtins import range
 from qgis.PyQt import QtCore, QtGui, QtWidgets
 from qgis.core import *
 from qgis.gui import *
-import dt_icons_rc
 from dttools import DtSingleEditTool, DtSplitFeatureTool
 import dtutils
 
@@ -30,7 +29,7 @@ class DtSplitFeature(DtSingleEditTool):
     '''Split feature'''
     def __init__(self, iface,  toolBar):
         super().__init__(iface,  toolBar,
-            QtGui.QIcon(":/splitfeature.png"),
+            dtutils.dtIcon("splitfeature.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Split Features"),
             geometryTypes = [2, 3, 5, 6], crsWarning = False, dtName = "dtSplitFeature")
 
@@ -128,18 +127,18 @@ class DtSplitFeature(DtSingleEditTool):
                             answer = QtWidgets.QMessageBox.question(
                                 None, QtCore.QCoreApplication.translate("digitizingtools", "Split Multipart Feature"),
                                 QtCore.QCoreApplication.translate("digitizingtools", "Create new feature from this part?"),
-                                QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No | QtWidgets.QMessageBox.Cancel | QtWidgets.QMessageBox.NoToAll)
+                                QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No | QtWidgets.QMessageBox.StandardButton.Cancel | QtWidgets.QMessageBox.StandardButton.NoToAll)
                             hl.hide()
                             hl = None
-                            if answer == QtWidgets.QMessageBox.Yes:
+                            if answer == QtWidgets.QMessageBox.StandardButton.Yes:
                                 takeThisOne = i
                                 break
-                            elif answer == QtWidgets.QMessageBox.NoToAll:
+                            elif answer == QtWidgets.QMessageBox.StandardButton.NoToAll:
                                 keepGeom = aGeom
                                 newGeoms = []
                                 takeThisOne = -2
                                 break
-                            elif answer == QtWidgets.QMessageBox.Cancel:
+                            elif answer == QtWidgets.QMessageBox.StandardButton.Cancel:
                                 self.editLayer.destroyEditCommand()
                                 return None
 

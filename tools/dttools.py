@@ -160,7 +160,7 @@ class DtSingleButton(DtTool):
 
         if layer != None:
             #Only for vector layers.
-            if layer.type() == QgsMapLayer.VectorLayer:
+            if layer.type() == QgsMapLayer.LayerType.VectorLayer:
                 if self.allowedGeometry(layer):
                     self.act.setEnabled(layer.isEditable())
                     try:
@@ -282,7 +282,7 @@ class DtDualTool(DtTool):
 
         self.menu.triggered.connect(self.menuTriggered)
         self.button.setMenu(self.menu)
-        self.button.setPopupMode(QtWidgets.QToolButton.MenuButtonPopup)
+        self.button.setPopupMode(QtWidgets.QToolButton.ToolButtonPopupMode.MenuButtonPopup)
         # create actions
         self.act = QtWidgets.QAction(icon, tooltip,  self.iface.mainWindow())
 
@@ -359,7 +359,7 @@ class DtDualTool(DtTool):
 
         if layer != None:
             #Only for vector layers.
-            if layer.type() == QgsMapLayer.VectorLayer:
+            if layer.type() == QgsMapLayer.LayerType.VectorLayer:
 
                 # only for certain layers
                 if self.allowedGeometry(layer):
@@ -637,7 +637,7 @@ class DtSelectFeatureTool(DtMapToolEdit):
             snapper = self.canvas.snappingUtils()
             snapper.setCurrentLayer(layer)
             # snapType = 0: no snap, 1 = vertex, 2 vertex & segment, 3 = segment
-            snapMatch = snapper.snapToCurrentLayer(startingPoint, QgsPointLocator.All)
+            snapMatch = snapper.snapToCurrentLayer(startingPoint, QgsPointLocator.Type.All)
 
             if not snapMatch.isValid():
                 dtutils.showSnapSettingsWarning(self.iface)
@@ -735,9 +735,9 @@ class DtSelectPolygonTool(DtSelectFeatureTool):
             startingPoint = QtCore.QPoint(x,y)
             #the clicked point is our starting point
 
-            if event.button() == QtCore.Qt.RightButton: # choose another feature
+            if event.button() == QtCore.Qt.MouseButton.RightButton: # choose another feature
                 self.highlightNext(layer, startingPoint)
-            elif event.button() == QtCore.Qt.LeftButton:
+            elif event.button() == QtCore.Qt.MouseButton.LeftButton:
                 if self.currentHighlight == [None, None]: # first click
                     numFeatures = self.highlightNext(layer, startingPoint)
                 else: # user accepts highlighted geometry
@@ -958,7 +958,7 @@ class DtSelectVertexTool(DtMapToolEdit):
                 snapper.setCurrentLayer(layer)
 
                 # snapType = 0: no snap, 1 = vertex, 2 = segment, 3 = vertex & segment
-                snapMatch = snapper.snapToCurrentLayer(startingPoint, QgsPointLocator.Vertex)
+                snapMatch = snapper.snapToCurrentLayer(startingPoint, QgsPointLocator.Type.Vertex)
 
                 if not snapMatch.isValid():
                     #warn about missing snapping tolerance if appropriate
@@ -1001,7 +1001,7 @@ class DtSelectSegmentTool(DtMapToolEdit):
 
     def __init__(self, iface):
         super().__init__(iface)
-        self.rb1 = QgsRubberBand(self.canvas,  QgsWkbTypes.LineGeometry)
+        self.rb1 = QgsRubberBand(self.canvas,  QgsWkbTypes.GeometryType.LineGeometry)
 
     def canvasReleaseEvent(self,event):
         #Get the click
@@ -1020,7 +1020,7 @@ class DtSelectSegmentTool(DtMapToolEdit):
 
             # snapType = 0: no snap, 1 = vertex, 2 = segment, 3 = vertex & segment
             snapType = 2
-            snapMatch = snapper.snapToCurrentLayer(startingPoint, QgsPointLocator.Edge)
+            snapMatch = snapper.snapToCurrentLayer(startingPoint, QgsPointLocator.Type.Edge)
 
             if not snapMatch.isValid():
                 #warn about missing snapping tolerance if appropriate
@@ -1052,7 +1052,7 @@ class DtSplitFeatureTool(QgsMapToolAdvancedDigitizing, DtTool):
         self.marker = None
         self.rubberBand = None
         self.sketchRubberBand = self.createRubberBand()
-        self.sketchRubberBand.setLineStyle(QtCore.Qt.DotLine)
+        self.sketchRubberBand.setLineStyle(QtCore.Qt.PenStyle.DotLine)
         self.rbPoints = [] # array to store points in rubber band because
         # api to access points does not work properly or I did not figure it out :)
         self.currentMousePosition = None
@@ -1076,8 +1076,8 @@ class DtSplitFeatureTool(QgsMapToolAdvancedDigitizing, DtTool):
         http://doc.qt.io/qt-5/qobject.html#installEventFilter
         '''
 
-        if event.type() == QtCore.QEvent.KeyPress:
-            if event.key() == QtCore.Qt.Key_Backspace:
+        if event.type() == QtCore.QEvent.Type.KeyPress:
+            if event.key() == QtCore.Qt.Key.Key_Backspace:
                 if self.rubberBand != None:
                     if self.rubberBand.numberOfVertices() >= 2: # QgsRubberBand has always 2 vertices
                         if self.currentMousePosition != None:
@@ -1232,7 +1232,7 @@ class DtSplitFeatureTool(QgsMapToolAdvancedDigitizing, DtTool):
             thisPoint = self.eventToQPoint(event)
             #QgsMapToPixel instance
 
-            if event.button() == QtCore.Qt.LeftButton:
+            if event.button() == QtCore.Qt.MouseButton.LeftButton:
                 if self.rubberBand == None:
                     if self.snapPoint == None:
                         self.initRubberBand(self.toMapCoordinates(thisPoint))
@@ -1267,7 +1267,7 @@ class DtSplitFeatureTool(QgsMapToolAdvancedDigitizing, DtTool):
                 self.canvas.refresh()
 
     def keyPressEvent(self,  event):
-        if event.key() == QtCore.Qt.Key_Escape:
+        if event.key() == QtCore.Qt.Key.Key_Escape:
             self.clear()
 
     def deactivate(self):

@@ -66,7 +66,7 @@ class DtMedianLineTool(QgsMapTool):
         x = event.pos().x()
         y = event.pos().y()
 
-        if event.button() == QtCore.Qt.RightButton:
+        if event.button() == QtCore.Qt.MouseButton.RightButton:
             self.finishedDigitizing.emit()
             return
 
@@ -81,7 +81,7 @@ class DtMedianLineTool(QgsMapTool):
             snapper.setCurrentLayer(layer)
             #snapType, snapTolerance, snapUnits = snapper.defaultSettings()
             # snapType = 0: no snap, 1 = vertex, 2 = segment, 3 = vertex & segment
-            snapMatch = snapper.snapToCurrentLayer(startingPoint, QgsPointLocator.Vertex)
+            snapMatch = snapper.snapToCurrentLayer(startingPoint, QgsPointLocator.Type.Vertex)
 
             #if we have found a vertex
             if snapMatch.isValid():

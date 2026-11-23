@@ -22,6 +22,7 @@ from builtins import object
 from qgis.PyQt import QtCore, QtGui, QtWidgets
 from qgis.core import *
 from qgis.gui import *
+import dtutils
 from dtmedianlinetool import DtMedianLineTool
 
 
@@ -42,7 +43,7 @@ class DtMedianLine(object):
         self.point_list = []
 
         #create action
-        self.median_digitizer = QtWidgets.QAction(QtGui.QIcon(":/medianLine.png"),
+        self.median_digitizer = QtWidgets.QAction(dtutils.dtIcon("medianLine.png"),
             QtCore.QCoreApplication.translate("digitizingtools",
                 "Digitize median line between adjacent polygons"),
                 self.iface.mainWindow())
@@ -160,7 +161,7 @@ class DtMedianLine(object):
 
         if layer is not None:
             #Only for vector layers.
-            if layer.type() == QgsMapLayer.VectorLayer:
+            if layer.type() == QgsMapLayer.LayerType.VectorLayer:
                 # only for polygon layers
                 if layer.geometryType() == 2:
                     # enable if editable

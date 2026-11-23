@@ -18,7 +18,6 @@ the Free Software Foundation; either version 2 of the License, or
 """
 from qgis.PyQt import QtCore, QtGui
 from qgis.core import *
-import dt_icons_rc
 import dtutils
 from dttools import DtDualToolSelectPolygon
 
@@ -26,10 +25,10 @@ class DtClipWithPolygon(DtDualToolSelectPolygon):
     '''Clip from active editable layer with selected polygon from another layer'''
     def __init__(self, iface,  toolBar):
         super().__init__(iface, toolBar,
-            QtGui.QIcon(":/clipper.png"),
+            dtutils.dtIcon("clipper.png"),
             QtCore.QCoreApplication.translate(
                 "digitizingtools", "Clip with polygon (interactive)"),
-            QtGui.QIcon(":/clipper_batch.png"),
+            dtutils.dtIcon("clipper_batch.png"),
             QtCore.QCoreApplication.translate(
                 "digitizingtools", "Clip with selected polygons"),
             geometryTypes = [3, 6], dtName = "dtClipper")

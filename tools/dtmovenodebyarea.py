@@ -21,7 +21,7 @@ from builtins import object
 from qgis.PyQt import QtCore,  QtGui, QtWidgets
 from qgis.core import *
 
-import dt_icons_rc
+import dtutils
 from dttools import DtSelectVertexTool
 from dtmovenodebyarea_dialog import DtMoveNodeByArea_Dialog
 
@@ -42,7 +42,7 @@ class DtMoveNodeByArea(object):
         self.selected_feature = None
 
         #create action
-        self.node_mover = QtWidgets.QAction(QtGui.QIcon(":/MovePolygonNodeByArea.png"),
+        self.node_mover = QtWidgets.QAction(dtutils.dtIcon("MovePolygonNodeByArea.png"),
             QtWidgets.QApplication.translate("digitizingtools", "Move polygon node (along a side) to achieve target area"),  self.iface.mainWindow())
 
         self.node_mover.triggered.connect(self.run)
@@ -53,7 +53,7 @@ class DtMoveNodeByArea(object):
         self.tool = DtSelectVertexTool(self.iface, 2)
 
     def showDialog(self):
-        flags = QtCore.Qt.WindowTitleHint | QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowMaximizeButtonHint  # QgisGui.ModalDialogFlags
+        flags = QtCore.Qt.WindowType.WindowTitleHint | QtCore.Qt.WindowType.WindowSystemMenuHint | QtCore.Qt.WindowType.WindowMaximizeButtonHint  # QgisGui.ModalDialogFlags
         self.gui = DtMoveNodeByArea_Dialog(self.iface.mainWindow(),  flags)
         self.gui.initGui()
         self.gui.show()
@@ -106,7 +106,7 @@ class DtMoveNodeByArea(object):
 
         if layer != None:
             #Only for vector layers.
-            if layer.type() == QgsMapLayer.VectorLayer:
+            if layer.type() == QgsMapLayer.LayerType.VectorLayer:
                 # only for polygon layers
                 if layer.geometryType() == 2:
                     # enable if editable

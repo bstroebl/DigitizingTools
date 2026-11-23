@@ -18,7 +18,6 @@ the Free Software Foundation; either version 2 of the License, or
 """
 from qgis.PyQt import QtCore,  QtGui
 from qgis.core import *
-import dt_icons_rc
 import dtutils
 from dttools import DtDualToolSelectRing
 
@@ -26,9 +25,9 @@ class DtFillRing(DtDualToolSelectRing):
     '''Fill selected ring/all rings in selected feature in active polygon layer'''
     def __init__(self, iface,  toolBar):
         super().__init__(iface,  toolBar,
-            QtGui.QIcon(":/fillRing.png"),
+            dtutils.dtIcon("fillRing.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Fill ring with a new feature (interactive mode)"),
-            QtGui.QIcon(":/fillRingBatch.png"),
+            dtutils.dtIcon("fillRingBatch.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Fill all rings in selected polygons with new features"),
             geometryTypes = [3, 6],  dtName = "dtFillRing")
         self.newFid = None

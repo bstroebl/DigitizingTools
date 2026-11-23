@@ -19,7 +19,6 @@ the Free Software Foundation; either version 2 of the License, or
 from qgis.PyQt import QtCore,  QtGui
 from qgis.core import *
 from qgis.gui import *
-import dt_icons_rc
 import dtutils
 from dttools import DtDualToolSelectGap, DtSingleTool, DtSelectGapTool
 
@@ -27,10 +26,10 @@ class DtFillGap(DtDualToolSelectGap):
     '''Fill gaps between selected features of the active layer with new features'''
     def __init__(self, iface,  toolBar):
         super().__init__(iface,  toolBar,
-            QtGui.QIcon(":/fillGap.png"),
+            dtutils.dtIcon("fillGap.png"),
             QtCore.QCoreApplication.translate("digitizingtools",
                 "Fill gap with a new feature (interactive mode)"),
-            QtGui.QIcon(":/fillGapBatch.png"),
+            dtutils.dtIcon("fillGapBatch.png"),
             QtCore.QCoreApplication.translate("digitizingtools",
                 "Fill all gaps between selected polygons with new features"),
             geometryTypes = [3, 6],  dtName = "dtFillGap")
@@ -105,7 +104,7 @@ class DtFillGapAllLayers(DtSingleTool):
     '''Fill gaps between the polygons of all visible layers with new features'''
     def __init__(self, iface, toolBar):
         super().__init__(iface, toolBar,
-            QtGui.QIcon(":/fillGapAll.png"),
+            dtutils.dtIcon("fillGapAll.png"),
             QtCore.QCoreApplication.translate("digitizingtools",
                 "Fill gap between polygons of all visible layers with a new feature"),
             geometryTypes = [3, 6], dtName = "dtFillGapAll")

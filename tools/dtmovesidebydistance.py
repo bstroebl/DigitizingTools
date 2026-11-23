@@ -22,7 +22,7 @@ from qgis.PyQt import QtCore,  QtGui, QtWidgets
 from qgis.core import *
 from qgis.gui import *
 
-import dt_icons_rc
+import dtutils
 from dttools import DtSelectSegmentTool
 from dtmovesidebydistance_dialog import DtMoveSideByDistance_Dialog
 
@@ -39,12 +39,12 @@ class DtMoveSideByDistance(object):
         # p1 is always the left point
         self.p1 = None
         self.p2 = None
-        self.rb1 = QgsRubberBand(self.canvas,  QgsWkbTypes.LineGeometry)
+        self.rb1 = QgsRubberBand(self.canvas,  QgsWkbTypes.GeometryType.LineGeometry)
         #self.m1 = None
         self.selected_feature = None
 
         #create action
-        self.side_mover = QtWidgets.QAction(QtGui.QIcon(":/ParallelMovePolygonSideByDistance.png"),
+        self.side_mover = QtWidgets.QAction(dtutils.dtIcon("ParallelMovePolygonSideByDistance.png"),
             QtWidgets.QApplication.translate("digitizingtools", "Parallel move of polygon side to given distance"),  self.iface.mainWindow())
 
         self.side_mover.triggered.connect(self.run)
@@ -55,7 +55,7 @@ class DtMoveSideByDistance(object):
         self.tool = DtSelectSegmentTool(self.iface)
 
     def showDialog(self):
-        flags = QtCore.Qt.WindowTitleHint | QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowMaximizeButtonHint  # QgisGui.ModalDialogFlags
+        flags = QtCore.Qt.WindowType.WindowTitleHint | QtCore.Qt.WindowType.WindowSystemMenuHint | QtCore.Qt.WindowType.WindowMaximizeButtonHint  # QgisGui.ModalDialogFlags
         self.gui = DtMoveSideByDistance_Dialog(self.iface.mainWindow(),  flags)
         self.gui.initGui()
         self.gui.show()
@@ -109,7 +109,7 @@ class DtMoveSideByDistance(object):
 
         if layer != None:
             #Only for vector layers.
-            if layer.type() == QgsMapLayer.VectorLayer:
+            if layer.type() == QgsMapLayer.LayerType.VectorLayer:
                 # only for polygon layers
                 if layer.geometryType() == 2:
                     # enable if editable

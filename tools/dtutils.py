@@ -24,9 +24,13 @@ the Free Software Foundation; either version 2 of the License, or
 
 from builtins import range
 from builtins import str
+import os
 from qgis.PyQt import QtCore,  QtGui, QtWidgets
 from qgis.core import *
 from qgis.gui import *
+
+def dtIcon(name):
+    return QtGui.QIcon(os.path.join(os.path.dirname(__file__), "icons", name))
 
 def debug(msg):
     QtWidgets.QMessageBox.information(None, "debug",  str(msg))

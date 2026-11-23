@@ -21,13 +21,12 @@ the Free Software Foundation; either version 2 of the License, or
 from qgis.PyQt import QtCore,  QtGui
 from qgis.core import *
 import dtutils
-import dt_icons_rc
 from dttools import DtSingleButton
 
 class DtExchangeGeometry(DtSingleButton):
     def __init__(self, iface, toolBar):
         super().__init__(iface, toolBar,
-            QtGui.QIcon(":/exchangeGeometry.png"),
+            dtutils.dtIcon("exchangeGeometry.png"),
             QtCore.QCoreApplication.translate("digitizingtools",
                 "Exchange attributes between selected features"),
             geometryTypes = [1, 2, 3, 4, 5, 6], dtName = "dtExchangeGeometry")

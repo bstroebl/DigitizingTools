@@ -18,7 +18,6 @@ the Free Software Foundation; either version 2 of the License, or
 """
 from qgis.PyQt import QtCore,  QtGui, QtWidgets
 from qgis.core import *
-import dt_icons_rc
 import dtutils
 from dttools import DtDualToolSelectPolygon
 
@@ -26,9 +25,9 @@ class DtCutWithPolygon(DtDualToolSelectPolygon):
     '''Cut out from active editable layer with selected polygon from another layer'''
     def __init__(self, iface,  toolBar):
         super().__init__(iface,  toolBar,
-            QtGui.QIcon(":/cutter.png"),
+            dtutils.dtIcon("cutter.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Cut with polygon (interactive)"),
-            QtGui.QIcon(":/cutter_batch.png"),
+            dtutils.dtIcon("cutter_batch.png"),
             QtCore.QCoreApplication.translate("digitizingtools", "Cut with selected polygons"),
             geometryTypes = [3, 6],  dtName = "dtCutter")
         self.enable()
@@ -108,18 +107,18 @@ class DtCutWithPolygon(DtDualToolSelectPolygon):
                                 choice = QtWidgets.QMessageBox.question(None,  title,
                                     QtCore.QCoreApplication.translate("digitizingtools",
                                     "A feature would be completely removed by cutting. Delete this feature\'s dataset altogether?"),
-                                    QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.YesToAll |
-                                    QtWidgets.QMessageBox.No | QtWidgets.QMessageBox.NoToAll |
-                                    QtWidgets.QMessageBox.Cancel)
+                                    QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.YesToAll |
+                                    QtWidgets.QMessageBox.StandardButton.No | QtWidgets.QMessageBox.StandardButton.NoToAll |
+                                    QtWidgets.QMessageBox.StandardButton.Cancel)
 
-                                if choice == QtWidgets.QMessageBox.Cancel:
+                                if choice == QtWidgets.QMessageBox.StandardButton.Cancel:
                                     processLayer.destroyEditCommand()
                                     processLayer.removeSelection()
                                     return None
                                 else:
-                                    showEmptyWarning = (choice == QtWidgets.QMessageBox.Yes or choice == QtWidgets.QMessageBox.No)
+                                    showEmptyWarning = (choice == QtWidgets.QMessageBox.StandardButton.Yes or choice == QtWidgets.QMessageBox.StandardButton.No)
 
-                            if choice == QtWidgets.QMessageBox.Yes or choice == QtWidgets.QMessageBox.YesToAll:
+                            if choice == QtWidgets.QMessageBox.StandardButton.Yes or choice == QtWidgets.QMessageBox.StandardButton.YesToAll:
                                 fidsToDelete.append(selFeat.id())
                         else:
                             if not self.geometryTypeMatchesLayer(processLayer, newGeom):

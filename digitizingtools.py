@@ -112,7 +112,7 @@ class DigitizingTools(object):
 
     def doAbout(self):
         d = DigitizingToolsAbout(self.iface)
-        d.exec_()
+        d.exec()
 
     def doHelp(self):
         webbrowser.open(currentPath + "/help/build/html/intro.html")
